@@ -1,5 +1,6 @@
 package classes.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +39,22 @@ public class ChipsController {
 	 * Schreibt die Chips in eine Datei.
 	 */
 	public void save() {
+		String data = new String();
+		for(int i = 0; i < chips.size(); i++) {
+			data += chips.get(i).toString() + "\n";
+		}
 		
+		try {
+			Data.writeData(saveFile, data);
+		} catch(IOException ioe) {}
+	}
+	
+	public void load() {
+		try {
+			chips = Data.readData(saveFile);
+		} catch (IOException ioe) {
+			System.err.println("ERROR: readData");
+		}
 	}
 	
 	// GETTER UND SETTER

@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import classes.Chip;
 import classes.controller.ChipsController;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -30,7 +31,7 @@ public class SettingsPartialEditController implements Initializable {
 	private ChipsController chipsController;
 
 	// Zur Pflege der Chips
-	private void addChips(ActionEvent e) {
+	public void addChips(ActionEvent e) {
 		// TODO: Eine Idiotensicherung einbauen, 
 		//damit keine leeren Chips erstellt werden können.
 		
@@ -46,14 +47,14 @@ public class SettingsPartialEditController implements Initializable {
 	
 	// Damit der Controller geupdatet wird, falls ein 
 	// Chip über die Tabelle geändert wurde.
-	private void nameColContentChanged(Event e) {
+	public void nameColContentChanged(Event e) {
 		// TODO: Chip löschen, wenn name auf "" gesetzt wird
 		updateChipsController();
 	}
 	
 	private void updateChipsController() {
 		chipsController.setChips(dataTable.getItems());		
-		//chipsController.save();
+		chipsController.save();
 	}
 	
 
@@ -66,5 +67,7 @@ public class SettingsPartialEditController implements Initializable {
 		nameCol.setCellFactory(TextFieldTableCell.<Chip>forTableColumn());
 		
 		chipsController = new ChipsController();
+		chipsController.load();
+		//dataTable.setItems(FXCollections.observableArrayList(chipsController.getChips()));
 	}
 }

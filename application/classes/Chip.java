@@ -22,6 +22,10 @@ public class Chip {
 		rounds = new ArrayList<Round>();
 	}
 	
+	public String toString() {
+		return "[" + getId() + "|" + getStudentName() + "|[]]";
+	}
+	
 	// PROPERTIES
 	public StringProperty idProperty() {
 		return id;
