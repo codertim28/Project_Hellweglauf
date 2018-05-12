@@ -7,10 +7,10 @@ public final class Data {
 
 	private final static String DIR = "data";
 
-	private final static String DATA_FILE = "data.txt";
-	private final static String COMPETITION_FILE = "competition_data.txt";
-	private final static String TRAINING_FILE = "training_data.txt";
-
+	public final static String DATA_FILE = "data.txt";
+	public final static String COMPETITION_FILE = "competition_data.txt";
+	public final static String TRAINING_FILE = "training_data.txt";
+	
 	/**
 	 * Diese Methode erstellt das data-Verzeichnis. In dem Data-Verzeichnis arbeitet
 	 * das Programm.
