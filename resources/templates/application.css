@@ -1,0 +1,13 @@
+
+/* MAIN VIEW */
+.start-pane {
+	-fx-border-width: 1px;
+	-fx-border-style: solid;
+	-fx-border-color: #888;
+	-fx-border-radius: 3px;
+}
+
+.start-pane:hover {
+	
+	-fx-background-color: #56C1F7;
+}
