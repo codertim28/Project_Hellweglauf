@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class MainWindowController {
+public class MainViewController {
 
 	// Click-Events
 	public void competitionPaneClick(Event e) {
