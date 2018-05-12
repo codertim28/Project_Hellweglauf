@@ -33,7 +33,10 @@ public class SettingsPartialEditController implements Initializable {
 		System.out.println("Chip: " + c.getId() + " / " + c.getStudentName());
 		
 		dataTable.getItems().add(c);
-		dataTable.setEditable(true);
+		
+		// Die Textfelder leeren
+		chipField.setText("");
+		nameField.setText("");
 	}
 
 	@Override
