@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.Parent;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Modality;
@@ -23,6 +24,17 @@ public class MainViewController {
 		Tab tab = new Tab("Wettkampf");
 		tab.setContent(FXMLLoader.load(getClass().getResource("/templates/competition/competitionView.fxml")));
 		tabPane.getTabs().add(tab);
+		
+		Stage stage = new Stage();
+		stage.setResizable(false);
+		stage.initOwner(((Parent) e.getSource()).getScene().getWindow());
+		stage.initModality(Modality.WINDOW_MODAL);
+
+		Parent parent = FXMLLoader.load(getClass().getResource("/templates/competition/selectCompetitionView.fxml"));
+		Scene scene = new Scene(parent, 300, 400);
+		//scene.getStylesheets().add(getClass().getResource("/templates/application.css").toExternalForm());
+		stage.setScene(scene);
+		stage.show();
 	}
 
 	public void settingsBtnClick(ActionEvent e) throws IOException {
