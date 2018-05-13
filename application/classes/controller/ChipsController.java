@@ -42,9 +42,7 @@ public class ChipsController {
 	public void load() {
 		try {
 			chips = Data.readChips();
-		} catch (IOException ioe) {
-			System.err.println(ioe);
-		}
+		} catch (IOException ioe) {}
 	}
 	
 	// GETTER UND SETTER
