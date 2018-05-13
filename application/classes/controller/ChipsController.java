@@ -11,19 +11,12 @@ public class ChipsController {
 	
 	private List<Chip> chips;
 	
-	// Muss als Attribut vorhanden sein.
-	// Die Wettkampf- / Trainingsdaten sollen 
-	// in eigene Dateien geschrieben werden.
-	private String saveFile;
-	
 	public ChipsController() {
 		setChips(new ArrayList<Chip>());
-		setSaveFile(Data.DATA_FILE);
 	}
 	
 	public ChipsController(String saveFile) {
 		setChips(new ArrayList<Chip>());
-		setSaveFile(saveFile);
 	}
 	
 	/**
@@ -39,21 +32,18 @@ public class ChipsController {
 	 * Schreibt die Chips in eine Datei.
 	 */
 	public void save() {
-		String data = new String();
 		for(int i = 0; i < chips.size(); i++) {
-			data += chips.get(i).toString() + "\n";
-		}
-		
-		try {
-			Data.writeData(saveFile, data);
-		} catch(IOException ioe) {}
+			try {
+				Data.writeChip(chips.get(i));
+			} catch(IOException ioe) {}
+		}	
 	}
 	
 	public void load() {
 		try {
-			chips = Data.readData(saveFile);
+			chips = Data.readChips();
 		} catch (IOException ioe) {
-			System.err.println("ERROR: readData");
+			System.err.println(ioe);
 		}
 	}
 	
@@ -64,13 +54,5 @@ public class ChipsController {
 
 	public void setChips(List<Chip> chips) {
 		this.chips = chips;
-	}
-
-	public String getSaveFile() {
-		return saveFile;
-	}
-
-	void setSaveFile(String saveFile) {
-		this.saveFile = saveFile;
 	}
 }

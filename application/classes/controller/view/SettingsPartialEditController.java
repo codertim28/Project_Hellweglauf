@@ -1,11 +1,13 @@
 package classes.controller.view;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import classes.Chip;
 import classes.controller.ChipsController;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -68,6 +70,9 @@ public class SettingsPartialEditController implements Initializable {
 		
 		chipsController = new ChipsController();
 		chipsController.load();
-		//dataTable.setItems(FXCollections.observableArrayList(chipsController.getChips()));
+		List<Chip> chips = chipsController.getChips();
+		if(chips.size() > 0) {
+			dataTable.setItems(FXCollections.observableList(chips));	
+		}		
 	}
 }

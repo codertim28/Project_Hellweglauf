@@ -1,5 +1,6 @@
 package classes;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class Chip {
 	}
 	
 	public String toString() {
-		return "[" + getId() + "|" + getStudentName() + "|[]]";
+		return getId() + "|" + getStudentName() + "|" + "[]";
 	}
 	
 	// PROPERTIES
