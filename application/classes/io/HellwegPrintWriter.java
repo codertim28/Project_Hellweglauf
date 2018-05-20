@@ -16,6 +16,10 @@ public class HellwegPrintWriter extends PrintWriter {
 		super(os);
 	}
 	
+	/**
+	 * Schreibt einen Chip (im XML-Format).
+	 * @param chip Chip, welcher gespeichert werden soll.
+	 */
 	public void print(Chip chip) {
 		println("<chip>");
 		

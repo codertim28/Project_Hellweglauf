@@ -29,7 +29,7 @@ public class ChipsController {
 	}
 	
 	/**
-	 * Schreibt die Chips in eine Datei.
+	 * Schreibt alle Chips in eine Datei.
 	 */
 	public void save() {
 		for(int i = 0; i < chips.size(); i++) {
@@ -39,6 +39,10 @@ public class ChipsController {
 		}	
 	}
 	
+	/**
+	 * Das Laden aller Chips wird angestoßen.
+	 * Das Resultat wird dem Controller hinzugefügt.
+	 */
 	public void load() {
 		try {
 			chips = Data.readChips();

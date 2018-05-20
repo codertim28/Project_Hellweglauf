@@ -30,6 +30,12 @@ public final class Data {
 		hpw.close();
 	}
 	
+	/**
+	 * Es werden alle Dateien in dem Chipsverzeichnis ausgelesen.
+	 * Anschließend werden die so erzeugten Chips in eine Liste geschrieben.
+	 * @return Eine Liste aller Chips.
+	 * @throws IOException - Falls ein IOError auftritt.
+	 */
 	public static List<Chip> readChips() throws IOException {
 		
 		List<Chip> chipList = new ArrayList<Chip>();
@@ -71,6 +77,7 @@ public final class Data {
 
 	/**
 	 * Erstellt die data-Datei, in der alle Chips gespeichert werden.
+	 * (Wird momentan nicht benötigt)
 	 * 
 	 * @return false: Wenn keine Datei erstellt werden konnte.
 	 */

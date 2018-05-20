@@ -13,9 +13,10 @@ public class HellwegBufferedReader extends BufferedReader {
 	}
 	
 	/**
-	 * Equivalent zu readLine()
+	 * Equivalent zu readLine(). Liest einen Chip komplett, d.h. Chip wird erzeugt
+	 * mit all seinen Attributen.
 	 * @return Chip oder null (wenn Stream Ende oder kein Chip gefunden)
-	 * @throws IOException 
+	 * @throws IOException Falls ein IOError in "readLine" auftitt
 	 */
 	public Chip readChip() throws IOException {
 		
