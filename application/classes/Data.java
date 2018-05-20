@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import classes.io.*;
+
 public final class Data {
 
 	private final static String DIR = "data";
@@ -14,17 +16,18 @@ public final class Data {
 
 	//public final static String DATA_FILE = "data.txt";
 	// Diese Dateien werden nach dem Wettkampf eine Liste enthalten. Die 
-	// Liste ist nach Scans geordnet.
+	// Liste ist nach Scans geordnet (bzw. nach Runden).
 	public final static String COMPETITION_FILE = "competition_data.txt";
 	public final static String TRAINING_FILE = "training_data.txt";
 	
 	public static void writeChip(Chip chipToWrite) throws IOException {					
 		
-		String file = chipToWrite.getId() + ".chip";
+		String file = chipToWrite.getId() + ".xml";
 		
-		Writer writer = new FileWriter(DIR + "/" + CHIP_DIR + "/" + file);
-		writer.write(chipToWrite.toString());
-		writer.close();	
+		HellwegPrintWriter hpw = new HellwegPrintWriter(new FileWriter(DIR + "/" + CHIP_DIR + "/" + file));
+		hpw.print(chipToWrite);
+		hpw.flush();
+		hpw.close();
 	}
 	
 	public static List<Chip> readChips() throws IOException {
@@ -34,27 +37,18 @@ public final class Data {
 		for(final File file : new File(DIR + "/" + CHIP_DIR).listFiles()) {
 	        if(!file.isDirectory()) {
 	           
-	        	Reader reader = new FileReader(file);
-	    		
-	    		StringBuilder dataStrBui = new StringBuilder();	
-	    		int c;
-	    		while((c = reader.read()) != -1) {
-	    			dataStrBui.append((char)c);
-	    		}
-	    		reader.close();
-	    		
-	    		String sep = "|";
-	    		String id = dataStrBui.substring(0, dataStrBui.indexOf(sep));
-	    		dataStrBui = dataStrBui.delete(0, dataStrBui.indexOf(sep) + 1);
-	    		String studentName = dataStrBui.substring(0, dataStrBui.indexOf(sep));
-	    		
-	    		// TODO: Runden aus der Datei lesen
-	    		
-	    		chipList.add(new Chip(id, studentName));
+	        	HellwegBufferedReader hbr = new HellwegBufferedReader(new FileReader(file));   		
+	        	Chip c = hbr.readChip();
+	        	// Diese kleine Abfrage dient als Idiotenschutz.
+	        	// Falls die Datei manipuliert wurde und nicht mehr
+	        	// lesbar ist, wird der Chip ignoriert.
+	        	// TODO: Fehler in Log-Datei schreiben ?
+	        	if(c != null) {
+	        		chipList.add(c);
+	        	}
+	    		hbr.close();
 	        } 
 	    }		
-		
-		
 		return chipList;
 	}
 	

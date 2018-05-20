@@ -36,7 +36,7 @@ public class HellwegBufferedReader extends BufferedReader {
 				}
 				
 				if(line.indexOf("<studentName>") != -1) {
-					chip.setId(getContent(line, "studentName"));
+					chip.setStudentName(getContent(line, "studentName"));
 				}
 				
 				// TODO: Runden lesen
