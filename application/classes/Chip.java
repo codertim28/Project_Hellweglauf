@@ -12,6 +12,14 @@ public class Chip {
 	private StringProperty id;
 	private StringProperty studentName;
 	private List<Round> rounds;
+
+	/**
+	 * Wird von "HellwegBufferedReader" benutzt.
+	 * Sollte sonst nicht (!) verwendet werden.
+	 */
+	public Chip() {
+		this("sg-1_default1234", "Daniel Jackson");
+	}
 	
 	public Chip(String id, String studentName) {	
 		this.id = new SimpleStringProperty(this, "id");
