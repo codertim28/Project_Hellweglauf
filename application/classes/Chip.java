@@ -27,8 +27,7 @@ public class Chip {
 		
 		setId(id);
 		setStudentName(studentName);
-		
-		rounds = new ArrayList<Round>();
+		setRounds(new ArrayList<Round>());
 	}
 	
 	// PROPERTIES
@@ -57,6 +56,14 @@ public class Chip {
 		studentNameProperty().set(studentName);
 	}
 	
+	public List<Round> getRounds() {
+		return rounds;
+	}
+
+	public void setRounds(List<Round> rounds) {
+		this.rounds = rounds;
+	}
+
 	public void getRoundCount() {
 		rounds.size();
 	}
