@@ -21,16 +21,20 @@ public class MainViewController {
 	
 	// Click-Events
 	public void competitionPaneClick(Event e) throws IOException {
-		Tab tab = new Tab("Wettkampf");
-		tab.setContent(FXMLLoader.load(getClass().getResource("/templates/competition/competitionView.fxml")));
-		tabPane.getTabs().add(tab);
-		
+		// Das Auswahlfenster erstellen
 		Stage stage = new Stage();
 		stage.setResizable(false);
 		stage.initOwner(((Parent) e.getSource()).getScene().getWindow());
 		stage.initModality(Modality.WINDOW_MODAL);
 
-		Parent parent = FXMLLoader.load(getClass().getResource("/templates/competition/selectCompetitionView.fxml"));
+		// Das Template laden und dem Controller diesen Controller
+		// übergeben, damit ein neuer Tab hinzugefügt werden kann.
+		// (schön ist das nicht, aber selten)
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/templates/competition/selectCompetitionView.fxml"));
+		Parent parent = (Parent)loader.load();
+		SelectCompetitionViewController scvc = (SelectCompetitionViewController)loader.getController();
+		scvc.setMainViewController(this); 
+		
 		Scene scene = new Scene(parent, 300, 400);
 		//scene.getStylesheets().add(getClass().getResource("/templates/application.css").toExternalForm());
 		stage.setScene(scene);
@@ -49,5 +53,10 @@ public class MainViewController {
 		scene.getStylesheets().add(getClass().getResource("/templates/application.css").toExternalForm());
 		stage.setScene(scene);
 		stage.show();
+	}
+	
+	// GETTER UND SETTER
+	public TabPane getTabPane() {
+		return tabPane;
 	}
 }
