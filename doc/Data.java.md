@@ -46,3 +46,9 @@ Verwendung (beispielsweise):
 	} catch(IOException ioe) {
 		// Tue etwas..
 	}
+	
+---
+
+## Siehe auch:
+
+[HellwegPrintWriter](https://github.com/codertim28/Project_Hellweglauf/blob/master/doc/HellwegPrintWriter.java.md), [HellwegBufferedReader](https://github.com/codertim28/Project_Hellweglauf/blob/master/doc/HellwegBufferedReader.java.md)
