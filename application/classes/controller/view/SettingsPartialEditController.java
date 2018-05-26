@@ -35,7 +35,7 @@ public class SettingsPartialEditController implements Initializable {
 	// Zur Pflege der Chips
 	public void addChips(ActionEvent e) {
 		// TODO: Eine Idiotensicherung einbauen, 
-		//damit keine leeren Chips erstellt werden können.
+		// damit keine leeren Chips erstellt werden können.
 		
 		Chip c = new Chip(chipField.getText().trim(), nameField.getText().trim());
 		dataTable.getItems().add(c);

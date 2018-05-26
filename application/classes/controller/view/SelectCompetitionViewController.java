@@ -17,18 +17,41 @@ public class SelectCompetitionViewController {
 	
 	// Click-Events
 	public void timePaneClick(Event event) throws IOException {
-		Stage stage = (Stage)root.getScene().getWindow();
+		// TODO: IOException in dieser Methode behandeln
 		
 		// Den Tab erstellen und hinzufügen
-		Tab tab = new Tab("Wettkampf");
-		tab.setContent(FXMLLoader.load(getClass().getResource("/templates/competition/competitionView.fxml")));
-		mainViewController.getTabPane().getTabs().add(tab);
+		mainViewController.addTab(this.createTab("Wettkampf (Zeit)", "/templates/competition/competitionView.fxml"));
 		
 		// TODO: CompetitionView Controller hinzufügen, um einen Wettkampf
 		// zu kontrollieren. Diesem einen Wettkampf mitgeben. So wird entschieden,
 		// welcher Wettkampf ausgeführt wird
 		
 		// zuletzt das Modal (dieses Fenster) schließen
+		this.close();
+	}
+	
+	public void distancePaneClick(Event event) throws IOException {
+		// TODO: IOException in dieser Methode behandeln
+		
+		// Den Tab erstellen und hinzufügen
+		mainViewController.addTab(this.createTab("Wettkampf (Distanz)", "/templates/competition/competitionView.fxml"));
+		
+		// TODO: CompetitionView Controller hinzufügen, um einen Wettkampf
+		// zu kontrollieren. Diesem einen Wettkampf mitgeben. So wird entschieden,
+		// welcher Wettkampf ausgeführt wird
+		
+		// zuletzt das Modal (dieses Fenster) schließen
+		this.close();
+	}
+	
+	private Tab createTab(String title, String resource) throws IOException {
+		Tab tab = new Tab(title);
+		tab.setContent(FXMLLoader.load(getClass().getResource(resource)));
+		return tab;
+	}
+	
+	private void close() {
+		Stage stage = (Stage)root.getScene().getWindow();
 		stage.close();
 	}
 	

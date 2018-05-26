@@ -32,7 +32,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="200.0" styleClass="start-pane">
+      <Pane minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#distancePaneClick" prefHeight="50.0" prefWidth="200.0" styleClass="start-pane">
          <children>
             <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="3.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
                <image>

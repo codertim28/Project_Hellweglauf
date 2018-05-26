@@ -55,8 +55,11 @@ public class MainViewController {
 		stage.show();
 	}
 	
+	
 	// GETTER UND SETTER
-	public TabPane getTabPane() {
-		return tabPane;
+	// So muss es keinen Getter geben, der das 
+	// ganze TabPane nach auﬂen gibt.
+	public void addTab(Tab tab) {
+		tabPane.getTabs().add(tab);
 	}
 }
