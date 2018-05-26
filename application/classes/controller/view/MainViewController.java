@@ -61,5 +61,6 @@ public class MainViewController {
 	// ganze TabPane nach auﬂen gibt.
 	public void addTab(Tab tab) {
 		tabPane.getTabs().add(tab);
+		tabPane.getSelectionModel().select(tab);
 	}
 }
