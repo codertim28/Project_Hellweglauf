@@ -1,23 +1,54 @@
 package classes;
 
-import java.util.Date;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class Round {
 	
-	private Date timestamp;
+	private LocalTime timestamp;
+	// Diese Property wird in dem TableView im
+	// CompetitonView angezeigt. Sie ist synchronisiert
+	// mit timestamp.
+	private StringProperty timestampProp;
 	
-	public Round(Date timestamp) {
+	private IntegerProperty number;
+	
+	public Round(LocalTime timestamp) {
+		this.timestampProp = new SimpleStringProperty(this, "timestampProp");
+		this.number = new SimpleIntegerProperty(this, "number");
 		setTimestamp(timestamp);
+		setNumber(-1);
+	}
+	
+	// PROPERTIES
+	public IntegerProperty numberProperty() {
+		return number;
+	}
+	
+	public StringProperty timestampProperty() {
+		return timestampProp;
 	}
 	
 	// GETTER AND SETTER
-	public Date getTimestamp() {
+	public int getNumber() {
+		return numberProperty().get();
+	}
+
+	private void setNumber(int number) {
+		numberProperty().set(number);
+	}
+	
+	public LocalTime getTimestamp() {
 		return timestamp;
 	}
 
-	public void setTimestamp(Date timestamp) {
+	private void setTimestamp(LocalTime timestamp) {
 		this.timestamp = timestamp;
+		timestampProperty().set(timestamp.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
 	}
-	
-	
 }

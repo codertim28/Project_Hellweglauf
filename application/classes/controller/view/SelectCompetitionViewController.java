@@ -5,6 +5,7 @@ import java.io.IOException;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -20,7 +21,8 @@ public class SelectCompetitionViewController {
 		// TODO: IOException in dieser Methode behandeln
 		
 		// Den Tab erstellen und hinzufügen
-		mainViewController.addTab(this.createTab("Wettkampf (Zeit)", "/templates/competition/competitionView.fxml"));
+		TimeCompetitionViewController tcvc = new TimeCompetitionViewController();
+		mainViewController.addTab(this.createTab("Wettkampf (Zeit)", "/templates/competition/competitionView.fxml", tcvc));
 		
 		// TODO: CompetitionView Controller hinzufügen, um einen Wettkampf
 		// zu kontrollieren. Diesem einen Wettkampf mitgeben. So wird entschieden,
@@ -34,7 +36,7 @@ public class SelectCompetitionViewController {
 		// TODO: IOException in dieser Methode behandeln
 		
 		// Den Tab erstellen und hinzufügen
-		mainViewController.addTab(this.createTab("Wettkampf (Distanz)", "/templates/competition/competitionView.fxml"));
+		mainViewController.addTab(this.createTab("Wettkampf (Distanz)", "/templates/competition/competitionView.fxml", null));
 		
 		// TODO: CompetitionView Controller hinzufügen, um einen Wettkampf
 		// zu kontrollieren. Diesem einen Wettkampf mitgeben. So wird entschieden,
@@ -44,9 +46,11 @@ public class SelectCompetitionViewController {
 		this.close();
 	}
 	
-	private Tab createTab(String title, String resource) throws IOException {
+	private Tab createTab(String title, String resource, CompetitionViewController controller) throws IOException {
 		Tab tab = new Tab(title);
-		tab.setContent(FXMLLoader.load(getClass().getResource(resource)));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(resource));
+		loader.setController(controller);
+		tab.setContent(loader.load());
 		return tab;
 	}
 	
