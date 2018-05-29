@@ -33,13 +33,13 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) {
-		launch(args);
-
 		Data.createDataDirIfNotExists();
 		boolean fileCreated = Data.createDataFileIfNotExists();
 		if (!fileCreated) {
 			// TODO: Benutzer benachrichtigen, da die Software ohne
 			// die Data-Datei nicht verwendet werden kann.
 		}
+		
+		launch(args);
 	}
 }
