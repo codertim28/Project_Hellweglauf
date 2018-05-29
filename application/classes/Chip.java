@@ -2,6 +2,7 @@ package classes;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -11,7 +12,7 @@ public class Chip {
 	
 	private StringProperty id;
 	private StringProperty studentName;
-	private List<Round> rounds;
+	private LinkedList<Round> rounds;
 
 	/**
 	 * Wird von "HellwegBufferedReader" benutzt.
@@ -27,7 +28,7 @@ public class Chip {
 		
 		setId(id);
 		setStudentName(studentName);
-		setRounds(new ArrayList<Round>());
+		setRounds(new LinkedList<Round>());
 	}
 	
 	// PROPERTIES
@@ -56,11 +57,11 @@ public class Chip {
 		studentNameProperty().set(studentName);
 	}
 	
-	public List<Round> getRounds() {
+	public LinkedList<Round> getRounds() {
 		return rounds;
 	}
 
-	public void setRounds(List<Round> rounds) {
+	public void setRounds(LinkedList<Round> rounds) {
 		this.rounds = rounds;
 	}
 

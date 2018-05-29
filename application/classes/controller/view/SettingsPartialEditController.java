@@ -51,6 +51,7 @@ public class SettingsPartialEditController implements Initializable {
 	// Chip über die Tabelle geändert wurde.
 	public void nameColContentChanged(Event e) {
 		// TODO: Chip löschen, wenn name auf "" gesetzt wird
+		// FIXME: Chip wird über dieses Event nicht verändert.
 		updateChipsController();
 	}
 	
