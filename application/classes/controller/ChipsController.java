@@ -1,11 +1,13 @@
 package classes.controller;
 
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import classes.Chip;
 import classes.Data;
+import classes.Round;
 
 public class ChipsController {
 	
@@ -15,9 +17,9 @@ public class ChipsController {
 		setChips(new ArrayList<Chip>());
 	}
 	
-	public ChipsController(String saveFile) {
-		setChips(new ArrayList<Chip>());
-	}
+	//public ChipsController(String saveFile) {
+	//	setChips(new ArrayList<Chip>());
+	//}
 	
 	/**
 	 * Fügt eine Runde hinzu (z.B. in einem Wettkampf)
@@ -25,6 +27,8 @@ public class ChipsController {
 	 * @return 0: Erfolgreich, -1: Fehler
 	 */
 	public int addRound(String chipId) {
+		Chip c = getChipById(chipId);
+		c.getRounds().add(new Round(LocalTime.now(), c.getRoundCount() + 1));
 		return -1;
 	}
 	
@@ -56,5 +60,14 @@ public class ChipsController {
 
 	public void setChips(List<Chip> chips) {
 		this.chips = chips;
+	}
+	
+	public Chip getChipById(String id) {
+		for(int i = 0; i < chips.size(); i++) {
+			if(chips.get(i).getId().equals(id)) {
+				return chips.get(i);
+			}
+		}
+		return null;
 	}
 }

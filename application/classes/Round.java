@@ -18,11 +18,11 @@ public class Round {
 	
 	private IntegerProperty number;
 	
-	public Round(LocalTime timestamp) {
+	public Round(LocalTime timestamp, int number) {
 		this.timestampProp = new SimpleStringProperty(this, "timestampProp");
 		this.number = new SimpleIntegerProperty(this, "number");
 		setTimestamp(timestamp);
-		setNumber(-1);
+		setNumber(number);
 	}
 	
 	// PROPERTIES

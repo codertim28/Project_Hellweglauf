@@ -31,7 +31,7 @@ public class TimeCompetitionViewController extends CompetitionViewController {
 	@FXML
 	protected void startBtnClick(Event event) {
 		if(!started) {
-			// TODO: Wettkampf starten
+			setStartRounds();
 			hellwegTimer.startTimer(30);
 			logTextArea.appendText("Wettkampf gestartet!\n");
 			started = true;

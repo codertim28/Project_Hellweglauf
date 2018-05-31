@@ -2,6 +2,7 @@ package classes.controller.view;
 
 import java.net.URL;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -51,6 +52,25 @@ public abstract class CompetitionViewController implements Initializable {
 		chipsController = new ChipsController();
 	}
 	
+	protected void setStartRounds() {
+		List<CompetitionViewRowData> dataList = dataTable.getItems();
+		// An dieser Stelle muss nicht abgefragt werden, ob alle Chips nur 
+		// Runde -1 besitzen, da dies in der initialize(...) sowie in 
+		// startBtnClick(...) geregelt wird.
+		int size = dataList.size();
+		//  ^^^^ dies muss hier so stehen! 
+		// dataList.size() darf nicht zum steuern, der Schleife 
+		// verwendet werden, da so eine Endlosschleife entsteht.
+		for(int i = 0; i < size; i++) {
+			String curId = dataList.get(i).getChip().getId();
+			Chip curChip = chipsController.getChipById(curId);
+			chipsController.addRound(curId);
+			dataList.add(new CompetitionViewRowData(curChip, curChip.getRounds().getLast()));
+		}
+	}
+	
+	// FXML-METHODEN
+	
 	@FXML
 	protected abstract void startBtnClick(Event event);
 	
@@ -74,7 +94,10 @@ public abstract class CompetitionViewController implements Initializable {
 		List<Chip> chips = chipsController.getChips();
 		List<CompetitionViewRowData> dataList = new LinkedList<CompetitionViewRowData>();
 		for(int i = 0; i < chips.size(); i++) {
-			dataList.add(new CompetitionViewRowData(chips.get(i), new Round(LocalTime.now())));
+			Chip curChip = chips.get(i);
+			// Dies fügt die Runde -1 ein.
+			chipsController.addRound(curChip.getId());
+			dataList.add(new CompetitionViewRowData(curChip, curChip.getRounds().getLast()));
 		}
 		
 		dataTable.setItems(FXCollections.observableList(dataList));		

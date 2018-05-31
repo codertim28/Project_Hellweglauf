@@ -65,7 +65,16 @@ public class Chip {
 		this.rounds = rounds;
 	}
 
-	public void getRoundCount() {
-		rounds.size();
+	public int getRoundCount() {
+		// Hier kann nicht mit rounds.size()
+		// gearbeitet werden, da jeder Chip
+		// die Runde -1 bekommt, um für einen 
+		// Wettkampf "registeriert zu werden.
+		if(rounds.size() == 0) {
+			// Die erste Runde ist die "Registrierungsrunde"
+			// Bei hinzufügen einer Runde wird +1 gerechnet.
+			return -2;
+		}
+		return rounds.getLast().getNumber();
 	}
 }
