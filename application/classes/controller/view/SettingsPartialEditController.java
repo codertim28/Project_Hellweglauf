@@ -35,12 +35,11 @@ public class SettingsPartialEditController implements Initializable {
 	// Zur Pflege der Chips
 	@FXML
 	public void addChip(ActionEvent e) {
-		// TODO: Eine Idiotensicherung einbauen, 
-		// damit keine leeren Chips erstellt werden können.
+		
 		if(nameField.getText().equals("createTestChips")) {
 			for(int i = 0; i < 50; i++) {
 				Chip c = new Chip("" + (1000 + i), "Testperson " + (i + 1));
-				dataTable.getItems().add(c);
+				chipsController.getChips().add(c);
 			}
 		}
 		
@@ -49,30 +48,31 @@ public class SettingsPartialEditController implements Initializable {
 		
 		if(!id.equals("") && !name.equals("")) {
 			Chip c = new Chip(chipField.getText().trim(), nameField.getText().trim());
-			// TODO: Hier den Inhalt der Tabelle neu laden.
+			// FIXME: Hier den Inhalt der Tabelle neu laden.
 			// Ansonsten werden Chips dopelt angezeigt, obwohl
 			// diese im Hintergrund überschreiben werden
-			dataTable.getItems().add(c);
+			chipsController.getChips().add(c);
 		}
 		
 		// Die Textfelder leeren
 		chipField.setText("");
 		nameField.setText("");
 		
-		updateChipsController();
+		update();
 	}
 	
 	// Damit der Controller geupdatet wird, falls ein 
 	// Chip über die Tabelle geändert wurde.
 	public void nameColContentChanged(Event e) {
-		// TODO: Chip löschen, wenn name auf "" gesetzt wird
-		// FIXME: Chip wird über dieses Event nicht verändert.
-		updateChipsController();
+		// TODO: Chip löschen, wenn name auf "" gesetzt wird oder
+		// ändern...
+		update();
 	}
 	
-	private void updateChipsController() {
-		chipsController.setChips(dataTable.getItems());		
+	private void update() {
 		chipsController.save();
+		dataTable.setItems(FXCollections.observableList(chipsController.getChips()));
+		// TODO: Tabelleninhalt updaten
 	}
 	
 
