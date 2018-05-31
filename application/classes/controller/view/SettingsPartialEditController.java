@@ -33,12 +33,27 @@ public class SettingsPartialEditController implements Initializable {
 	private ChipsController chipsController;
 
 	// Zur Pflege der Chips
-	public void addChips(ActionEvent e) {
+	@FXML
+	public void addChip(ActionEvent e) {
 		// TODO: Eine Idiotensicherung einbauen, 
 		// damit keine leeren Chips erstellt werden können.
+		if(nameField.getText().equals("createTestChips")) {
+			for(int i = 0; i < 50; i++) {
+				Chip c = new Chip("" + (1000 + i), "Testperson " + (i + 1));
+				dataTable.getItems().add(c);
+			}
+		}
 		
-		Chip c = new Chip(chipField.getText().trim(), nameField.getText().trim());
-		dataTable.getItems().add(c);
+		String id = chipField.getText().trim();
+		String name = nameField.getText().trim();
+		
+		if(!id.equals("") && !name.equals("")) {
+			Chip c = new Chip(chipField.getText().trim(), nameField.getText().trim());
+			// TODO: Hier den Inhalt der Tabelle neu laden.
+			// Ansonsten werden Chips dopelt angezeigt, obwohl
+			// diese im Hintergrund überschreiben werden
+			dataTable.getItems().add(c);
+		}
 		
 		// Die Textfelder leeren
 		chipField.setText("");
