@@ -2,6 +2,7 @@ package classes.controller.view;
 
 import java.net.URL;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -74,6 +75,11 @@ public abstract class CompetitionViewController implements Initializable {
 	}
 
 	
+	protected void log(String message) {
+		String timestamp = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+		logTextArea.appendText("[" + timestamp + "] " + message + "\n");
+	}
+	
 	// FXML-METHODEN
 	
 	@FXML
@@ -83,12 +89,14 @@ public abstract class CompetitionViewController implements Initializable {
 	private void scanTextFieldOnKeyPressed(KeyEvent ke) {
 		// TODO: Doppelscan verhindern + Fehlerscan abgfangen
 		if(ke.getCode() == KeyCode.ENTER) {
-			logTextArea.appendText(ke.getCode() + "\n");
 			String scannedId = scanTextField.getText();
 			List<CompetitionViewRowData> dataList = dataTable.getItems();
 			Chip chip = chipsController.getChipById(scannedId);
 			chipsController.addRound(scannedId);
 			dataList.add(new CompetitionViewRowData(chip, chip.getRounds().getLast()));
+			log("Chip (id: " + scannedId + ") gescanned");
+			
+			scanTextField.setText("");
 		}
 	}
 	
