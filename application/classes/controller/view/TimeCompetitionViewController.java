@@ -34,6 +34,8 @@ public class TimeCompetitionViewController extends CompetitionViewController {
 			setStartRounds();
 			hellwegTimer.startTimer(30);
 			logTextArea.appendText("Wettkampf gestartet!\n");
+			scanTextField.setDisable(false);
+			scanTextField.requestFocus();
 			started = true;
 		}
 	}

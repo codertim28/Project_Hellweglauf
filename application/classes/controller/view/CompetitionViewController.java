@@ -22,8 +22,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 public abstract class CompetitionViewController implements Initializable {
 
@@ -35,6 +38,7 @@ public abstract class CompetitionViewController implements Initializable {
 	@FXML protected TableColumn<CompetitionViewRowData, String> timestampCol;
 	@FXML protected TextArea logTextArea;
 	@FXML protected Button startBtn;
+	@FXML protected TextField scanTextField;
 	
 	protected boolean started;
 	/*
@@ -68,6 +72,7 @@ public abstract class CompetitionViewController implements Initializable {
 			dataList.add(new CompetitionViewRowData(curChip, curChip.getRounds().getLast()));
 		}
 	}
+
 	
 	// FXML-METHODEN
 	
@@ -75,8 +80,16 @@ public abstract class CompetitionViewController implements Initializable {
 	protected abstract void startBtnClick(Event event);
 	
 	@FXML
-	private void scanTextFieldOnKeyReleased(Event event) {
-		// TODO: Chip scannen
+	private void scanTextFieldOnKeyPressed(KeyEvent ke) {
+		// TODO: Doppelscan verhindern + Fehlerscan abgfangen
+		if(ke.getCode() == KeyCode.ENTER) {
+			logTextArea.appendText(ke.getCode() + "\n");
+			String scannedId = scanTextField.getText();
+			List<CompetitionViewRowData> dataList = dataTable.getItems();
+			Chip chip = chipsController.getChipById(scannedId);
+			chipsController.addRound(scannedId);
+			dataList.add(new CompetitionViewRowData(chip, chip.getRounds().getLast()));
+		}
 	}
 	
 	@Override

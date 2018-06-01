@@ -27,9 +27,14 @@ public class ChipsController {
 	 * @return 0: Erfolgreich, -1: Fehler
 	 */
 	public int addRound(String chipId) {
-		Chip c = getChipById(chipId);
-		c.getRounds().add(new Round(LocalTime.now(), c.getRoundCount() + 1));
-		return -1;
+		try {
+			Chip c = getChipById(chipId);
+			c.getRounds().add(new Round(LocalTime.now(), c.getRoundCount() + 1));
+		} catch(Exception ex) {
+			// z.B.: null-Pointer-Exception
+			return -1;
+		}
+		return 0;
 	}
 	
 	/**
