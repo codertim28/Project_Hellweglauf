@@ -74,6 +74,13 @@ public abstract class CompetitionViewController implements Initializable {
 		}
 	}
 
+	protected void stopCompetition() {
+		started = false;
+		scanTextField.setDisable(true);
+		scanTextField.setText("");
+		log("Zeit abgelaufen!");
+		log("Wettkampf beendet");
+	}
 	
 	protected void log(String message) {
 		String timestamp = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));

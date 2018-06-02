@@ -32,7 +32,13 @@ public class TimeCompetitionViewController extends CompetitionViewController {
 	protected void startBtnClick(Event event) {
 		if(!started) {
 			setStartRounds();
-			hellwegTimer.startTimer(30);
+			hellwegTimer = new HellwegTimer(timeLabel, new Runnable() {
+				@Override
+				public void run() {
+					stopCompetition();
+				}
+			});
+			hellwegTimer.startTimer(30 * 60);
 			scanTextField.setDisable(false);
 			scanTextField.requestFocus();
 			super.log("Wettkampf gestartet!");
@@ -44,7 +50,12 @@ public class TimeCompetitionViewController extends CompetitionViewController {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		super.initialize(arg0, arg1);
 		
-		hellwegTimer = new HellwegTimer(timeLabel);
+		//hellwegTimer = new HellwegTimer(timeLabel, new Runnable() {
+		//	@Override
+		//	public void run() {
+		//		stopCompetition();
+		//	}
+		//});
 	}
 	
 }
