@@ -24,10 +24,6 @@ public class SelectCompetitionViewController {
 		TimeCompetitionViewController tcvc = new TimeCompetitionViewController();
 		mainViewController.addTab(this.createTab("Wettkampf (Zeit)", "/templates/competition/competitionView.fxml", tcvc));
 		
-		// TODO: CompetitionView Controller hinzufügen, um einen Wettkampf
-		// zu kontrollieren. Diesem einen Wettkampf mitgeben. So wird entschieden,
-		// welcher Wettkampf ausgeführt wird
-		
 		// zuletzt das Modal (dieses Fenster) schließen
 		this.close();
 	}
@@ -38,7 +34,7 @@ public class SelectCompetitionViewController {
 		// Den Tab erstellen und hinzufügen
 		mainViewController.addTab(this.createTab("Wettkampf (Distanz)", "/templates/competition/competitionView.fxml", null));
 		
-		// TODO: CompetitionView Controller hinzufügen, um einen Wettkampf
+		// TODO: CompetitionView Controller (Distanz) hinzufügen, um einen Wettkampf
 		// zu kontrollieren. Diesem einen Wettkampf mitgeben. So wird entschieden,
 		// welcher Wettkampf ausgeführt wird
 		

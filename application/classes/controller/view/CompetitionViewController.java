@@ -95,7 +95,6 @@ public abstract class CompetitionViewController implements Initializable {
 	
 	@FXML
 	private void scanTextFieldOnKeyPressed(KeyEvent ke) {
-		// TODO: Doppelscan verhindern
 		if(ke.getCode() == KeyCode.ENTER) {
 			String scannedId = scanTextField.getText().trim();
 			Chip chip = chipsController.getChipById(scannedId);

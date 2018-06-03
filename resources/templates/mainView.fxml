@@ -78,6 +78,9 @@
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
                               </Button>
                            </children>
                         </VBox>

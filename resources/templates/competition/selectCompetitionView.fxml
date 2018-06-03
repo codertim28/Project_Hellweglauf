@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
@@ -31,6 +32,9 @@
                </font>
             </Label>
          </children>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Pane>
       <Pane minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#distancePaneClick" prefHeight="50.0" prefWidth="200.0" styleClass="start-pane">
          <children>
@@ -48,6 +52,9 @@
          <VBox.margin>
             <Insets bottom="10.0" top="10.0" />
          </VBox.margin>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Pane>
       <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="200.0" styleClass="start-pane">
          <children>
@@ -57,6 +64,9 @@
                </font>
             </Label>
          </children>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Pane>
    </children>
 </VBox>
