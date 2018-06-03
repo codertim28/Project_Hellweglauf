@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
+import static java.time.temporal.ChronoUnit.SECONDS;
 
 import classes.Chip;
 import classes.Competition;
@@ -84,7 +85,7 @@ public abstract class CompetitionViewController implements Initializable {
 	
 	protected void log(String message) {
 		String timestamp = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-		logTextArea.appendText("[" + timestamp + "] " + message + "\n");
+		logTextArea.appendText("\n[" + timestamp + "] " + message);
 	}
 	
 	// FXML-METHODEN
@@ -94,14 +95,24 @@ public abstract class CompetitionViewController implements Initializable {
 	
 	@FXML
 	private void scanTextFieldOnKeyPressed(KeyEvent ke) {
-		// TODO: Doppelscan verhindern + Fehlerscan abgfangen
+		// TODO: Doppelscan verhindern
 		if(ke.getCode() == KeyCode.ENTER) {
-			String scannedId = scanTextField.getText();
-			List<CompetitionViewRowData> dataList = dataTable.getItems();
+			String scannedId = scanTextField.getText().trim();
 			Chip chip = chipsController.getChipById(scannedId);
-			chipsController.addRound(scannedId);
-			dataList.add(new CompetitionViewRowData(chip, chip.getRounds().getLast()));
-			log("Chip (id: " + scannedId + ") gescanned");
+			// Wenn ein Chip gefunden wurde, ist alles gut.
+			if(chip != null) {
+				LocalTime timestampOfLastRound = chip.getRounds().getLast().getTimestamp();
+				// Diese Abfrage verhindert einen "Doppelscan"
+				if(SECONDS.between(timestampOfLastRound, LocalTime.now()) >= 10) {
+					List<CompetitionViewRowData> dataList = dataTable.getItems();
+					chipsController.addRound(scannedId);
+					dataList.add(new CompetitionViewRowData(chip, chip.getRounds().getLast()));
+					log("Runde (id: " + scannedId + ")");
+				}
+			} else {
+				// Kein Chip gefunden: loggen
+				log("FEHLER (1) (id: " + scannedId +")");
+			}
 			
 			scanTextField.setText("");
 		}
@@ -128,6 +139,7 @@ public abstract class CompetitionViewController implements Initializable {
 			dataList.add(new CompetitionViewRowData(curChip, curChip.getRounds().getLast()));
 		}
 		
-		dataTable.setItems(FXCollections.observableList(dataList));		
+		dataTable.setItems(FXCollections.observableList(dataList));
+		logTextArea.appendText("Wettkampf initialisiert.");
 	}
 }
