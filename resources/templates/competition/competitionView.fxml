@@ -37,6 +37,11 @@
                   <Image url="@../../img/icons8-info-64.png" />
                </image>
             </ImageView>
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="258.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../img/icons8-pass-fail-64.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
       <Pane GridPane.columnIndex="1" GridPane.rowIndex="2">

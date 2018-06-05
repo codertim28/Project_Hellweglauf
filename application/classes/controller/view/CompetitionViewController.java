@@ -44,7 +44,7 @@ public abstract class CompetitionViewController implements Initializable {
 	
 	protected boolean started;
 	/*
-	 * Anmerkung: Die Chips werden nicht im Wettkamp 
+	 * Anmerkung: Die Chips werden nicht im Wettkampf
 	 * gespeichert! Dies liegt daran, dass jeder Chip,
 	 * welcher dem System bekannt ist, an jedem Wettkampf
 	 * teilnimmt. Somit bilden die Chips eine eigene

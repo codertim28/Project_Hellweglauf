@@ -32,13 +32,13 @@ public class TimeCompetitionViewController extends CompetitionViewController {
 	protected void startBtnClick(Event event) {
 		if(!started) {
 			setStartRounds();
-			hellwegTimer = new HellwegTimer(timeLabel, new Runnable() {
+			hellwegTimer = new HellwegTimer(timeLabel, timeProgressBar, new Runnable() {
 				@Override
 				public void run() {
 					stopCompetition();
 				}
 			});
-			hellwegTimer.startTimer(30 * 60);
+			hellwegTimer.startTimer(30);
 			scanTextField.setDisable(false);
 			scanTextField.requestFocus();
 			super.log("Wettkampf gestartet!");

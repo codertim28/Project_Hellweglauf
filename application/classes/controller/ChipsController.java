@@ -41,6 +41,8 @@ public class ChipsController {
 	 * Schreibt alle Chips in eine Datei.
 	 */
 	public void save() {
+		// TODO: in eigenem Thread schreiben ? Könnte sonst etwas viel
+		// werden, während eines Wettkampfes. Oder gezielt nur einen Chip schreiben.
 		for(int i = 0; i < chips.size(); i++) {
 			try {
 				Data.writeChip(chips.get(i));
