@@ -12,7 +12,7 @@ import static java.time.temporal.ChronoUnit.SECONDS;
 import classes.Chip;
 import classes.Competition;
 import classes.CompetitionViewRowData;
-import classes.Round;
+import classes.Lap;
 import classes.controller.ChipsController;
 import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
@@ -71,7 +71,7 @@ public abstract class CompetitionViewController implements Initializable {
 			String curId = dataList.get(i).getChip().getId();
 			Chip curChip = chipsController.getChipById(curId);
 			chipsController.addRound(curId);
-			dataList.add(new CompetitionViewRowData(curChip, curChip.getRounds().getLast()));
+			dataList.add(new CompetitionViewRowData(curChip, curChip.getLaps().getLast()));
 		}
 	}
 
@@ -81,6 +81,9 @@ public abstract class CompetitionViewController implements Initializable {
 		scanTextField.setText("");
 		log("Zeit abgelaufen!");
 		log("Wettkampf beendet");
+		// TODO: Nicht nur hier speichern, sondern auch zwischen
+		// durch. Am Besten: Bei jeder Runde den jeweiligen Chip speichern.
+		chipsController.save();
 	}
 	
 	protected void log(String message) {
@@ -100,12 +103,13 @@ public abstract class CompetitionViewController implements Initializable {
 			Chip chip = chipsController.getChipById(scannedId);
 			// Wenn ein Chip gefunden wurde, ist alles gut.
 			if(chip != null) {
-				LocalTime timestampOfLastRound = chip.getRounds().getLast().getTimestamp();
+				LocalTime timestampOfLastRound = chip.getLaps().getLast().getTimestamp();
 				// Diese Abfrage verhindert einen "Doppelscan"
+				// TODO: Doppelscan in der addRound() abfragen ?
 				if(SECONDS.between(timestampOfLastRound, LocalTime.now()) >= 10) {
 					List<CompetitionViewRowData> dataList = dataTable.getItems();
 					chipsController.addRound(scannedId);
-					dataList.add(new CompetitionViewRowData(chip, chip.getRounds().getLast()));
+					dataList.add(new CompetitionViewRowData(chip, chip.getLaps().getLast()));
 					log("Runde (id: " + scannedId + ")");
 				}
 			} else {
@@ -135,7 +139,7 @@ public abstract class CompetitionViewController implements Initializable {
 			Chip curChip = chips.get(i);
 			// Dies fügt die Runde -1 ein.
 			chipsController.addRound(curChip.getId());
-			dataList.add(new CompetitionViewRowData(curChip, curChip.getRounds().getLast()));
+			dataList.add(new CompetitionViewRowData(curChip, curChip.getLaps().getLast()));
 		}
 		
 		dataTable.setItems(FXCollections.observableList(dataList));

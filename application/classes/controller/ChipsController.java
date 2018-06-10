@@ -7,7 +7,7 @@ import java.util.List;
 
 import classes.Chip;
 import classes.Data;
-import classes.Round;
+import classes.Lap;
 
 public class ChipsController {
 	
@@ -29,7 +29,7 @@ public class ChipsController {
 	public int addRound(String chipId) {
 		try {
 			Chip c = getChipById(chipId);
-			c.getRounds().add(new Round(LocalTime.now(), c.getRoundCount() + 1));
+			c.getLaps().add(new Lap(LocalTime.now(), c.getLapCount() + 1));
 		} catch(Exception ex) {
 			// z.B.: null-Pointer-Exception
 			return -1;

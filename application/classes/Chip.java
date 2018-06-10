@@ -12,7 +12,7 @@ public class Chip {
 	
 	private StringProperty id;
 	private StringProperty studentName;
-	private LinkedList<Round> rounds;
+	private LinkedList<Lap> laps;
 
 	/**
 	 * Wird von "HellwegBufferedReader" benutzt.
@@ -28,7 +28,7 @@ public class Chip {
 		
 		setId(id);
 		setStudentName(studentName);
-		setRounds(new LinkedList<Round>());
+		setLaps(new LinkedList<Lap>());
 	}
 	
 	// PROPERTIES
@@ -57,24 +57,24 @@ public class Chip {
 		studentNameProperty().set(studentName);
 	}
 	
-	public LinkedList<Round> getRounds() {
-		return rounds;
+	public LinkedList<Lap> getLaps() {
+		return laps;
 	}
 
-	public void setRounds(LinkedList<Round> rounds) {
-		this.rounds = rounds;
+	public void setLaps(LinkedList<Lap> laps) {
+		this.laps = laps;
 	}
 
-	public int getRoundCount() {
+	public int getLapCount() {
 		// Hier kann nicht mit rounds.size()
 		// gearbeitet werden, da jeder Chip
 		// die Runde -1 bekommt, um für einen 
 		// Wettkampf "registeriert zu werden.
-		if(rounds.size() == 0) {
+		if(laps.size() == 0) {
 			// Die erste Runde ist die "Registrierungsrunde"
 			// Bei hinzufügen einer Runde wird +1 gerechnet.
 			return -2;
 		}
-		return rounds.getLast().getNumber();
+		return laps.getLast().getNumber();
 	}
 }

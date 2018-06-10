@@ -6,7 +6,7 @@ import java.io.Writer;
 import java.util.List;
 
 import classes.Chip;
-import classes.Round;
+import classes.Lap;
 
 public class HellwegPrintWriter extends PrintWriter {
 
@@ -30,12 +30,12 @@ public class HellwegPrintWriter extends PrintWriter {
 		println("\t<studentName>" + chip.getStudentName() + "</studentName>");
 		
 		// Runden schreiben
-		println("\t<rounds>");
-		List<Round> rounds = chip.getRounds();
-		for(int i = 0; i < rounds.size(); i++) {
-			println("\t\t<round timestamp=\"" + rounds.get(i).getTimestamp() + "\" />");
+		println("\t<laps>");
+		List<Lap> laps = chip.getLaps();
+		for(int i = 0; i < laps.size(); i++) {
+			println("\t\t<lap number=\"" + laps.get(i).getNumber() + "\" timestamp=\"" + laps.get(i).getTimestamp() + "\" />");
 		}
-		println("\t</rounds>");
+		println("\t</lap>");
 		
 		println("</chip>");
 	}

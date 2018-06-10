@@ -12,7 +12,7 @@ public class Competition {
 	// Wenn Wettkampf auf Zeit
 	private int time; // in Sekunden
 	
-	private LinkedList<Round> rounds;
+	private LinkedList<Lap> laps;
 	
 	public String getName() {
 		return name;
@@ -46,15 +46,15 @@ public class Competition {
 		this.time = time;
 	}
 
-	public LinkedList<Round> getRounds() {
-		return rounds;
+	public LinkedList<Lap> getRounds() {
+		return laps;
 	}
 
-	public void setRounds(LinkedList<Round> rounds) {
-		this.rounds = rounds;
+	public void setRounds(LinkedList<Lap> laps) {
+		this.laps = laps;
 	}
 	
-	public void addRound(Round round) {
-		rounds.add(round);
+	public void addRound(Lap lap) {
+		laps.add(lap);
 	}
 }

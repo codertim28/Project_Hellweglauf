@@ -8,7 +8,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class Round {
+public class Lap {
 	
 	private LocalTime timestamp;
 	// Diese Property wird in dem TableView im
@@ -18,7 +18,7 @@ public class Round {
 	
 	private IntegerProperty number;
 	
-	public Round(LocalTime timestamp, int number) {
+	public Lap(LocalTime timestamp, int number) {
 		this.timestampProp = new SimpleStringProperty(this, "timestampProp");
 		this.number = new SimpleIntegerProperty(this, "number");
 		setTimestamp(timestamp);

@@ -8,18 +8,18 @@ package classes;
 public class CompetitionViewRowData {
 
     private Chip chip;
-	private Round round;
+	private Lap lap;
     
-    public CompetitionViewRowData(Chip chip, Round round) {
+    public CompetitionViewRowData(Chip chip, Lap lap) {
         this.chip = chip;
-        this.round = round;
+        this.lap = lap;
     }
     
     public Chip getChip() { 
     	return chip; 
 	}
     
-    public Round getRound() { 
-    	return round; 
+    public Lap getRound() { 
+    	return lap; 
 	}
 }
