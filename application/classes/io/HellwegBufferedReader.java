@@ -3,8 +3,11 @@ package classes.io;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import classes.Chip;
+import classes.Lap;
 
 public class HellwegBufferedReader extends BufferedReader {
 
@@ -21,6 +24,7 @@ public class HellwegBufferedReader extends BufferedReader {
 	public Chip readChip() throws IOException {
 		
 		boolean inChipTag = false;
+		boolean inLapsTag = false;
 		
 		Chip chip = new Chip();
 		
@@ -31,9 +35,13 @@ public class HellwegBufferedReader extends BufferedReader {
 				// true setzen, damit im nächsten Durchlauf wieder hier 
 				// hereingesprungen wird.
 				inChipTag = true;
+				// TODO: nicht in jedem Durchlauf auf true setzen, sondern
+				// zu Beginn der Schleife. Nur über die Variablen in die Verzweigung 
+				// springen
 				
 				if(line.indexOf("<id>") != -1) {
 					chip.setId(getContent(line, "id"));
+					System.out.println(chip.getId()); // Debug
 				}
 				
 				if(line.indexOf("<studentName>") != -1) {
@@ -41,6 +49,14 @@ public class HellwegBufferedReader extends BufferedReader {
 				}
 				
 				// TODO: Runden lesen
+				if(line.indexOf("<laps>") != -1 || inLapsTag) {
+					inLapsTag = true;
+					// TODO: nicht in jedem Durchlauf auf true setzen (s.o.)
+					// Außerdem wieder auf false setzen
+					if(line.indexOf("<lap ") != -1) {
+						chip.getLaps().add(getLapFromTag(line));
+					}
+				}
 				
 				if(line.indexOf("</chip>") != -1) {
 					inChipTag = false;
@@ -58,6 +74,18 @@ public class HellwegBufferedReader extends BufferedReader {
 		int e = line.indexOf("</" + tagName + ">");
 		
 		return line.substring(a, e);
+	}
+	
+	private Lap getLapFromTag(String line) {
+		int numberPos = line.indexOf("number") + "number".length() + 2;
+		String number = line.substring(numberPos, line.indexOf('"', numberPos));
+		
+		int timestampPos = line.indexOf("timestamp") + "timestamp".length() + 2;
+		String timestamp = line.substring(timestampPos, line.indexOf('"', timestampPos));
+		LocalTime lt = LocalTime.parse(timestamp, DateTimeFormatter.ofPattern("HH:mm:ss.SSS"));
+		
+		// TODO: parse-Exception abfangen ? 
+		return new Lap(lt, Integer.parseInt(number));
 	}
 
 }

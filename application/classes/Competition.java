@@ -7,7 +7,7 @@ public class Competition {
 	
 	private String name;
 	// Wenn Wettkampf auf Distanz
-	private int roundLength; // in Metern
+	private int lapLength; // in Metern
 	private int distance; // Gesamtdistanz in Metern
 	// Wenn Wettkampf auf Zeit
 	private int time; // in Sekunden
@@ -22,12 +22,12 @@ public class Competition {
 		this.name = name;
 	}
 	
-	public int getRoundLength() {
-		return roundLength;
+	public int getLapLength() {
+		return lapLength;
 	}
 	
-	public void setRoundLength(int roundLength) {
-		this.roundLength = roundLength;
+	public void setLapLength(int lapLength) {
+		this.lapLength = lapLength;
 	}
 	
 	public int getDistance() {
@@ -46,15 +46,15 @@ public class Competition {
 		this.time = time;
 	}
 
-	public LinkedList<Lap> getRounds() {
+	public LinkedList<Lap> getLaps() {
 		return laps;
 	}
 
-	public void setRounds(LinkedList<Lap> laps) {
+	public void setLaps(LinkedList<Lap> laps) {
 		this.laps = laps;
 	}
 	
-	public void addRound(Lap lap) {
+	public void addLap(Lap lap) {
 		laps.add(lap);
 	}
 }
