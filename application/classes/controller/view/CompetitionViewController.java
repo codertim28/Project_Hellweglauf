@@ -20,6 +20,8 @@ import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -133,16 +135,30 @@ public abstract class CompetitionViewController implements Initializable {
 		// zugeteilt bekommen. Wenn ein Chip bereits Runden besitzt, muss irgendwie anders
 		// verfahren werden. Stichwort: Alert.
 		chipsController.load();
-		List<Chip> chips = chipsController.getChips();
-		List<CompetitionViewRowData> dataList = new LinkedList<CompetitionViewRowData>();
-		for(int i = 0; i < chips.size(); i++) {
-			Chip curChip = chips.get(i);
-			// Dies fügt die Runde -1 ein.
-			chipsController.addRound(curChip.getId());
-			dataList.add(new CompetitionViewRowData(curChip, curChip.getLaps().getLast()));
+		
+		if(chipsController.getHighestLapCount() == Chip.LAPCOUNT_START) {
+			// Wenn KEIN Chip Runden enthält, kann ganz normal weitergemacht werden.
+			List<Chip> chips = chipsController.getChips();
+			List<CompetitionViewRowData> dataList = new LinkedList<CompetitionViewRowData>();
+			for(int i = 0; i < chips.size(); i++) {
+				Chip curChip = chips.get(i);
+				// Dies fügt die Runde -1 ein.
+				chipsController.addRound(curChip.getId());
+				dataList.add(new CompetitionViewRowData(curChip, curChip.getLaps().getLast()));
+			}
+			
+			dataTable.setItems(FXCollections.observableList(dataList));
+			logTextArea.appendText("Wettkampf initialisiert.");
+		}
+		else {
+			// Wenn mind. ein Chip eine Runde enthählt, den Benutzer informieren.
+			Alert alert = new Alert(AlertType.CONFIRMATION, "Es gibt bereits Runden.");
+			alert.setHeaderText("Achtung!");
+			alert.showAndWait().ifPresent(respone -> {
+				// TODO: Benutzereingabe verarbeiten
+			});
 		}
 		
-		dataTable.setItems(FXCollections.observableList(dataList));
-		logTextArea.appendText("Wettkampf initialisiert.");
+		
 	}
 }

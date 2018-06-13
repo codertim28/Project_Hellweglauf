@@ -77,4 +77,14 @@ public class ChipsController {
 		}
 		return null;
 	}
+	
+	public int getHighestLapCount() {
+		int highest = Chip.LAPCOUNT_START;
+		for(int i = 0; i < chips.size(); i++) {
+			if(chips.get(i).getLapCount() > highest) {
+				highest = chips.get(i).getLapCount();
+			}
+		}
+		return highest;
+	}
 }

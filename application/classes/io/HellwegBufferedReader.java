@@ -49,7 +49,6 @@ public class HellwegBufferedReader extends BufferedReader {
 				
 				if(line.indexOf("<id>") != -1) {
 					chip.setId(getContent(line, "id"));
-					System.out.println(chip.getId()); // Debug
 				}
 				
 				if(line.indexOf("<studentName>") != -1) {

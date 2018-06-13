@@ -10,6 +10,12 @@ import javafx.beans.property.StringProperty;
 
 public class Chip {
 	
+	/**
+	 * Gibt an, wo mit dem "Rundenzählen" begonnen wird.
+	 * -2, weil -1 die "Registrierungsrunde" ist.
+	 */
+	public final static int LAPCOUNT_START = -2;
+	
 	private StringProperty id;
 	private StringProperty studentName;
 	private LinkedList<Lap> laps;
@@ -73,7 +79,7 @@ public class Chip {
 		if(laps.size() == 0) {
 			// Die erste Runde ist die "Registrierungsrunde"
 			// Bei hinzufügen einer Runde wird +1 gerechnet.
-			return -2;
+			return LAPCOUNT_START;
 		}
 		return laps.getLast().getNumber();
 	}
