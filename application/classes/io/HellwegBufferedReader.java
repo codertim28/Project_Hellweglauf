@@ -30,14 +30,22 @@ public class HellwegBufferedReader extends BufferedReader {
 		
 		String line;
 		while((line = readLine()) != null) {
-			// Wenn ein Chip gefunden wurde
-			if(line.indexOf("<chip>") != -1 || inChipTag) {
-				// true setzen, damit im nächsten Durchlauf wieder hier 
-				// hereingesprungen wird.
+			
+			// Prüfen, wo sich der Reader befindet. 
+			// - innerhalb eines Chips
+			// - in der Rundenliste (<laps> ... </laps)
+			if(line.indexOf("<chip>") != -1) {
+				// true setzen, damit im nächsten Durchlauf in die
+				// die entsprechende Abfrage gesprungen wird.
 				inChipTag = true;
-				// TODO: nicht in jedem Durchlauf auf true setzen, sondern
-				// zu Beginn der Schleife. Nur über die Variablen in die Verzweigung 
-				// springen
+			}
+			else if(line.indexOf("<laps>") != -1) {
+				// true setzen.. (s.o.)
+				inLapsTag = true;
+			}
+			
+			// Wenn ein Chip gefunden wurde
+			if(inChipTag) {
 				
 				if(line.indexOf("<id>") != -1) {
 					chip.setId(getContent(line, "id"));
@@ -48,16 +56,24 @@ public class HellwegBufferedReader extends BufferedReader {
 					chip.setStudentName(getContent(line, "studentName"));
 				}
 				
-				// TODO: Runden lesen
-				if(line.indexOf("<laps>") != -1 || inLapsTag) {
-					inLapsTag = true;
-					// TODO: nicht in jedem Durchlauf auf true setzen (s.o.)
-					// Außerdem wieder auf false setzen
+				// Diese (und die nächste) Abfrage ist an dieser Stelle nicht nötig.
+				// Der Quelltext wird auch ohne diese Abfrage ordnungsgemäß arbeiten.
+				// Der Grund weshalb diese Abfragen ihre Berechtigung haben: Ich kann
+				// mir vorstellen, dass das Programm hier erweitert wird in Zukunft.
+			    // Dann könnte sich diese Abrage als hilfreich erweisen.
+				if(inLapsTag) {
+					
 					if(line.indexOf("<lap ") != -1) {
 						chip.getLaps().add(getLapFromTag(line));
 					}
 				}
 				
+				if(line.indexOf("</laps>") != -1) {
+					inLapsTag = false;
+				}
+				
+				// Wird ein Chip geschlossen, so soll das Objekt
+				// zurückgegeben werden.
 				if(line.indexOf("</chip>") != -1) {
 					inChipTag = false;
 					return chip;
