@@ -5,8 +5,8 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.List;
 
-import classes.Chip;
-import classes.Lap;
+import classes.model.Chip;
+import classes.model.Lap;
 
 public class HellwegPrintWriter extends PrintWriter {
 

@@ -6,8 +6,8 @@ import java.io.Reader;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-import classes.Chip;
-import classes.Lap;
+import classes.model.Chip;
+import classes.model.Lap;
 
 public class HellwegBufferedReader extends BufferedReader {
 

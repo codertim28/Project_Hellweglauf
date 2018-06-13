@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import classes.io.*;
+import classes.model.Chip;
 
 public final class Data {
 

@@ -1,5 +1,8 @@
 package classes;
 
+import classes.model.Chip;
+import classes.model.Lap;
+
 /**
  * Diese Klasse ist das DataModel für das TableView
  * in dem CompetitionView.

@@ -5,9 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import classes.Chip;
 import classes.CompetitionViewRowData;
 import classes.HellwegTimer;
+import classes.model.Chip;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;

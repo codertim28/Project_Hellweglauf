@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.ResourceBundle;
 import static java.time.temporal.ChronoUnit.SECONDS;
 
-import classes.Chip;
-import classes.Competition;
+import classes.model.Chip;
+import classes.model.Competition;
 import classes.CompetitionViewRowData;
-import classes.Lap;
+import classes.model.Lap;
 import classes.controller.ChipsController;
 import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
@@ -131,7 +131,7 @@ public abstract class CompetitionViewController implements Initializable {
 		// TODO: Wenn es bereits eine Wettkampf-datei gibt, so soll diese 
 		// in die Tabelle geladen werden. Ansonsten sollen alle Chips die Runde -1
 		// zugeteilt bekommen. Wenn ein Chip bereits Runden besitzt, muss irgendwie anders
-		// verfahren werden.
+		// verfahren werden. Stichwort: Alert.
 		chipsController.load();
 		List<Chip> chips = chipsController.getChips();
 		List<CompetitionViewRowData> dataList = new LinkedList<CompetitionViewRowData>();

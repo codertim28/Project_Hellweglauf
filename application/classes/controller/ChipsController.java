@@ -5,9 +5,9 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import classes.Chip;
 import classes.Data;
-import classes.Lap;
+import classes.model.Chip;
+import classes.model.Lap;
 
 public class ChipsController {
 	
