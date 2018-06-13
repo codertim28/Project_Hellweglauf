@@ -36,7 +36,7 @@ public class MainViewController {
 		scvc.setMainViewController(this); 
 		
 		Scene scene = new Scene(parent, 300, 400);
-		//scene.getStylesheets().add(getClass().getResource("/templates/application.css").toExternalForm());
+		//scene.getStylesheets().add(getClass().getResource("/css/application.css").toExternalForm());
 		stage.setScene(scene);
 		stage.show();
 	}
@@ -50,7 +50,7 @@ public class MainViewController {
 
 		Parent parent = FXMLLoader.load(getClass().getResource("/templates/settings/settingsView.fxml"));
 		Scene scene = new Scene(parent, 500, 400);
-		scene.getStylesheets().add(getClass().getResource("/templates/application.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("/css/application.css").toExternalForm());
 		stage.setScene(scene);
 		stage.show();
 	}

@@ -19,7 +19,7 @@ public class Main extends Application {
 		try {
 			GridPane root = FXMLLoader.load(getClass().getResource("/templates/mainView.fxml"));
 			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/templates/application.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("/css/application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setMinHeight(640);
 			primaryStage.setMaxHeight(640);

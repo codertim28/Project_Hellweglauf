@@ -1,0 +1,18 @@
+.hellwegDialog {
+    -fx-background-color: #fff;
+}
+.hellwegDialog > *.button-bar > *.container {
+}
+.hellwegDialog > *.label.content {
+    -fx-font-size: 14px;
+    -fx-padding-top: 0;
+    -fx-margin-top: 0;
+}
+.hellwegDialog:header *.header-panel {
+	-fx-background-color: #fff;
+}
+
+.hellwegDialog *.header-panel *.label {
+    -fx-font-size: 16px;
+    -fx-fill: #292929;
+}

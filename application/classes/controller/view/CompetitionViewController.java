@@ -1,21 +1,18 @@
 package classes.controller.view;
 
+import static java.time.temporal.ChronoUnit.SECONDS;
+
 import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
-import static java.time.temporal.ChronoUnit.SECONDS;
 
+import classes.CompetitionViewRowData;
+import classes.controller.ChipsController;
 import classes.model.Chip;
 import classes.model.Competition;
-import classes.CompetitionViewRowData;
-import classes.model.Lap;
-import classes.controller.ChipsController;
-import javafx.beans.Observable;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -23,12 +20,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -154,6 +150,10 @@ public abstract class CompetitionViewController implements Initializable {
 			// Wenn mind. ein Chip eine Runde enthählt, den Benutzer informieren.
 			Alert alert = new Alert(AlertType.CONFIRMATION, "Es gibt bereits Runden.");
 			alert.setHeaderText("Achtung!");
+			// Noch ein bisschen schön machen mit css
+			DialogPane dialogPane = alert.getDialogPane();
+			dialogPane.getStylesheets().add(getClass().getResource("/css/dialog.css").toExternalForm());
+			dialogPane.getStyleClass().add("hellwegDialog");
 			alert.showAndWait().ifPresent(respone -> {
 				// TODO: Benutzereingabe verarbeiten
 			});
