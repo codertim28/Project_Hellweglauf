@@ -20,6 +20,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -125,11 +127,12 @@ public abstract class CompetitionViewController implements Initializable {
 		studentNameCol.setCellValueFactory(cellData -> cellData.getValue().getChip().studentNameProperty());
 		roundNumberCol.setCellValueFactory(cellData -> cellData.getValue().getRound().numberProperty());
 		timestampCol.setCellValueFactory(cellData -> cellData.getValue().getRound().timestampProperty());
-
-		// TODO: Wenn es bereits eine Wettkampf-datei gibt, so soll diese 
-		// in die Tabelle geladen werden. Ansonsten sollen alle Chips die Runde -1
-		// zugeteilt bekommen. Wenn ein Chip bereits Runden besitzt, muss irgendwie anders
-		// verfahren werden. Stichwort: Alert.
+		
+		// TODO: Alle Chips müssen in ein Wettkampfverzeichnis kopiert werden.
+		// Sind in diesem Verzeichnis schon Chips mit Runden vorhanden (und keine
+		// Wettkampfdatei, so muss gefragt werden, ob die Chips zurückgesetzt werden sollen
+		// Ist bereits eine Wettkampfdatei vorhanden, so soll gefragt werden, ob der vorhandene
+		// Wettkampf geladen werden soll oder ob ein neuer erstellt werden soll.
 		chipsController.load();
 		
 		if(chipsController.getHighestLapCount() == Chip.LAPCOUNT_START) {
@@ -148,17 +151,42 @@ public abstract class CompetitionViewController implements Initializable {
 		}
 		else {
 			// Wenn mind. ein Chip eine Runde enthählt, den Benutzer informieren.
-			Alert alert = new Alert(AlertType.CONFIRMATION, "Es gibt bereits Runden.");
-			alert.setHeaderText("Achtung!");
-			// Noch ein bisschen schön machen mit css
-			DialogPane dialogPane = alert.getDialogPane();
-			dialogPane.getStylesheets().add(getClass().getResource("/css/dialog.css").toExternalForm());
-			dialogPane.getStyleClass().add("hellwegDialog");
+			Alert alert = generateAlert("lapsExist");
 			alert.showAndWait().ifPresent(respone -> {
 				// TODO: Benutzereingabe verarbeiten
 			});
 		}
 		
+	}
+	
+	private Alert generateAlert(String type) {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setHeaderText("Achtung!");
+		alert.setTitle("");
+		alert.getButtonTypes().clear();
 		
+		// Noch ein bisschen schön machen mit css
+		DialogPane dialogPane = alert.getDialogPane();
+		dialogPane.getStylesheets().add(getClass().getResource("/css/dialog.css").toExternalForm());
+		dialogPane.getStyleClass().add("hellwegDialog");
+		
+		// Je nach dem, was abgefragt werden soll, einen anderen Text, sowie 
+		// Buttons setzen.
+		if(type.equals("lapsExist")) {
+			alert.setContentText("Es gibt bereits Runden. " + 
+					"Um einen neuen Wettkampf zu starten, " +
+					"müssen die Runden der Chips zurückgesetzt werden.");
+			alert.getButtonTypes().addAll(new ButtonType("Zurücksetzen", ButtonBar.ButtonData.YES),
+					new ButtonType("Abbrechen", ButtonBar.ButtonData.CANCEL_CLOSE));
+		}
+		else if(type.equals("competitionExists")) {
+			alert.setContentText("***Platzhalter***");
+			alert.getButtonTypes().addAll(new ButtonType("Zurücksetzen", ButtonBar.ButtonData.YES),
+					new ButtonType("Anzeigen", ButtonBar.ButtonData.NO),
+					new ButtonType("Abbrechen", ButtonBar.ButtonData.CANCEL_CLOSE));
+		}
+		
+		return alert;
+					
 	}
 }

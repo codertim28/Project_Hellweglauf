@@ -1,12 +1,19 @@
 .hellwegDialog {
     -fx-background-color: #fff;
 }
-.hellwegDialog > *.button-bar > *.container {
+
+.hellwegDialog .image-view {
+	-fx-scale-x: 0.8;
+	-fx-scale-y: 0.8;
 }
+
+.hellwegDialog > *.button-bar > *.container {
+	-fx-background-color: #eee;
+}
+
 .hellwegDialog > *.label.content {
     -fx-font-size: 14px;
-    -fx-padding-top: 0;
-    -fx-margin-top: 0;
+    -fx-padding: 0 10px 10px 10px;
 }
 .hellwegDialog:header *.header-panel {
 	-fx-background-color: #fff;
