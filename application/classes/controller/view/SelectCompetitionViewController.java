@@ -22,8 +22,11 @@ public class SelectCompetitionViewController {
 		
 		// Den Tab erstellen und hinzufügen
 		TimeCompetitionViewController tcvc = new TimeCompetitionViewController();
-		mainViewController.addTab(this.createTab("Wettkampf (Zeit)", "/templates/competition/competitionView.fxml", tcvc));
-		
+		if(tcvc.checkRequirements()) {
+			// wenn die Voraussetzungen geklärt sind, den View einbinden, sonst nicht
+			mainViewController.addTab(this.createTab("Wettkampf (Zeit)", "/templates/competition/competitionView.fxml", tcvc));
+		}
+			
 		// zuletzt das Modal (dieses Fenster) schließen
 		this.close();
 	}

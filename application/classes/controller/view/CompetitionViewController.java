@@ -7,6 +7,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import classes.CompetitionViewRowData;
@@ -21,14 +22,19 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+
+// TODO: Alle *ViewController in *View umbennenen und in eigenen Ordner verschieben.
+// So sind View und Controller schöner getrennt.
 
 public abstract class CompetitionViewController implements Initializable {
 
@@ -56,6 +62,9 @@ public abstract class CompetitionViewController implements Initializable {
 	public CompetitionViewController() {
 		started = false;
 		chipsController = new ChipsController();
+		// Muss hier geladen werden. Chips werden bereits vor der initialize(...)
+		// verwendet. (s. checkRequirements)
+		chipsController.load(); 
 	}
 	
 	protected void setStartRounds() {
@@ -70,7 +79,7 @@ public abstract class CompetitionViewController implements Initializable {
 		for(int i = 0; i < size; i++) {
 			String curId = dataList.get(i).getChip().getId();
 			Chip curChip = chipsController.getChipById(curId);
-			chipsController.addRound(curId);
+			chipsController.addLap(curId);
 			dataList.add(new CompetitionViewRowData(curChip, curChip.getLaps().getLast()));
 		}
 	}
@@ -105,10 +114,10 @@ public abstract class CompetitionViewController implements Initializable {
 			if(chip != null) {
 				LocalTime timestampOfLastRound = chip.getLaps().getLast().getTimestamp();
 				// Diese Abfrage verhindert einen "Doppelscan"
-				// TODO: Doppelscan in der addRound() abfragen ?
+				// TODO: Doppelscan in der addLap() abfragen ?
 				if(SECONDS.between(timestampOfLastRound, LocalTime.now()) >= 10) {
 					List<CompetitionViewRowData> dataList = dataTable.getItems();
-					chipsController.addRound(scannedId);
+					chipsController.addLap(scannedId);
 					dataList.add(new CompetitionViewRowData(chip, chip.getLaps().getLast()));
 					log("Runde (id: " + scannedId + ")");
 				}
@@ -133,8 +142,9 @@ public abstract class CompetitionViewController implements Initializable {
 		// Wettkampfdatei, so muss gefragt werden, ob die Chips zurückgesetzt werden sollen
 		// Ist bereits eine Wettkampfdatei vorhanden, so soll gefragt werden, ob der vorhandene
 		// Wettkampf geladen werden soll oder ob ein neuer erstellt werden soll.
-		chipsController.load();
 		
+		// TODO: Diese Abfrage kann entfernt werden, sobald die "checkRequirements"
+		// fertig ist.
 		if(chipsController.getHighestLapCount() == Chip.LAPCOUNT_START) {
 			// Wenn KEIN Chip Runden enthält, kann ganz normal weitergemacht werden.
 			List<Chip> chips = chipsController.getChips();
@@ -142,21 +152,43 @@ public abstract class CompetitionViewController implements Initializable {
 			for(int i = 0; i < chips.size(); i++) {
 				Chip curChip = chips.get(i);
 				// Dies fügt die Runde -1 ein.
-				chipsController.addRound(curChip.getId());
+				chipsController.addLap(curChip.getId());
 				dataList.add(new CompetitionViewRowData(curChip, curChip.getLaps().getLast()));
 			}
 			
 			dataTable.setItems(FXCollections.observableList(dataList));
 			logTextArea.appendText("Wettkampf initialisiert.");
 		}
-		else {
+	}
+	
+	/**
+	 * Prüft die Bedingung und verändert diese, wenn der Benutzer dies fordert 
+	 * (per Buttons im Dialog)
+	 * @return false, wenn View nicht eingebunden werden kann. true, wenn View 
+	 * eingebunden werden kann, z.B. weil der Benutzer einen Wettkampf resetet hat.
+	 */
+	public boolean checkRequirements() {
+		// TODO: Diese Überpfüfung erweitern (auf Wettkampfdatei prüfen)
+		// Falls Runden existieren, aber keine Wettkampf-Datei.
+		if(chipsController.getHighestLapCount() != Chip.LAPCOUNT_START) {
 			// Wenn mind. ein Chip eine Runde enthählt, den Benutzer informieren.
 			Alert alert = generateAlert("lapsExist");
-			alert.showAndWait().ifPresent(respone -> {
-				// TODO: Benutzereingabe verarbeiten
-			});
+			// Der traditionelle Ansatz ist an dieser Stelle schöner und 
+			// komfortabler als ein Lamda-Ausdruck
+			Optional<ButtonType> result = alert.showAndWait();
+			if(result.isPresent()) {
+				if(result.get().getButtonData().equals(ButtonData.YES)) {
+					// Runden zurücksetzen -> true zurückgeben.
+					chipsController.resetLaps();
+					return true;
+				}
+				else if(result.get().getButtonData().equals(ButtonData.CANCEL_CLOSE)) {
+					return false;
+				}
+			}
 		}
 		
+		return false;
 	}
 	
 	private Alert generateAlert(String type) {

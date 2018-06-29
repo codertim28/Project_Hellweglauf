@@ -3,6 +3,7 @@ package classes.controller;
 import java.io.IOException;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import classes.Data;
@@ -26,7 +27,7 @@ public class ChipsController {
 	 * @param chipId Der Chip, dem die Runde hinzugefügt werden soll
 	 * @return 0: Erfolgreich, -1: Fehler
 	 */
-	public int addRound(String chipId) {
+	public int addLap(String chipId) {
 		try {
 			Chip c = getChipById(chipId);
 			c.getLaps().add(new Lap(LocalTime.now(), c.getLapCount() + 1));
@@ -35,6 +36,15 @@ public class ChipsController {
 			return -1;
 		}
 		return 0;
+	}
+	
+	/**
+	 * Setzt die Runden jedes Chips zurück.
+	 */
+	public void resetLaps() {
+		for(int i = 0; i < chips.size(); i++) {
+			chips.get(i).setLaps(new LinkedList<Lap>());
+		}
 	}
 	
 	/**
