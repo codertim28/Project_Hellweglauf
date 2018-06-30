@@ -13,14 +13,18 @@ import classes.model.Lap;
 public class ChipsController {
 	
 	private List<Chip> chips;
+	// Das Arbeitsverzeichnis: "competition", "training" oder "basic" (s. Data)
+	private String dir;
 	
 	public ChipsController() {
 		setChips(new ArrayList<Chip>());
+		setDir(Data.BASIC_DIR);
 	}
 	
-	//public ChipsController(String saveFile) {
-	//	setChips(new ArrayList<Chip>());
-	//}
+	public ChipsController(String dir) {
+		setChips(new ArrayList<Chip>());
+		setDir(dir);
+	}
 	
 	/**
 	 * Fügt eine Runde hinzu (z.B. in einem Wettkampf)
@@ -55,7 +59,7 @@ public class ChipsController {
 		// werden, während eines Wettkampfes. Oder gezielt nur einen Chip schreiben.
 		for(int i = 0; i < chips.size(); i++) {
 			try {
-				Data.writeChip(chips.get(i));
+				Data.writeChip(dir ,chips.get(i));
 			} catch(IOException ioe) {}
 		}	
 	}
@@ -66,7 +70,7 @@ public class ChipsController {
 	 */
 	public void load() {
 		try {
-			chips = Data.readChips();
+			chips = Data.readChips(dir);
 		} catch (IOException ioe) {}
 	}
 	
@@ -96,5 +100,13 @@ public class ChipsController {
 			}
 		}
 		return highest;
+	}
+
+	public String getDir() {
+		return dir;
+	}
+
+	private void setDir(String dir) {
+		this.dir = dir;
 	}
 }

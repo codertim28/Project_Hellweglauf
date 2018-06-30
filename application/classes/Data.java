@@ -12,20 +12,18 @@ public final class Data {
 	private final static String DIR = "data";
 	private final static String CHIP_DIR = "chips";
 	
+	public final static String BASIC_DIR = "basic";
 	public final static String COMPETITION_DIR = "competition";
 	public final static String TRAINING_DIR = "training";
-
-	//public final static String DATA_FILE = "data.txt";
-	// Diese Dateien werden nach dem Wettkampf eine Liste enthalten. Die 
-	// Liste ist nach Scans geordnet (bzw. nach Runden).
-	public final static String COMPETITION_FILE = "competition_data.txt";
-	public final static String TRAINING_FILE = "training_data.txt";
 	
-	public static void writeChip(Chip chipToWrite) throws IOException {					
+	private final static String COMPETITION_FILE = "competition_data.txt";
+	private final static String TRAINING_FILE = "training_data.txt";
+	
+	public static void writeChip(String dir,Chip chipToWrite) throws IOException {					
 		
 		String file = chipToWrite.getId() + ".xml";
 		
-		HellwegPrintWriter hpw = new HellwegPrintWriter(new FileWriter(DIR + "/" + CHIP_DIR + "/" + file));
+		HellwegPrintWriter hpw = new HellwegPrintWriter(new FileWriter(DIR + "/" + dir + "/" + CHIP_DIR + "/" + file));
 		hpw.print(chipToWrite);
 		hpw.flush();
 		hpw.close();
@@ -37,11 +35,11 @@ public final class Data {
 	 * @return Eine Liste aller Chips.
 	 * @throws IOException - Falls ein IOError auftritt.
 	 */
-	public static List<Chip> readChips() throws IOException {
+	public static List<Chip> readChips(String dir) throws IOException {
 		
 		List<Chip> chipList = new ArrayList<Chip>();
 		
-		for(final File file : new File(DIR + "/" + CHIP_DIR).listFiles()) {
+		for(final File file : new File(DIR + "/" + dir + "/" + CHIP_DIR).listFiles()) {
 	        if(!file.isDirectory()) {
 	           
 	        	HellwegBufferedReader hbr = new HellwegBufferedReader(new FileReader(file));   		
@@ -69,11 +67,45 @@ public final class Data {
 		if (!file.exists()) {
 			file.mkdir();
 		}
-		// und das Unterverzeichnis für die Chips
-		file = new File(DIR + "/" + CHIP_DIR);
+		// und das Unterverzeichnis für die Basisdaten
+		file = new File(DIR + "/" + BASIC_DIR);
 		if (!file.exists()) {
 			file.mkdir();
 		}
+		// und das Unterverzeichnis für die Chips
+		file = new File(DIR + "/" + BASIC_DIR + "/" + CHIP_DIR);
+		if (!file.exists()) {
+			file.mkdir();
+		}
+		
+		// Auch das Wettkampfverzeichnis erstellen ?
+		// Wird momentan nur im CompetitionView erstellt
+		// createCompetitionDirIfNotExists();
+	}
+	
+	/**
+	 * Diese Methode erstellt das competition-Verzeichnis. 
+	 * Dort wird ein Wettkampf verwaltet. 
+	 * @return boolean - false, wenn ein Fehlerauftritt; sonst true
+	 */
+	public static boolean createCompetitionDirIfNotExists() {
+		boolean returnValue = false;
+		// und das Unterverzeichnis für die Chips
+		File file = new File(DIR + "/" + COMPETITION_DIR);
+		if (!file.exists()) {
+			returnValue = file.mkdir();
+		}
+		
+		// Falls das Wettkampfverzeichnis eben erstellt wurde, müssen auch die Chips 
+		// dorthin kopiert werden.
+		// TODO: Chips kopieren
+		File temp = new File(DIR + "/" + COMPETITION_DIR + "/" + CHIP_DIR);
+		if (!temp.exists()) {
+			returnValue = temp.mkdir();
+		}
+		
+		
+		return returnValue;
 	}
 
 	/**
