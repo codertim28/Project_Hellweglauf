@@ -63,7 +63,7 @@ public abstract class CompetitionViewController implements Initializable {
 	public CompetitionViewController() {
 		started = false;
 		// Bevor der ChipsController erstellt wird: Das Wettkampfverzeichnis erstellen
-		// (falls nicht vorhanden).
+		// (falls nicht vorhanden) und Chips kopieren. 
 		Data.createCompetitionDirIfNotExists();
 		chipsController = new ChipsController(Data.COMPETITION_DIR);
 		// Muss hier geladen werden. Chips werden bereits vor der initialize(...)
@@ -159,7 +159,7 @@ public abstract class CompetitionViewController implements Initializable {
 				chipsController.addLap(curChip.getId());
 				dataList.add(new CompetitionViewRowData(curChip, curChip.getLaps().getLast()));
 			}
-			
+			chipsController.save();
 			dataTable.setItems(FXCollections.observableList(dataList));
 			logTextArea.appendText("Wettkampf initialisiert.");
 		}
@@ -192,7 +192,7 @@ public abstract class CompetitionViewController implements Initializable {
 			}
 		}
 		
-		return false;
+		return true;
 	}
 	
 	private Alert generateAlert(String type) {

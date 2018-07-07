@@ -12,7 +12,7 @@ import classes.model.Lap;
 
 public class ChipsController {
 	
-	private List<Chip> chips;
+	private ArrayList<Chip> chips;
 	// Das Arbeitsverzeichnis: "competition", "training" oder "basic" (s. Data)
 	private String dir;
 	
@@ -55,13 +55,9 @@ public class ChipsController {
 	 * Schreibt alle Chips in eine Datei.
 	 */
 	public void save() {
-		// TODO: in eigenem Thread schreiben ? Könnte sonst etwas viel
-		// werden, während eines Wettkampfes. Oder gezielt nur einen Chip schreiben.
-		for(int i = 0; i < chips.size(); i++) {
-			try {
-				Data.writeChip(dir ,chips.get(i));
-			} catch(IOException ioe) {}
-		}	
+		try {
+			Data.writeChips(dir, chips);
+		} catch (IOException e) {}
 	}
 	
 	/**
@@ -75,11 +71,11 @@ public class ChipsController {
 	}
 	
 	// GETTER UND SETTER
-	public List<Chip> getChips() {
+	public ArrayList<Chip> getChips() {
 		return chips;
 	}
 
-	public void setChips(List<Chip> chips) {
+	public void setChips(ArrayList<Chip> chips) {
 		this.chips = chips;
 	}
 	
