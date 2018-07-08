@@ -10,7 +10,7 @@ public class HellwegTimer extends Thread {
 
 	private int seconds;
 	private Runnable stopCompetitionCallback;
-	// Kommt als Referenz aus dem TimeCompetitionViewController
+	// Kommt als Referenz aus dem TimeCompetitionView
 	private Label timeLabel;
 	private ProgressBar timeProgressBar;
 	private double onePercent;

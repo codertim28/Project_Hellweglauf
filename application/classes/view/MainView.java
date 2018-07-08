@@ -15,7 +15,7 @@ import javafx.scene.control.TabPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class MainViewController {
+public class MainView {
 
 	@FXML private TabPane tabPane;
 	
@@ -32,7 +32,7 @@ public class MainViewController {
 		// (schön ist das nicht, aber selten)
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/templates/competition/selectCompetitionView.fxml"));
 		Parent parent = (Parent)loader.load();
-		SelectCompetitionViewController scvc = (SelectCompetitionViewController)loader.getController();
+		SelectCompetitionView scvc = (SelectCompetitionView)loader.getController();
 		scvc.setMainViewController(this); 
 		
 		Scene scene = new Scene(parent, 300, 400);

@@ -37,7 +37,7 @@ import javafx.scene.input.KeyEvent;
 // TODO: Alle *ViewController in *View umbennenen und in eigenen Ordner verschieben.
 // So sind View und Controller schöner getrennt.
 
-public abstract class CompetitionViewController implements Initializable {
+public abstract class CompetitionView implements Initializable {
 
 	// Die Steuerelemente, die immer vorhanden sind
 	@FXML protected TableView<CompetitionViewRowData> dataTable;
@@ -60,7 +60,7 @@ public abstract class CompetitionViewController implements Initializable {
 	protected Competition comp;	
 	protected ChipsController chipsController;
 	
-	public CompetitionViewController() {
+	public CompetitionView() {
 		started = false;
 		// Bevor der ChipsController erstellt wird: Das Wettkampfverzeichnis erstellen
 		// (falls nicht vorhanden) und Chips kopieren. 

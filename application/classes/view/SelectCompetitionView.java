@@ -10,21 +10,21 @@ import javafx.scene.control.Tab;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class SelectCompetitionViewController {
+public class SelectCompetitionView {
 
 	@FXML private VBox root;
 	
-	private MainViewController mainViewController;
+	private MainView mainView;
 	
 	// Click-Events
 	public void timePaneClick(Event event) throws IOException {
 		// TODO: IOException in dieser Methode behandeln
 		
 		// Den Tab erstellen und hinzufügen
-		TimeCompetitionViewController tcvc = new TimeCompetitionViewController();
+		TimeCompetitionView tcvc = new TimeCompetitionView();
 		if(tcvc.checkRequirements()) {
 			// wenn die Voraussetzungen geklärt sind, den View einbinden, sonst nicht
-			mainViewController.addTab(this.createTab("Wettkampf (Zeit)", "/templates/competition/competitionView.fxml", tcvc));
+			mainView.addTab(this.createTab("Wettkampf (Zeit)", "/templates/competition/competitionView.fxml", tcvc));
 		}
 			
 		// zuletzt das Modal (dieses Fenster) schließen
@@ -35,7 +35,7 @@ public class SelectCompetitionViewController {
 		// TODO: IOException in dieser Methode behandeln
 		
 		// Den Tab erstellen und hinzufügen
-		mainViewController.addTab(this.createTab("Wettkampf (Distanz)", "/templates/competition/competitionView.fxml", null));
+		mainView.addTab(this.createTab("Wettkampf (Distanz)", "/templates/competition/competitionView.fxml", null));
 		
 		// TODO: CompetitionView Controller (Distanz) hinzufügen, um einen Wettkampf
 		// zu kontrollieren. Diesem einen Wettkampf mitgeben. So wird entschieden,
@@ -45,7 +45,7 @@ public class SelectCompetitionViewController {
 		this.close();
 	}
 	
-	private Tab createTab(String title, String resource, CompetitionViewController controller) throws IOException {
+	private Tab createTab(String title, String resource, CompetitionView controller) throws IOException {
 		Tab tab = new Tab(title);
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(resource));
 		loader.setController(controller);
@@ -58,9 +58,9 @@ public class SelectCompetitionViewController {
 		stage.close();
 	}
 	
-	// Setzt den MainViewController, damit diese Klasse
+	// Setzt den MainView, damit diese Klasse
 	// bei einem Klick, einen Tab setzen kann.
-	void setMainViewController(MainViewController mvc) {
-		mainViewController = mvc;
+	void setMainViewController(MainView mvc) {
+		mainView = mvc;
 	}
 }

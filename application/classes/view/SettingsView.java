@@ -7,7 +7,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-public class SettingsViewController {
+public class SettingsView {
 
 	@FXML
 	private Label settingsHeaderLabel;

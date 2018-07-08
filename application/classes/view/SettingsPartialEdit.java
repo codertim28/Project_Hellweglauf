@@ -18,7 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 
-public class SettingsPartialEditController implements Initializable {
+public class SettingsPartialEdit implements Initializable {
 	
 	@FXML private TableView<Chip> dataTable;
 	@FXML private TableColumn<Chip,String> idCol;
