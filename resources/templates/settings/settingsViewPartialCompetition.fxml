@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<GridPane hgap="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="342.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="191.0" minWidth="10.0" prefWidth="150.0" />
+    <ColumnConstraints hgrow="SOMETIMES" prefWidth="120.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="246.0" minWidth="10.0" prefWidth="44.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0" valignment="CENTER" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" vgrow="SOMETIMES" />
+      <RowConstraints vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Label text="Rundenlänge:" />
+      <TextField GridPane.columnIndex="1" />
+      <Label text="Rundenanzahl:" GridPane.rowIndex="1" />
+      <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <Label text="Zeit:" GridPane.rowIndex="3" />
+      <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnSpan="3" GridPane.rowIndex="4">
+         <children>
+            <Button mnemonicParsing="false" text="Zurücksetzen" />
+            <Button mnemonicParsing="false" text="Speichern" />
+         </children>
+      </HBox>
+      <Label text="m" GridPane.columnIndex="2" />
+      <Label text="min" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+      <Separator prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="2" />
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</GridPane>

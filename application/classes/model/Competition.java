@@ -3,6 +3,8 @@ package classes.model;
 import java.util.LinkedList;
 import java.util.List;
 
+import classes.CompetitionViewRowData;
+
 public class Competition {
 	
 	private String name;
@@ -12,7 +14,11 @@ public class Competition {
 	// Wenn Wettkampf auf Zeit
 	private int time; // in Sekunden
 	
-	private LinkedList<Lap> laps;
+	// Die Daten (gelistet nach Runden; wie in der 
+	// ursprünglichen Software
+	// TODO: ObservableList draus machen und dann als
+	// Content der DataTable im CompetitionView setzen
+	private LinkedList<CompetitionViewRowData> data;
 	
 	public String getName() {
 		return name;
@@ -44,17 +50,5 @@ public class Competition {
 	
 	public void setTime(int time) {
 		this.time = time;
-	}
-
-	public LinkedList<Lap> getLaps() {
-		return laps;
-	}
-
-	public void setLaps(LinkedList<Lap> laps) {
-		this.laps = laps;
-	}
-	
-	public void addLap(Lap lap) {
-		laps.add(lap);
 	}
 }

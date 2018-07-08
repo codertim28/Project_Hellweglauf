@@ -34,8 +34,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-// TODO: Alle *ViewController in *View umbennenen und in eigenen Ordner verschieben.
-// So sind View und Controller schöner getrennt.
 
 public abstract class CompetitionView implements Initializable {
 

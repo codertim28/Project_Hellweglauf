@@ -11,19 +11,48 @@ public class SettingsView {
 
 	@FXML
 	private Label settingsHeaderLabel;
+	@FXML
+	private GridPane currentView;
 
+	
 	// FÜR DIE NAVIGATION AUF DER LINKEN SEITE
 	public void chipsBtnClick(ActionEvent e) {
 		GridPane root = (GridPane) ((Button) e.getSource()).getScene().getRoot();
 		settingsHeaderLabel.setText("Chips verwalten");
+		
+		// Die aktuell angezeigten Einstellungen nicht mehr anzeigen,
+		// um eine Überlagerung der GridPanes zu verhindern
+		root.getChildren().remove(currentView);
 
 		try {
-			GridPane gp = (GridPane) FXMLLoader.load(getClass().getResource("/templates/settings/settingsPartialEdit.fxml"));
+			currentView = (GridPane) FXMLLoader.load(getClass().getResource("/templates/settings/settingsPartialEdit.fxml"));
 			// Das GridPane an die richtige Stelle setzen
-			GridPane.setColumnIndex(gp, 1);
-			GridPane.setRowIndex(gp, 1);
+			GridPane.setColumnIndex(currentView, 1);
+			GridPane.setRowIndex(currentView, 1);
 			// Das Partial anhängen
-			root.getChildren().add(gp);
+			root.getChildren().add(currentView);
+
+		} catch (Exception ex) {
+			System.err.println(ex.getMessage());
+		}
+	}
+	
+	public void settingsBtnClick(ActionEvent e) {
+		GridPane root = (GridPane) ((Button) e.getSource()).getScene().getRoot();
+		settingsHeaderLabel.setText("Einstellungen");
+		
+		// Die aktuell angezeigten Einstellungen nicht mehr anzeigen,
+		// um eine Überlagerung der GridPanes zu verhindern
+		root.getChildren().remove(currentView);
+
+		
+		try {
+			currentView = (GridPane) FXMLLoader.load(getClass().getResource("/templates/settings/settingsViewPartialCompetition.fxml"));
+			// Das GridPane an die richtige Stelle setzen
+			GridPane.setColumnIndex(currentView, 1);
+			GridPane.setRowIndex(currentView, 1);
+			// Das Partial anhängen
+			root.getChildren().add(currentView);
 
 		} catch (Exception ex) {
 			System.err.println(ex.getMessage());
