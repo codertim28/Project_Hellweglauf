@@ -1,4 +1,4 @@
-package classes.controller.view;
+package classes.view;
 
 import java.net.URL;
 import java.util.List;
