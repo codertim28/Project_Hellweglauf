@@ -19,8 +19,8 @@ public final class Data {
 	public final static String TRAINING_DIR = "training";
 	
 	private final static String CHIPS_FILE = "chips.xml";
-	private final static String COMPETITION_FILE = "competition_data.txt";
-	private final static String TRAINING_FILE = "training_data.txt";
+	private final static String COMPETITION_FILE = "competition_data.prohell";
+	private final static String TRAINING_FILE = "training_data.prohell";
 	
 	public static void writeChips(String dir, ArrayList<Chip> chips) throws IOException {					
 		// TODO: in eigenem Thread schreiben ? Könnte sonst etwas viel
@@ -52,6 +52,28 @@ public final class Data {
 		hbr.close();
 	  		
 		return chipList;
+	}
+	
+	public static void writeObject(String dir, Object obj) throws IOException {
+		if(!(obj instanceof Serializable)) {
+			throw new IOException("Given object is not serializable.");
+		}
+		
+		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(DIR + "/" + dir + "/" + COMPETITION_FILE));
+	
+		oos.writeObject(obj);
+		
+		oos.flush();
+		oos.close();
+	}
+	
+	public static Object readObject(String dir) throws IOException, ClassNotFoundException {
+		ObjectInputStream ois = new ObjectInputStream(new FileInputStream(DIR + "/" + dir + "/" + COMPETITION_FILE));
+		// Das Objekt lesen
+		Object obj = ois.readObject();
+		ois.close();
+		
+		return obj;
 	}
 	
 	/**

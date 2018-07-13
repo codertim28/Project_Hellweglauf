@@ -1,16 +1,18 @@
 package classes.model;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
 import classes.CompetitionViewRowData;
 
-public class Competition {
+public class Competition implements Serializable {
 	
+	// "name"-Attribut wird momentan nicht verwendet
 	private String name;
 	// Wenn Wettkampf auf Distanz
 	private int lapLength; // in Metern
-	private int distance; // Gesamtdistanz in Metern
+	private double lapCount;  // Anzahl der Runden
 	// Wenn Wettkampf auf Zeit
 	private int time; // in Sekunden
 	
@@ -36,12 +38,12 @@ public class Competition {
 		this.lapLength = lapLength;
 	}
 	
-	public int getDistance() {
-		return distance;
+	public double getLapCount() {
+		return lapCount;
 	}
 	
-	public void setDistance(int distance) {
-		this.distance = distance;
+	public void setLapCount(double lapCount) {
+		this.lapCount = lapCount;
 	}
 	
 	public int getTime() {
