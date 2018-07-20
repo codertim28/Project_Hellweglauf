@@ -14,7 +14,7 @@ public final class Data {
 	public final static String COMPETITION_DIR = "competition";
 	public final static String TRAINING_DIR = "training";
 	
-	private final static String CHIPS_FILE = "chips.xml";
+	public final static String CHIPS_FILE = "chips.xml";
 	private final static String COMPETITION_FILE = "competition_data.prohell";
 	private final static String TRAINING_FILE = "training_data.prohell";
 	
@@ -129,6 +129,25 @@ public final class Data {
 		} catch (IOException e) {
 			System.err.println(e.getMessage());
 			return false;
+		}
+	}
+	
+	/**
+	 * Diese Methode testet, ob eine Datei existiert.
+	 * @param file : String, der Pfad zur Datei.
+	 * @return Größe der Datei, -1 wenn Datei nicht existiert, -2 wenn eine andere IOException auftritt.
+	 */
+	public static int testForFile(String file) {
+		try {
+			BufferedInputStream bis = new BufferedInputStream(new FileInputStream(DIR + "/" +file));
+			int size = bis.available();
+			bis.close();
+			return size;
+		} catch (FileNotFoundException e) {
+			// wenn eine Datei nicht existiert
+			return -1;
+		} catch (IOException e) {
+			return -2;
 		}
 	}
 }

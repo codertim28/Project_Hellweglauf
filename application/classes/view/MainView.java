@@ -1,22 +1,31 @@
 package classes.view;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
+import classes.Data;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.Tooltip;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class MainView {
+public class MainView implements Initializable {
 
 	@FXML private TabPane tabPane;
+	@FXML private Pane competitionPane, trainingPane;
+	@FXML private Label errorLabel;
 	
 	// Click-Events
 	public void competitionPaneClick(Event e) throws IOException {
@@ -61,5 +70,22 @@ public class MainView {
 	public void addTab(Tab tab) {
 		tabPane.getTabs().add(tab);
 		tabPane.getSelectionModel().select(tab);
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// Testen, ob es Chips gibt. Falls es keine Chips gibt, müssen der Wettkampf- und 
+		// Trainingsbutton deaktiviert werden. 
+		int basicChipsFile = Data.testForFile(Data.BASIC_DIR + "/" + Data.CHIPS_FILE);
+		
+		// Die Chipsdatei im BASIC_DIR ist die Wichtigste. Ohne diese kann das Programm kaum richtig arbeiten,
+		// da bei jedem neuen Wettkampf (und auch Training) die Chips von dort aus kopiert werden.
+		if(basicChipsFile < 0) {
+			competitionPane.setDisable(true);
+			trainingPane.setDisable(true);
+			errorLabel.setText("Fehler: Die Datei \"/data/basic/chips.xml\" ist nicht vorhanden.");
+			errorLabel.setTooltip(new Tooltip("Dieser Fehler kann behoben werden, indem Chips eingetragen werden. "
+					+ "(Einstellungen -> Chips verwalten)"));
+		}
 	}
 }

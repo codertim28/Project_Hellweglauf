@@ -21,7 +21,6 @@ public class Main extends Application {
 			// TODO: Das Arbeitsverzeichnis vorbereiten und dem Benutzer 
 			// mitteilen, ob alles gut verlaufen ist.
 		}
-		System.out.println("init");
 	}
 
 	@Override
