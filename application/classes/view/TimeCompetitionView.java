@@ -1,4 +1,4 @@
-package classes.controller.view;
+package classes.view;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -9,13 +9,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 
-public class TimeCompetitionViewController extends CompetitionViewController {
+public class TimeCompetitionView extends CompetitionView {
 	
 	@FXML private Label timeLabel;
 	@FXML private ProgressBar timeProgressBar;
 	private HellwegTimer hellwegTimer;
 	
-	public TimeCompetitionViewController() {
+	public TimeCompetitionView() {
 		super();
 		// Im Konstruktor sind die JavaFx-Komponenten scheinbar
 		// noch nicht vorhanden.
