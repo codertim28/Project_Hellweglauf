@@ -35,7 +35,7 @@ public class HellwegPrintWriter extends PrintWriter {
 		for(int i = 0; i < laps.size(); i++) {
 			println("\t\t<lap number=\"" + laps.get(i).getNumber() + "\" timestamp=\"" + laps.get(i).getTimestamp() + "\" />");
 		}
-		println("\t</lap>");
+		println("\t</laps>");
 		
 		println("</chip>");
 	}

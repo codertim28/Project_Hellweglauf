@@ -81,6 +81,7 @@ public class MainView implements Initializable {
 		// Die Chipsdatei im BASIC_DIR ist die Wichtigste. Ohne diese kann das Programm kaum richtig arbeiten,
 		// da bei jedem neuen Wettkampf (und auch Training) die Chips von dort aus kopiert werden.
 		if(basicChipsFile < 0) {
+			// TODO: Updaten, wenn Chips hinzugefügt wurden.
 			competitionPane.setDisable(true);
 			trainingPane.setDisable(true);
 			errorLabel.setText("Fehler: Die Datei \"/data/basic/chips.xml\" ist nicht vorhanden.");

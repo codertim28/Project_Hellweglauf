@@ -16,11 +16,6 @@ public class Main extends Application {
 	@Override 
 	public void init() {
 		Data.createDataDirIfNotExists();
-		boolean fileCreated = true; //Data...;
-		if (!fileCreated) {
-			// TODO: Das Arbeitsverzeichnis vorbereiten und dem Benutzer 
-			// mitteilen, ob alles gut verlaufen ist.
-		}
 	}
 
 	@Override
