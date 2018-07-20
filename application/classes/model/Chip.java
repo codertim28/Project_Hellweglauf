@@ -1,12 +1,13 @@
 package classes.model;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+
+// TODO: Auch die Klasse speichern (als Attribut)? So könnte man wählen,
+// welche Klasse an einem Wettkampf teilnehmen. Momentan nehmen alle Chips
+// automatisch an einem WK teil.
 
 public class Chip {
 	

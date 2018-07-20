@@ -1,7 +1,5 @@
 package classes;
 
-import java.time.Duration;
-
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;

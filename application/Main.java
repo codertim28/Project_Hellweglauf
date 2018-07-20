@@ -1,4 +1,3 @@
-import java.io.File;
 
 import classes.Data;
 import javafx.application.Application;
@@ -13,6 +12,17 @@ public class Main extends Application {
 
 	@FXML
 	private static Label errorLabel;
+	
+	@Override 
+	public void init() {
+		Data.createDataDirIfNotExists();
+		boolean fileCreated = true; //Data...;
+		if (!fileCreated) {
+			// TODO: Das Arbeitsverzeichnis vorbereiten und dem Benutzer 
+			// mitteilen, ob alles gut verlaufen ist.
+		}
+		System.out.println("init");
+	}
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -33,13 +43,6 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) {
-		Data.createDataDirIfNotExists();
-		boolean fileCreated = Data.createDataFileIfNotExists();
-		if (!fileCreated) {
-			// TODO: Benutzer benachrichtigen, da die Software ohne
-			// die Data-Datei nicht verwendet werden kann.
-		}
-		
 		launch(args);
 	}
 }

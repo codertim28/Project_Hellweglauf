@@ -1,11 +1,7 @@
 package classes;
 
 import java.io.*;
-import java.nio.file.CopyOption;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.List;
 
 import classes.io.*;
 import classes.model.Chip;
@@ -134,24 +130,5 @@ public final class Data {
 			System.err.println(e.getMessage());
 			return false;
 		}
-	}
-
-	/**
-	 * Erstellt die data-Datei, in der alle Chips gespeichert werden.
-	 * (Wird momentan nicht benötigt)
-	 * 
-	 * @return false: Wenn keine Datei erstellt werden konnte.
-	 */
-	public static boolean createDataFileIfNotExists() {
-//		File file = new File(DIR + "/" + DATA_FILE);
-//		// Datei erstellen
-//		if (!file.exists()) {
-//			try {
-//				file.createNewFile();
-//			} catch (IOException ioe) {
-//				return false;
-//			}
-//		}
-		return true;
 	}
 }
