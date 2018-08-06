@@ -6,13 +6,111 @@ import java.io.Reader;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+import classes.CompetitionViewRowData;
 import classes.model.Chip;
+import classes.model.Competition;
 import classes.model.Lap;
 
 public class HellwegBufferedReader extends BufferedReader {
 
 	public HellwegBufferedReader(Reader reader) {
 		super(reader);
+	}
+	
+	private String getContent(String line, String tagName) {
+		int a = line.indexOf("<" + tagName + ">") + tagName.length() + 2;
+		int e = line.indexOf("</" + tagName + ">");
+		
+		return line.substring(a, e);
+	}
+	
+	/**
+	 * Equivalent zu readLine(). Liest einen Wettkampf komplett, d.h. Wettkampf (Competition) wird erzeugt
+	 * mit all seinen Attributen.
+	 * @return Competition oder null (wenn Stream Ende oder kein Wettkampf gefunden)
+	 * @throws IOException Falls ein IOError in "readLine" auftitt
+	 */
+	public Competition readCompetition() throws IOException {
+		
+		boolean inCompTag = false;
+		boolean inRowsTag = false;
+		
+		Competition comp = new Competition();
+		
+		String line;
+		while((line = readLine()) != null) {
+
+			// Prüfen, wo sich der Reader befindet. 
+			// - innerhalb eines Wettkampfes
+			// - in der Rowliste (<rows> ... </rows)
+			if(line.indexOf("<competition>") != -1) {
+				// true setzen, damit im nächsten Durchlauf in die
+				// die entsprechende Abfrage gesprungen wird.
+				inCompTag = true;
+			}
+			else if(line.indexOf("<rows>") != -1) {
+				// true setzen.. (s.o.)
+				inRowsTag = true;
+			}
+			
+			// Wenn ein Wettkampf gefunden wurde
+			if(inCompTag) {
+				
+				if(line.indexOf("<name>") != -1) {
+					comp.setName(getContent(line, "name"));
+				}
+				
+				if(line.indexOf("<lapLength>") != -1) {
+					comp.setLapLength(Integer.parseInt(getContent(line, "lapLength")));
+				}
+				
+				if(line.indexOf("<lapCount>") != -1) {
+					comp.setLapCount(Double.parseDouble(getContent(line, "lapCount")));
+				}
+				
+				if(line.indexOf("<time>") != -1) {
+					comp.setTime(Integer.parseInt(getContent(line, "time")));
+				}
+			
+				if(inRowsTag) {	
+					if(line.indexOf("<row ") != -1) {
+						comp.getData().add(getRowFromTag(line));
+					}
+				}
+				
+				if(line.indexOf("</rows>") != -1) {
+					inRowsTag = false;
+				}
+				
+				// Wird ein Wettkampf geschlossen, so soll das Objekt
+				// zurückgegeben werden.
+				if(line.indexOf("</competition>") != -1) {
+					inCompTag = false;
+					return comp;
+				}
+			}
+		}
+		
+		// Ende des Streams
+		return null;
+	}
+	
+	private CompetitionViewRowData getRowFromTag(String line) {
+		
+		int chipIdPos = line.indexOf("chipId") + "chipId".length() + 2;
+		String chipId = line.substring(chipIdPos, line.indexOf('"', chipIdPos));
+		
+		int studentNamePos = line.indexOf("studentName") + "studentName".length() + 2;
+		String studentName = line.substring(studentNamePos, line.indexOf('"', studentNamePos));
+		
+		int lapNumberPos = line.indexOf("lapNumber") + "lapNumber".length() + 2;
+		int lapNumber = Integer.parseInt(line.substring(lapNumberPos, line.indexOf('"', lapNumberPos)));
+		
+		int timestampPos = line.indexOf("timestamp") + "timestamp".length() + 2;
+		String timestamp = line.substring(timestampPos, line.indexOf('"', timestampPos));
+		LocalTime lt = LocalTime.parse(timestamp, DateTimeFormatter.ofPattern("HH:mm:ss.SSS"));
+		
+		return new CompetitionViewRowData(new Chip(chipId, studentName), new Lap(lt, lapNumber));
 	}
 	
 	/**
@@ -82,13 +180,6 @@ public class HellwegBufferedReader extends BufferedReader {
 		
 		// Ende des Streams
 		return null;
-	}
-	
-	private String getContent(String line, String tagName) {
-		int a = line.indexOf("<" + tagName + ">") + tagName.length() + 2;
-		int e = line.indexOf("</" + tagName + ">");
-		
-		return line.substring(a, e);
 	}
 	
 	private Lap getLapFromTag(String line) {

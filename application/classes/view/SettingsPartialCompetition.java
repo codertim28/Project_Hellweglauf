@@ -22,7 +22,7 @@ public class SettingsPartialCompetition implements Initializable {
 	@FXML
 	private void saveBtnClick() {
 		Competition comp = new Competition();
-		comp.setName("bla"); // Attribut wird derzeit nicht verwendet
+		comp.setName("Wettkampf"); // Attribut wird derzeit nicht verwendet
 		// TODO: Parse-Fehler abfangen und den Benutzer darauf hinweisen,
 		// das mind. eine Eingabe falsch ist.
 		comp.setLapLength(Integer.parseInt(lapLengthField.getText()));
@@ -30,13 +30,13 @@ public class SettingsPartialCompetition implements Initializable {
 		comp.setTime(Integer.parseInt(timeField.getText()));
 		
 		try {
-			Data.writeObject(Data.BASIC_DIR, comp);
+			Data.writeComp(Data.BASIC_DIR, comp);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		// TODO: Benuter benachrichtigen, ob alles gelappt hat.
+		// TODO: Benutzer benachrichtigen, ob alles gelappt hat.
 	}
 	
 	@FXML
@@ -48,13 +48,13 @@ public class SettingsPartialCompetition implements Initializable {
 		defaultComp.setTime(30);
 		
 		try {
-			Data.writeObject(Data.BASIC_DIR, defaultComp);
+			Data.writeComp(Data.BASIC_DIR, defaultComp);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		// TODO: Neu laden und Benuter benachrichtigen, ob alles gelappt hat.
+		// TODO: Neu laden und Benuter benachrichtigen, ob alles gelkappt hat.
 	}
 
 	@Override
@@ -62,13 +62,14 @@ public class SettingsPartialCompetition implements Initializable {
 		
 		try {
 			// Das Wettkampfobjekt aus dem basic_dir lesen und casten
-			Competition comp = (Competition)Data.readObject(Data.BASIC_DIR);;
+			Competition comp = Data.readComp(Data.BASIC_DIR);
 			// Die Attribute in Textfelder schreiben, damit diese vom Benutzer
 			// bearbeitet werden können.
+	
 			lapLengthField.setText("" + comp.getLapLength());
 			lapCountField.setText("" + comp.getLapCount());
 			timeField.setText("" + comp.getTime());
-		} catch (ClassNotFoundException | IOException e) {
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

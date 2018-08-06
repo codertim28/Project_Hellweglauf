@@ -2,6 +2,7 @@ package classes.view;
 
 import static java.time.temporal.ChronoUnit.SECONDS;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -60,12 +61,19 @@ public abstract class CompetitionView implements Initializable {
 	public CompetitionView() {
 		started = false;
 		// Bevor der ChipsController erstellt wird: Das Wettkampfverzeichnis erstellen
-		// (falls nicht vorhanden) und Chips kopieren. 
+		// (falls nicht vorhanden) und Chips + Wettkampf kopieren. 
 		Data.createCompetitionDirIfNotExists();
 		chipsController = new ChipsController(Data.COMPETITION_DIR);
 		// Muss hier geladen werden. Chips werden bereits vor der initialize(...)
 		// verwendet. (s. checkRequirements)
 		chipsController.load(); 
+		// Noch den entsprechenden Wettkampf laden, wenn es einen gibt
+		try {
+			// Schauen, ob ein Wettkampf bereits vorhanden ist.
+			comp = Data.readComp(Data.COMPETITION_DIR);
+		} catch (Exception e) {
+			// TODO: Benutzer benarichtigen, dass kein Wettkampf geladen werden konnte.
+		}
 	}
 	
 	protected void setStartRounds() {
@@ -78,7 +86,7 @@ public abstract class CompetitionView implements Initializable {
 		// dataList.size() darf nicht zum steuern, der Schleife 
 		// verwendet werden, da so eine Endlosschleife entsteht.
 		for(int i = 0; i < size; i++) {
-			String curId = dataList.get(i).getChip().getId();
+			String curId = dataList.get(i).chipIdProperty().get();
 			Chip curChip = chipsController.getChipById(curId);
 			chipsController.addLap(curId);
 			dataList.add(new CompetitionViewRowData(curChip, curChip.getLaps().getLast()));
@@ -119,7 +127,7 @@ public abstract class CompetitionView implements Initializable {
 				if(SECONDS.between(timestampOfLastRound, LocalTime.now()) >= 10) {
 					List<CompetitionViewRowData> dataList = dataTable.getItems();
 					chipsController.addLap(scannedId);
-					dataList.add(new CompetitionViewRowData(chip, chip.getLaps().getLast()));
+					dataList.add(new CompetitionViewRowData(chip));
 					log("Runde (id: " + scannedId + ")");
 				}
 			} else {
@@ -133,10 +141,10 @@ public abstract class CompetitionView implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		idCol.setCellValueFactory(cellData -> cellData.getValue().getChip().idProperty());
-		studentNameCol.setCellValueFactory(cellData -> cellData.getValue().getChip().studentNameProperty());
-		roundNumberCol.setCellValueFactory(cellData -> cellData.getValue().getRound().numberProperty());
-		timestampCol.setCellValueFactory(cellData -> cellData.getValue().getRound().timestampProperty());
+		idCol.setCellValueFactory(cellData -> cellData.getValue().chipIdProperty());
+		studentNameCol.setCellValueFactory(cellData -> cellData.getValue().studentNameProperty());
+		roundNumberCol.setCellValueFactory(cellData -> cellData.getValue().lapNumberProperty());
+		timestampCol.setCellValueFactory(cellData -> cellData.getValue().timestampProperty());
 		
 		// TODO: Alle Chips müssen in ein Wettkampfverzeichnis kopiert werden.
 		// Sind in diesem Verzeichnis schon Chips mit Runden vorhanden (und keine
@@ -149,7 +157,7 @@ public abstract class CompetitionView implements Initializable {
 		if(chipsController.getHighestLapCount() == Chip.LAPCOUNT_START) {
 			// Wenn KEIN Chip Runden enthält, kann ganz normal weitergemacht werden.
 			List<Chip> chips = chipsController.getChips();
-			List<CompetitionViewRowData> dataList = new LinkedList<CompetitionViewRowData>();
+			LinkedList<CompetitionViewRowData> dataList = new LinkedList<CompetitionViewRowData>();
 			for(int i = 0; i < chips.size(); i++) {
 				Chip curChip = chips.get(i);
 				// Dies fügt die Runde -1 ein.
@@ -159,6 +167,17 @@ public abstract class CompetitionView implements Initializable {
 			chipsController.save();
 			dataTable.setItems(FXCollections.observableList(dataList));
 			logTextArea.appendText("Wettkampf initialisiert.");
+			
+			try {
+				if(comp != null) {
+					// unter Umständen ist das Wettkampfobjekt nicht vorhanden.
+					comp.setData(dataList);
+					Data.writeComp(Data.COMPETITION_DIR, comp);
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
