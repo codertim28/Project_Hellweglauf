@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import classes.CompetitionViewRowData;
 import classes.model.Chip;
 import classes.model.Competition;
+import classes.model.CompetitionState;
 import classes.model.Lap;
 
 public class HellwegBufferedReader extends BufferedReader {
@@ -70,6 +71,19 @@ public class HellwegBufferedReader extends BufferedReader {
 				
 				if(line.indexOf("<time>") != -1) {
 					comp.setTime(Integer.parseInt(getContent(line, "time")));
+				}
+				
+				if(line.indexOf("<state>") != -1) {
+					switch(getContent(line, "state")) {
+						case "PREPARE": 
+							comp.setState(CompetitionState.PREPARE);
+							break;
+						case "RUNNING": 
+							comp.setState(CompetitionState.RUNNING);
+							break;
+						default: 
+							comp.setState(CompetitionState.ENDED);
+					}
 				}
 			
 				if(inRowsTag) {	

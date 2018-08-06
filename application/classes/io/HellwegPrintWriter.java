@@ -54,6 +54,7 @@ public class HellwegPrintWriter extends PrintWriter {
 		println("\t<lapLength>" + comp.getLapLength() + "</lapLength>");
 		println("\t<lapCount>" + comp.getLapCount() + "</lapCount>");
 		println("\t<time>" + comp.getTime() + "</time>");
+		println("\t<state>" + comp.getState() + "</state>");
 		
 		// DataRows schreiben
 		println("\t<rows>");
