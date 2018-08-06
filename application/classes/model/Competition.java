@@ -14,6 +14,8 @@ public class Competition {
 	// Wenn Wettkampf auf Zeit
 	private int time; // in Sekunden
 	
+	private CompetitionState state = CompetitionState.PREPARE;
+	
 	// Die Daten (gelistet nach Runden; wie in der 
 	// ursprünglichen Software
 	// TODO: ObservableList draus machen und dann als
@@ -58,5 +60,13 @@ public class Competition {
 
 	public void setData(LinkedList<CompetitionViewRowData> data) {
 		this.data = data;
+	}
+
+	public CompetitionState getState() {
+		return state;
+	}
+
+	public void setState(CompetitionState state) {
+		this.state = state;
 	}
 }
