@@ -122,7 +122,7 @@ public class HellwegBufferedReader extends BufferedReader {
 		
 		int timestampPos = line.indexOf("timestamp") + "timestamp".length() + 2;
 		String timestamp = line.substring(timestampPos, line.indexOf('"', timestampPos));
-		LocalTime lt = LocalTime.parse(timestamp, DateTimeFormatter.ofPattern("HH:mm:ss.SSS"));
+		LocalTime lt = LocalTime.parse(timestamp, DateTimeFormatter.ofPattern("HH:mm:ss"));
 		
 		return new CompetitionViewRowData(new Chip(chipId, studentName), new Lap(lt, lapNumber));
 	}
