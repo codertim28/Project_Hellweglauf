@@ -6,16 +6,23 @@ import java.util.ResourceBundle;
 
 import classes.controller.ChipsController;
 import classes.model.Chip;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.Callback;
 
 public class SettingsPartialEdit implements Initializable {
 	
@@ -47,9 +54,7 @@ public class SettingsPartialEdit implements Initializable {
 		
 		if(!id.equals("") && !name.equals("")) {
 			Chip c = new Chip(chipField.getText().trim(), nameField.getText().trim());
-			// FIXME: Hier den Inhalt der Tabelle neu laden.
-			// Ansonsten werden Chips dopelt angezeigt, obwohl
-			// diese im Hintergrund überschreiben werden
+			// TODO: Warnen, dass ein Chip bereits vorhanden ist (wenn dem so ist)
 			chipsController.getChips().add(c);
 		}
 		
@@ -60,17 +65,10 @@ public class SettingsPartialEdit implements Initializable {
 		update();
 	}
 	
-	// Damit der Controller geupdatet wird, falls ein 
-	// Chip über die Tabelle geändert wurde.
-	public void nameColContentChanged(Event e) {
-		// TODO: Chip löschen, wenn name auf "" gesetzt wird oder
-		// ändern...
-		update();
-	}
-	
 	private void update() {
 		chipsController.save();
 		dataTable.setItems(FXCollections.observableList(chipsController.getChips()));
+		dataTable.refresh();
 		// TODO: Tabelleninhalt updaten
 	}
 	
@@ -78,10 +76,38 @@ public class SettingsPartialEdit implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		idCol.setCellValueFactory(new PropertyValueFactory("id"));
-		nameCol.setCellValueFactory(new PropertyValueFactory("studentName"));		
+		nameCol.setCellValueFactory(new PropertyValueFactory("studentName"));
 		// NameCol soll editierbar sein, damit man z.B. den Namen ändern kann, 
 		// falls man sich vertipt hat.
 		nameCol.setCellFactory(TextFieldTableCell.<Chip>forTableColumn());
+		nameCol.setOnEditCommit(
+            new EventHandler<CellEditEvent<Chip, String>>() {
+                @Override
+                public void handle(CellEditEvent<Chip, String> cee) {
+                    Chip c = (Chip)cee.getTableView().getItems().get(cee.getTablePosition().getRow());
+                    // Den neuen Wert setzen
+                    c.setStudentName(cee.getNewValue());
+                    
+                    // update zum Speichern und so
+                    update();
+                }
+            }
+	    );
+		
+		// Eine Button-Spalte hinzufügen, worüber die Chips gelöscht werden können
+		// Custom rendering of the table cell.
+		TableColumn<Chip, Button> btnColumn = new TableColumn<Chip, Button>();
+		dataTable.getColumns().add(btnColumn);
+		btnColumn.setCellFactory(column -> {
+		    return new TableCell<Chip, Button>() {
+		        @Override
+		        protected void updateItem(Button item, boolean empty) {
+	            	Button btn = new Button("Löschen");		            
+	                this.setGraphic(btn);
+		        }
+		    };
+	    });
+		
 		
 		chipsController = new ChipsController();
 		chipsController.load();
