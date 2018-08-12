@@ -65,11 +65,15 @@ public class SettingsPartialEdit implements Initializable {
 		update();
 	}
 	
+	private void removeChip(String id) {
+		chipsController.getChips().remove(chipsController.getChipById(id));
+		update();
+	}
+	
 	private void update() {
 		chipsController.save();
 		dataTable.setItems(FXCollections.observableList(chipsController.getChips()));
 		dataTable.refresh();
-		// TODO: Tabelleninhalt updaten
 	}
 	
 
@@ -95,15 +99,24 @@ public class SettingsPartialEdit implements Initializable {
 	    );
 		
 		// Eine Button-Spalte hinzufügen, worüber die Chips gelöscht werden können
-		// Custom rendering of the table cell.
-		TableColumn<Chip, Button> btnColumn = new TableColumn<Chip, Button>();
+		TableColumn<Chip, String> btnColumn = new TableColumn<Chip, String>();
+		btnColumn.setCellValueFactory(new PropertyValueFactory("id"));
 		dataTable.getColumns().add(btnColumn);
 		btnColumn.setCellFactory(column -> {
-		    return new TableCell<Chip, Button>() {
+		    return new TableCell<Chip, String>() {
+		    	private Button btn = new Button("Löschen");		
 		        @Override
-		        protected void updateItem(Button item, boolean empty) {
-	            	Button btn = new Button("Löschen");		            
-	                this.setGraphic(btn);
+		        protected void updateItem(String item, boolean empty) {
+		        	super.updateItem(item, empty);
+		        	if(empty) {
+		        		setGraphic(null);
+		        	}
+		        	else {
+		        		btn.setOnAction(e -> {
+		        			removeChip(item);
+		        		});
+		                this.setGraphic(btn);
+		        	}
 		        }
 		    };
 	    });
