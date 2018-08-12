@@ -8,7 +8,10 @@ import classes.Data;
 import classes.model.Competition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
+import tp.dialog.StandardAlert;
+import tp.dialog.StandardMessageType;
 
 public class SettingsPartialCompetition implements Initializable {
 	
@@ -31,12 +34,15 @@ public class SettingsPartialCompetition implements Initializable {
 		
 		try {
 			Data.writeComp(Data.BASIC_DIR, comp);
+			// Allgemeine Erfolgsnachricht
+			StandardAlert standardAlert = new StandardAlert(StandardMessageType.SUCCESS);
+			standardAlert.showAndWait();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// Allgemeine Fehlernachricht
+			StandardAlert standardAlert = new StandardAlert(StandardMessageType.ERROR);
+			standardAlert.showAndWait();
 		}
 		
-		// TODO: Benutzer benachrichtigen, ob alles gelappt hat.
 	}
 	
 	@FXML
@@ -49,12 +55,14 @@ public class SettingsPartialCompetition implements Initializable {
 		
 		try {
 			Data.writeComp(Data.BASIC_DIR, defaultComp);
+			// Allgemeine Erfolgsnachricht
+			StandardAlert standardAlert = new StandardAlert(StandardMessageType.SUCCESS);
+			standardAlert.showAndWait();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// Allgemeine Fehlernachricht
+			StandardAlert standardAlert = new StandardAlert(StandardMessageType.ERROR);
+			standardAlert.showAndWait();
 		}
-		
-		// TODO: Neu laden und Benuter benachrichtigen, ob alles gelkappt hat.
 	}
 
 	@Override
@@ -65,13 +73,13 @@ public class SettingsPartialCompetition implements Initializable {
 			Competition comp = Data.readComp(Data.BASIC_DIR);
 			// Die Attribute in Textfelder schreiben, damit diese vom Benutzer
 			// bearbeitet werden können.
-	
 			lapLengthField.setText("" + comp.getLapLength());
 			lapCountField.setText("" + comp.getLapCount());
 			timeField.setText("" + comp.getTime());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// Allgemeine Fehlernachricht
+			StandardAlert standardAlert = new StandardAlert(StandardMessageType.ERROR);
+			standardAlert.showAndWait();
 		}
 	}
 }
