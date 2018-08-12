@@ -2,6 +2,7 @@ package classes.view;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import classes.controller.ChipsController;
@@ -13,7 +14,11 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
@@ -54,8 +59,35 @@ public class SettingsPartialEdit implements Initializable {
 		
 		if(!id.equals("") && !name.equals("")) {
 			Chip c = new Chip(chipField.getText().trim(), nameField.getText().trim());
-			// TODO: Warnen, dass ein Chip bereits vorhanden ist (wenn dem so ist)
-			chipsController.getChips().add(c);
+			// Wenn ein Chip mit der gleichen Id bereits vorhanden ist, muss gefragt werden, ob
+			// der vorhandene Chip überschrieben werden soll.
+			// Die Entscheidung wird über writeChip gesteuert.
+			boolean writeChip = true;
+			if(chipsController.getChipById(c.getId()) != null) {
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setContentText("Ein Chip mit der ID " + c.getId() + " ist bereits im System vorhanden. " +
+						"Soll dieser Überschrieben werden ?");
+				Optional<ButtonType> result = alert.showAndWait();
+				if(result.isPresent()) {
+					// Wenn CANCEL_CLOSE gewählt wird, soll der Chip nicht 
+					// überschrieben werden
+					if(result.get().getButtonData().equals(ButtonData.CANCEL_CLOSE)) {
+						writeChip = false;
+					}
+					else if(result.get().getButtonData().equals(ButtonData.OK_DONE)) {
+						// Falls gewüscht, löschen. Erzielt das überschreiben.
+						chipsController.getChips().remove(chipsController.getChipById(c.getId()));
+					}
+				}
+			}
+			// Den Chip hinzufügen, wenn writeChip true ist.
+			// Dies ist der Fall wenn...
+			// - der Chip noch nicht vorhanden ist.
+			// - der Benutzer zugestimmt hat, einen bestehenden 
+			//   Chip zu überschreiben
+			if(writeChip) {
+				chipsController.getChips().add(c);
+			}
 		}
 		
 		// Die Textfelder leeren
