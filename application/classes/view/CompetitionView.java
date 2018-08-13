@@ -59,7 +59,7 @@ public abstract class CompetitionView implements Initializable {
 	protected Competition comp;	
 	protected ChipsController chipsController;
 	
-	public CompetitionView() {
+	public CompetitionView() throws IOException {
 		started = false;
 		// Bevor der ChipsController erstellt wird: Das Wettkampfverzeichnis erstellen
 		// (falls nicht vorhanden) und Chips + Wettkampf kopieren. 
@@ -69,16 +69,10 @@ public abstract class CompetitionView implements Initializable {
 		// verwendet. (s. checkRequirements)
 		chipsController.load(); 
 		// Noch den entsprechenden Wettkampf laden, wenn es einen gibt
-		try {
-			// Schauen, ob ein Wettkampf bereits vorhanden ist.
-			comp = Data.readComp(Data.COMPETITION_DIR);
-		} catch (Exception e) {
-			// Wenn es hierzu kommt, darf nichts mehr gemacht werden (auch nicht die
-			// die checkRequirements) !
-			System.err.println("Wettkampf konnte nicht geladen werden.");
-			System.err.println(e.getMessage());
-			// TODO: Benutzer benarichtigen, dass kein Wettkampf geladen werden konnte.
-		}
+		// Schauen, ob ein Wettkampf bereits vorhanden ist.
+		comp = Data.readComp(Data.COMPETITION_DIR);
+		//          ^^^^^^^^
+		// Das ist der Teil, welche die Exception auslösen kann
 	}
 	
 	protected void setStartRounds() {
@@ -197,8 +191,11 @@ public abstract class CompetitionView implements Initializable {
 				if(result.get().getButtonData().equals(ButtonData.YES)) {
 					// Wettkampf + Runden zurücksetzen
 					comp.setData(new LinkedList<CompetitionViewRowData>()); // Hier darf kein neuer Wettkampf erstellt werden,
-					comp.setState(CompetitionState.PREPARE);				// da so die Einstellungen verloren gehen würden.
-					chipsController.resetLaps();
+					comp.setState(CompetitionState.PREPARE);      			// da so die Einstellungen verloren gehen würden.
+					// Chips neu laden, damit neu eingetragene oder gelöschte auch 
+					// angezeigt werden ode eben nicht.
+					Data.copyChips(Data.BASIC_DIR, Data.COMPETITION_DIR);
+					chipsController.load();
 					return true;
 					
 				} else if(result.get().getButtonData().equals(ButtonData.NO)) {

@@ -56,12 +56,10 @@ public class SettingsPartialCompetition implements Initializable {
 		try {
 			Data.writeComp(Data.BASIC_DIR, defaultComp);
 			// Allgemeine Erfolgsnachricht
-			StandardAlert standardAlert = new StandardAlert(StandardMessageType.SUCCESS);
-			standardAlert.showAndWait();
+			new StandardAlert(StandardMessageType.SUCCESS).showAndWait();
 		} catch (IOException e) {
 			// Allgemeine Fehlernachricht
-			StandardAlert standardAlert = new StandardAlert(StandardMessageType.ERROR);
-			standardAlert.showAndWait();
+			new StandardAlert(StandardMessageType.ERROR).showAndWait();
 		}
 	}
 
@@ -78,8 +76,7 @@ public class SettingsPartialCompetition implements Initializable {
 			timeField.setText("" + comp.getTime());
 		} catch (IOException e) {
 			// Allgemeine Fehlernachricht
-			StandardAlert standardAlert = new StandardAlert(StandardMessageType.ERROR);
-			standardAlert.showAndWait();
+			new StandardAlert(StandardMessageType.ERROR).showAndWait();
 		}
 	}
 }
