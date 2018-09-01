@@ -8,7 +8,10 @@ import classes.Data;
 import classes.model.Competition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
+import tp.dialog.StandardAlert;
+import tp.dialog.StandardMessageType;
 
 public class SettingsPartialCompetition implements Initializable {
 	
@@ -22,7 +25,7 @@ public class SettingsPartialCompetition implements Initializable {
 	@FXML
 	private void saveBtnClick() {
 		Competition comp = new Competition();
-		comp.setName("bla"); // Attribut wird derzeit nicht verwendet
+		comp.setName("Wettkampf"); // Attribut wird derzeit nicht verwendet
 		// TODO: Parse-Fehler abfangen und den Benutzer darauf hinweisen,
 		// das mind. eine Eingabe falsch ist.
 		comp.setLapLength(Integer.parseInt(lapLengthField.getText()));
@@ -30,13 +33,16 @@ public class SettingsPartialCompetition implements Initializable {
 		comp.setTime(Integer.parseInt(timeField.getText()));
 		
 		try {
-			Data.writeObject(Data.BASIC_DIR, comp);
+			Data.writeComp(Data.BASIC_DIR, comp);
+			// Allgemeine Erfolgsnachricht
+			StandardAlert standardAlert = new StandardAlert(StandardMessageType.SUCCESS);
+			standardAlert.showAndWait();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// Allgemeine Fehlernachricht
+			StandardAlert standardAlert = new StandardAlert(StandardMessageType.ERROR);
+			standardAlert.showAndWait();
 		}
 		
-		// TODO: Benuter benachrichtigen, ob alles gelappt hat.
 	}
 	
 	@FXML
@@ -48,13 +54,13 @@ public class SettingsPartialCompetition implements Initializable {
 		defaultComp.setTime(30);
 		
 		try {
-			Data.writeObject(Data.BASIC_DIR, defaultComp);
+			Data.writeComp(Data.BASIC_DIR, defaultComp);
+			// Allgemeine Erfolgsnachricht
+			new StandardAlert(StandardMessageType.SUCCESS).showAndWait();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// Allgemeine Fehlernachricht
+			new StandardAlert(StandardMessageType.ERROR).showAndWait();
 		}
-		
-		// TODO: Neu laden und Benuter benachrichtigen, ob alles gelappt hat.
 	}
 
 	@Override
@@ -62,15 +68,15 @@ public class SettingsPartialCompetition implements Initializable {
 		
 		try {
 			// Das Wettkampfobjekt aus dem basic_dir lesen und casten
-			Competition comp = (Competition)Data.readObject(Data.BASIC_DIR);;
+			Competition comp = Data.readComp(Data.BASIC_DIR);
 			// Die Attribute in Textfelder schreiben, damit diese vom Benutzer
 			// bearbeitet werden können.
 			lapLengthField.setText("" + comp.getLapLength());
 			lapCountField.setText("" + comp.getLapCount());
 			timeField.setText("" + comp.getTime());
-		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (IOException e) {
+			// Allgemeine Fehlernachricht
+			new StandardAlert(StandardMessageType.ERROR).showAndWait();
 		}
 	}
 }

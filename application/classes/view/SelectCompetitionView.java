@@ -18,19 +18,20 @@ interface SelectRunnable {
 
 public class SelectCompetitionView {
 
-	@FXML private VBox root;
-	
+	@FXML
+	private VBox root;
+
 	private MainView mainView;
-	
-	// Dies ist ein experimenteller Ansatz. Der eigentliche Klick wird in einem Runnable 
-	// übergeben. Somit kann alles in eine Methode ausgelagert werden und der "Inhalt" des 
-	// Klicks wird an der entsprechenden Stelle ausgeführt. Somit spart man sich doppelten 
-	// Quelltext und wiederholt sich nicht selbst. 
+
+	// Dies ist ein experimenteller Ansatz. Der eigentliche Klick wird in einem
+	// Runnableübergeben. Somit kann alles in eine Methode ausgelagert werden und der
+	// "Inhalt" des Klicks wird an der entsprechenden Stelle ausgeführt. Somit spart man sich
+	// doppelten Quelltext und wiederholt sich nicht selbst.
 	// -> Fazit: Ein Versuch war es wert. Dieses Prinzip lässt sich bei größeren Auswahlverfahren
-	//    eventuell ganz gut anwenden. Bei denen die einzelnen Klicks unterschiedlicher sind als
-	//    in diesem Fall.
+	// eventuell ganz gut anwenden. Bei denen die einzelnen Klicks unterschiedlicher sind als
+	// in diesem Fall.
 	private void runnableClick(SelectRunnable sr) {
-		
+
 		try {
 			// Den "Inhalt" des Klicks ausführen
 			sr.run();
@@ -38,42 +39,44 @@ public class SelectCompetitionView {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setContentText("Ein Fehler ist aufgetreten. Die Wettkampfoberfläche konnte nicht geladen werden.");
 			alert.show();
+			
+			e.printStackTrace();
 		}
-		
+
 		// zuletzt das Modal (dieses Fenster) schließen
 		this.close();
 	}
-	
+
 	// Click-Events
 	public void timePaneClick(Event event) {
-		
+
 		runnableClick(new SelectRunnable() {
 			public void run() throws Exception {
 				// Den Tab erstellen und hinzufügen
 				TimeCompetitionView tcv = new TimeCompetitionView();
-				if(tcv.checkRequirements()) {
+				if (tcv.checkRequirements()) {
 					// wenn die Voraussetzungen geklärt sind, den View einbinden, sonst nicht
 					mainView.addTab(createTab("Wettkampf (Zeit)", "/templates/competition/competitionView.fxml", tcv));
 				}
 			}
-		});			
+		});
 	}
-	
+
 	public void distancePaneClick(Event event) {
-		
+
 		runnableClick(new SelectRunnable() {
 			@Override
 			public void run() throws Exception {
 				// Den Tab erstellen und hinzufügen
 				mainView.addTab(createTab("Wettkampf (Distanz)", "/templates/competition/competitionView.fxml", null));
-				
+
 				// TODO: CompetitionView Controller (Distanz) hinzufügen, um einen Wettkampf
 				// zu kontrollieren. Diesem einen Wettkampf mitgeben. So wird entschieden,
 				// welcher Wettkampf ausgeführt wird
 			}
 		});
 	}
-	
+
 	private Tab createTab(String title, String resource, CompetitionView controller) throws IOException {
 		Tab tab = new Tab(title);
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(resource));
@@ -81,12 +84,12 @@ public class SelectCompetitionView {
 		tab.setContent(loader.load());
 		return tab;
 	}
-	
+
 	private void close() {
-		Stage stage = (Stage)root.getScene().getWindow();
+		Stage stage = (Stage) root.getScene().getWindow();
 		stage.close();
 	}
-	
+
 	// Setzt den MainView, damit diese Klasse
 	// bei einem Klick, einen Tab setzen kann.
 	void setMainViewController(MainView mvc) {

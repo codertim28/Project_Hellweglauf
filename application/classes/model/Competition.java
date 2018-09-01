@@ -1,12 +1,10 @@
 package classes.model;
 
-import java.io.Serializable;
 import java.util.LinkedList;
-import java.util.List;
 
 import classes.CompetitionViewRowData;
 
-public class Competition implements Serializable {
+public class Competition {
 	
 	// "name"-Attribut wird momentan nicht verwendet
 	private String name;
@@ -16,11 +14,13 @@ public class Competition implements Serializable {
 	// Wenn Wettkampf auf Zeit
 	private int time; // in Sekunden
 	
+	private CompetitionState state = CompetitionState.PREPARE;
+	
 	// Die Daten (gelistet nach Runden; wie in der 
 	// ursprünglichen Software
 	// TODO: ObservableList draus machen und dann als
 	// Content der DataTable im CompetitionView setzen
-	private LinkedList<CompetitionViewRowData> data;
+	private LinkedList<CompetitionViewRowData> data = new LinkedList();
 	
 	public String getName() {
 		return name;
@@ -52,5 +52,21 @@ public class Competition implements Serializable {
 	
 	public void setTime(int time) {
 		this.time = time;
+	}
+
+	public LinkedList<CompetitionViewRowData> getData() {
+		return data;
+	}
+
+	public void setData(LinkedList<CompetitionViewRowData> data) {
+		this.data = data;
+	}
+
+	public CompetitionState getState() {
+		return state;
+	}
+
+	public void setState(CompetitionState state) {
+		this.state = state;
 	}
 }

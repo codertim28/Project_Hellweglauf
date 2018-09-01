@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import classes.io.*;
 import classes.model.Chip;
+import classes.model.Competition;
 
 public final class Data {
 
@@ -15,8 +16,8 @@ public final class Data {
 	public final static String TRAINING_DIR = "training";
 	
 	public final static String CHIPS_FILE = "chips.xml";
-	private final static String COMPETITION_FILE = "competition_data.prohell";
-	private final static String TRAINING_FILE = "training_data.prohell";
+	private final static String COMPETITION_FILE = "competition.xml";
+	private final static String TRAINING_FILE = "training.xml";
 	
 	public static void writeChips(String dir, ArrayList<Chip> chips) throws IOException {					
 		// TODO: in eigenem Thread schreiben ? Könnte sonst etwas viel
@@ -50,12 +51,27 @@ public final class Data {
 		return chipList;
 	}
 	
-	public static void writeObject(String dir, Object obj) throws IOException {
+	public static void writeComp(String dir, Competition compToWrite) throws IOException {					
+		HellwegPrintWriter hpw = new HellwegPrintWriter(new FileWriter(DIR + "/" + dir + "/" + COMPETITION_FILE));
+		hpw.print(compToWrite);
+		hpw.flush();
+		hpw.close();
+	}
+	
+	public static Competition readComp(String dir) throws IOException {
+	
+    	HellwegBufferedReader hbr = new HellwegBufferedReader(new FileReader(DIR + "/" + dir + "/" + COMPETITION_FILE));   		
+    	Competition comp = hbr.readCompetition();
+		hbr.close();
+		return comp;
+	}
+	
+	public static void writeObject(String pathToFile, Object obj) throws IOException {
 		if(!(obj instanceof Serializable)) {
 			throw new IOException("Given object is not serializable.");
 		}
 		
-		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(DIR + "/" + dir + "/" + COMPETITION_FILE));
+		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(DIR + "/" + pathToFile));
 	
 		oos.writeObject(obj);
 		
@@ -63,8 +79,12 @@ public final class Data {
 		oos.close();
 	}
 	
-	public static Object readObject(String dir) throws IOException, ClassNotFoundException {
-		ObjectInputStream ois = new ObjectInputStream(new FileInputStream(DIR + "/" + dir + "/" + COMPETITION_FILE));
+	public static Object readObject(String pathToFile) throws IOException, ClassNotFoundException {	
+		if(testForFile(pathToFile) <= -1) {
+			throw new IOException("No file available.");
+		}
+		
+		ObjectInputStream ois = new ObjectInputStream(new FileInputStream(DIR + "/" + pathToFile));
 		// Das Objekt lesen
 		Object obj = ois.readObject();
 		ois.close();
@@ -100,13 +120,21 @@ public final class Data {
 	 */
 	public static boolean createCompetitionDirIfNotExists() {
 		boolean returnValue = false;
-		// und das Unterverzeichnis für die Chips
+		// Das Verzeichnis für den Wettkampf anlegen
 		File file = new File(DIR + "/" + COMPETITION_DIR);
 		if (!file.exists()) {
 			returnValue = file.mkdir();
 			// Kopieren. Ist das Wettkampfverzeichnis nicht vorhanden, können
 			// die Chips auch nicht vorhanden sein. 
 			copyChips(Data.BASIC_DIR, Data.COMPETITION_DIR);
+			// Kopieren. Einen Standard-Wettkampf
+			Competition comp;
+			try {
+				comp = readComp(Data.BASIC_DIR);
+				writeComp(Data.COMPETITION_DIR, comp);
+			} catch (IOException e) {
+				return false;
+			}
 		}
 			
 		return returnValue;
@@ -139,7 +167,7 @@ public final class Data {
 	 */
 	public static int testForFile(String file) {
 		try {
-			BufferedInputStream bis = new BufferedInputStream(new FileInputStream(DIR + "/" +file));
+			BufferedInputStream bis = new BufferedInputStream(new FileInputStream(DIR + "/" + file));
 			int size = bis.available();
 			bis.close();
 			return size;

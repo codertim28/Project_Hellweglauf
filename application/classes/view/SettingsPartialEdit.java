@@ -2,20 +2,32 @@ package classes.view;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import classes.controller.ChipsController;
 import classes.model.Chip;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.Callback;
 
 public class SettingsPartialEdit implements Initializable {
 	
@@ -47,10 +59,35 @@ public class SettingsPartialEdit implements Initializable {
 		
 		if(!id.equals("") && !name.equals("")) {
 			Chip c = new Chip(chipField.getText().trim(), nameField.getText().trim());
-			// FIXME: Hier den Inhalt der Tabelle neu laden.
-			// Ansonsten werden Chips dopelt angezeigt, obwohl
-			// diese im Hintergrund überschreiben werden
-			chipsController.getChips().add(c);
+			// Wenn ein Chip mit der gleichen Id bereits vorhanden ist, muss gefragt werden, ob
+			// der vorhandene Chip überschrieben werden soll.
+			// Die Entscheidung wird über writeChip gesteuert.
+			boolean writeChip = true;
+			if(chipsController.getChipById(c.getId()) != null) {
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setContentText("Ein Chip mit der ID " + c.getId() + " ist bereits im System vorhanden. " +
+						"Soll dieser Überschrieben werden ?");
+				Optional<ButtonType> result = alert.showAndWait();
+				if(result.isPresent()) {
+					// Wenn CANCEL_CLOSE gewählt wird, soll der Chip nicht 
+					// überschrieben werden
+					if(result.get().getButtonData().equals(ButtonData.CANCEL_CLOSE)) {
+						writeChip = false;
+					}
+					else if(result.get().getButtonData().equals(ButtonData.OK_DONE)) {
+						// Falls gewüscht, löschen. Erzielt das überschreiben.
+						chipsController.getChips().remove(chipsController.getChipById(c.getId()));
+					}
+				}
+			}
+			// Den Chip hinzufügen, wenn writeChip true ist.
+			// Dies ist der Fall wenn...
+			// - der Chip noch nicht vorhanden ist.
+			// - der Benutzer zugestimmt hat, einen bestehenden 
+			//   Chip zu überschreiben
+			if(writeChip) {
+				chipsController.getChips().add(c);
+			}
 		}
 		
 		// Die Textfelder leeren
@@ -60,28 +97,62 @@ public class SettingsPartialEdit implements Initializable {
 		update();
 	}
 	
-	// Damit der Controller geupdatet wird, falls ein 
-	// Chip über die Tabelle geändert wurde.
-	public void nameColContentChanged(Event e) {
-		// TODO: Chip löschen, wenn name auf "" gesetzt wird oder
-		// ändern...
+	private void removeChip(String id) {
+		chipsController.getChips().remove(chipsController.getChipById(id));
 		update();
 	}
 	
 	private void update() {
 		chipsController.save();
 		dataTable.setItems(FXCollections.observableList(chipsController.getChips()));
-		// TODO: Tabelleninhalt updaten
+		dataTable.refresh();
 	}
 	
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		idCol.setCellValueFactory(new PropertyValueFactory("id"));
-		nameCol.setCellValueFactory(new PropertyValueFactory("studentName"));		
+		nameCol.setCellValueFactory(new PropertyValueFactory("studentName"));
 		// NameCol soll editierbar sein, damit man z.B. den Namen ändern kann, 
 		// falls man sich vertipt hat.
 		nameCol.setCellFactory(TextFieldTableCell.<Chip>forTableColumn());
+		nameCol.setOnEditCommit(
+            new EventHandler<CellEditEvent<Chip, String>>() {
+                @Override
+                public void handle(CellEditEvent<Chip, String> cee) {
+                    Chip c = (Chip)cee.getTableView().getItems().get(cee.getTablePosition().getRow());
+                    // Den neuen Wert setzen
+                    c.setStudentName(cee.getNewValue());
+                    
+                    // update zum Speichern und so
+                    update();
+                }
+            }
+	    );
+		
+		// Eine Button-Spalte hinzufügen, worüber die Chips gelöscht werden können
+		TableColumn<Chip, String> btnColumn = new TableColumn<Chip, String>();
+		btnColumn.setCellValueFactory(new PropertyValueFactory("id"));
+		dataTable.getColumns().add(btnColumn);
+		btnColumn.setCellFactory(column -> {
+		    return new TableCell<Chip, String>() {
+		    	private Button btn = new Button("Löschen");		
+		        @Override
+		        protected void updateItem(String item, boolean empty) {
+		        	super.updateItem(item, empty);
+		        	if(empty) {
+		        		setGraphic(null);
+		        	}
+		        	else {
+		        		btn.setOnAction(e -> {
+		        			removeChip(item);
+		        		});
+		                this.setGraphic(btn);
+		        	}
+		        }
+		    };
+	    });
+		
 		
 		chipsController = new ChipsController();
 		chipsController.load();

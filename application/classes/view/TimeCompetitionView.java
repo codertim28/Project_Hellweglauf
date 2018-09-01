@@ -1,5 +1,6 @@
 package classes.view;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -15,7 +16,7 @@ public class TimeCompetitionView extends CompetitionView {
 	@FXML private ProgressBar timeProgressBar;
 	private HellwegTimer hellwegTimer;
 	
-	public TimeCompetitionView() {
+	public TimeCompetitionView() throws IOException {
 		super();
 		// Im Konstruktor sind die JavaFx-Komponenten scheinbar
 		// noch nicht vorhanden.

@@ -5,7 +5,9 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.List;
 
+import classes.CompetitionViewRowData;
 import classes.model.Chip;
+import classes.model.Competition;
 import classes.model.Lap;
 
 public class HellwegPrintWriter extends PrintWriter {
@@ -39,5 +41,29 @@ public class HellwegPrintWriter extends PrintWriter {
 		
 		println("</chip>");
 	}
-
+	
+	/**
+	 * Schreibt einen Wettkampf (im XML-Format).
+	 * @param Competition Wettkampf, welcher gespeichert werden soll (muss SimpleAttributeAccess implementieren).
+	 */
+	public void print(Competition comp) {
+		println("<competition>");
+		
+		// Jedes Attribut schreiben
+		println("\t<name>" + comp.getName() + "</name>");
+		println("\t<lapLength>" + comp.getLapLength() + "</lapLength>");
+		println("\t<lapCount>" + comp.getLapCount() + "</lapCount>");
+		println("\t<time>" + comp.getTime() + "</time>");
+		println("\t<state>" + comp.getState() + "</state>");
+		
+		// DataRows schreiben
+		println("\t<rows>");
+		List<CompetitionViewRowData> data = comp.getData();
+		for(CompetitionViewRowData row : data) {
+			println("\t\t<row chipId=\"" + row.chipIdProperty().get() + "\" studentName=\"" + row.studentNameProperty().get()  + "\" lapNumber=\"" + row.lapNumberProperty().get()  + "\" timestamp=\"" + row.timestampProperty().get()  + "\" />");
+		}
+		println("\t</rows>");
+		
+		println("</competition>");
+	}
 }

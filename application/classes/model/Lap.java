@@ -11,36 +11,25 @@ import javafx.beans.property.StringProperty;
 public class Lap {
 	
 	private LocalTime timestamp;
-	// Diese Property wird in dem TableView im
-	// CompetitonView angezeigt. Sie ist synchronisiert
-	// mit timestamp.
-	private StringProperty timestampProp;
-	
-	private IntegerProperty number;
+	private int number;
 	
 	public Lap(LocalTime timestamp, int number) {
-		this.timestampProp = new SimpleStringProperty(this, "timestampProp");
-		this.number = new SimpleIntegerProperty(this, "number");
 		setTimestamp(timestamp);
 		setNumber(number);
 	}
 	
-	// PROPERTIES
-	public IntegerProperty numberProperty() {
-		return number;
-	}
-	
-	public StringProperty timestampProperty() {
-		return timestampProp;
-	}
 	
 	// GETTER AND SETTER
 	public int getNumber() {
-		return numberProperty().get();
+		return number;
 	}
 
 	private void setNumber(int number) {
-		numberProperty().set(number);
+		this.number = number;
+	}
+	
+	public String getTimestampAsString() {
+		return timestamp.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 	}
 	
 	public LocalTime getTimestamp() {
@@ -49,6 +38,5 @@ public class Lap {
 
 	private void setTimestamp(LocalTime timestamp) {
 		this.timestamp = timestamp;
-		timestampProperty().set(timestamp.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
 	}
 }
