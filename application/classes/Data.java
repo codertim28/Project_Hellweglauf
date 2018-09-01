@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import classes.io.*;
 import classes.model.Chip;
 import classes.model.Competition;
+import tp.Synchronizer;
 
 public final class Data {
 
@@ -20,14 +21,31 @@ public final class Data {
 	private final static String TRAINING_FILE = "training.xml";
 	
 	public static void writeChips(String dir, ArrayList<Chip> chips) throws IOException {					
-		// TODO: in eigenem Thread schreiben ? Könnte sonst etwas viel
-		// werden, während eines Wettkampfes. Oder gezielt nur einen Chip schreiben.
+		// Der PrintWriter wird hier erzeugt (wegen throws im Methodenkopf)
 		HellwegPrintWriter hpw = new HellwegPrintWriter(new FileWriter(DIR + "/" + dir + "/" + CHIPS_FILE));
-		for(final Chip chipToWrite : chips) {
-			hpw.print(chipToWrite);
-		}
-		hpw.flush();
-		hpw.close();
+		
+		Thread writerThread = new Thread(new Runnable() {
+			@Override 
+			public void run() {
+				
+				// Dies sorgt dafür, dass der Schreibvorgang 
+				// nicht unterbrochen werden kann (z.B. von einem
+				// anderen SchreiberThread).
+				Synchronizer.sync(new Runnable() {
+					@Override
+					public void run() {
+						for(final Chip chipToWrite : chips) {
+							hpw.print(chipToWrite);
+						}
+					}
+				});
+				
+				hpw.flush();
+				hpw.close();
+			}
+		});
+		// Alle Chips schreiben
+		writerThread.start();	
 	}
 	
 	/**
