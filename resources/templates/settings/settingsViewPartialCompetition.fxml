@@ -17,7 +17,8 @@
     <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0" valignment="CENTER" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" vgrow="SOMETIMES" />
-      <RowConstraints vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="187.66665649414062" minHeight="10.0" prefHeight="172.33334350585938" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="132.6666717529297" minHeight="27.333343505859375" prefHeight="42.666656494140625" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
       <Label text="Rundenlänge:" />
@@ -26,7 +27,7 @@
       <TextField fx:id="lapCountField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <Label text="Zeit:" GridPane.rowIndex="3" />
       <TextField fx:id="timeField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-      <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnSpan="3" GridPane.rowIndex="4">
+      <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnSpan="3" GridPane.rowIndex="5">
          <children>
             <Button mnemonicParsing="false" onAction="#resetBtnClick" text="Zurücksetzen" />
             <Button mnemonicParsing="false" onAction="#saveBtnClick" text="Speichern" />
@@ -35,6 +36,11 @@
       <Label text="m" GridPane.columnIndex="2" />
       <Label text="min" GridPane.columnIndex="2" GridPane.rowIndex="3" />
       <Separator prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="2" />
+      <HBox alignment="BOTTOM_CENTER" GridPane.columnSpan="3" GridPane.rowIndex="4">
+         <children>
+            <Label fx:id="errorLabel" textAlignment="CENTER" textFill="RED" wrapText="true" />
+         </children>
+      </HBox>
    </children>
    <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

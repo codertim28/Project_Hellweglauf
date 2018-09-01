@@ -9,28 +9,37 @@ import classes.model.Competition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import tp.dialog.StandardAlert;
 import tp.dialog.StandardMessageType;
 
 public class SettingsPartialCompetition implements Initializable {
 	
-	@FXML
-	private TextField lapLengthField;
-	@FXML
-	private TextField lapCountField;
-	@FXML
-	private TextField timeField;
+	@FXML private TextField lapLengthField;
+	@FXML private TextField lapCountField;
+	@FXML private TextField timeField;
+	
+	@FXML private Label errorLabel;
 	
 	@FXML
 	private void saveBtnClick() {
+		// errorLabel vorher löschen, um den Benutzer nicht zu verwirren.
+		errorLabel.setText(new String());
+		
+		// Alles auslesen und speichern oder einen Fehler anzeigen
 		Competition comp = new Competition();
 		comp.setName("Wettkampf"); // Attribut wird derzeit nicht verwendet
-		// TODO: Parse-Fehler abfangen und den Benutzer darauf hinweisen,
-		// das mind. eine Eingabe falsch ist.
-		comp.setLapLength(Integer.parseInt(lapLengthField.getText()));
-		comp.setLapCount(Double.parseDouble(lapCountField.getText()));
-		comp.setTime(Integer.parseInt(timeField.getText()));
+		// TODO: Parse-Fehler abfangen während der Benutzer die Daten einträgt
+		try {
+			comp.setLapLength(Integer.parseInt(lapLengthField.getText().replace(',', '.')));
+			comp.setLapCount(Double.parseDouble(lapCountField.getText().replace(',', '.')));
+			comp.setTime(Integer.parseInt(timeField.getText().replace(',', '.')));
+		} catch(NumberFormatException nfe) {
+			errorLabel.setText("Bitte beachte die korrekte Formatierung (Rundenlänge, Rundenanzahl & Zeit).");
+			// Aussteigen, damit fehlerhafte Werte nicht geschrieben werden.
+			return;
+		}
 		
 		try {
 			Data.writeComp(Data.BASIC_DIR, comp);
@@ -47,6 +56,10 @@ public class SettingsPartialCompetition implements Initializable {
 	
 	@FXML
 	private void resetBtnClick() {
+		// errorLabel vorher löschen, um den Benutzer nicht zu verwirren.
+		errorLabel.setText(new String());
+		
+		// Die Standardwerte wiederherstellen
 		Competition defaultComp = new Competition();
 		defaultComp.setName("Wettkampf");
 		defaultComp.setLapCount(2.5);
