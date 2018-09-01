@@ -21,6 +21,18 @@ public class HellwegPrintWriter extends PrintWriter {
 	}
 	
 	/**
+	 * Schreibt eine Liste an Chips.
+	 * @param chips 
+	 */
+	public void print(List<Chip> chips) {
+		println("<chips>");
+		for(Chip chip : chips) {
+			print(chip);
+		}
+		println("</chips>");
+	}
+	
+	/**
 	 * Schreibt einen Chip (im XML-Format).
 	 * @param chip Chip, welcher gespeichert werden soll.
 	 */

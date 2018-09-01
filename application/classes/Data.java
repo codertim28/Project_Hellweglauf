@@ -161,16 +161,12 @@ public final class Data {
 	public static boolean copyChips(String from, String to) {
 		try {
 			ArrayList<Chip> chips = readChips(from);
+			
 			HellwegPrintWriter hpw = new HellwegPrintWriter(new FileWriter(DIR + "/" + to + "/" + CHIPS_FILE));
-			// TODO: eigene Methode in HellwegPrintWriter, damit 
-			// die XML-Tags nicht mehr hier stehen.
-			hpw.println("<chips>");
-			for(Chip chip : chips) {
-				hpw.print(chip);
-			}
-			hpw.println("</chips>");
+			hpw.print(chips);
 			hpw.flush();
 			hpw.close();
+			
 			return true;
 		} catch (IOException e) {
 			System.err.println(e.getMessage());
