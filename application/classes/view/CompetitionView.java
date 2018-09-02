@@ -18,6 +18,7 @@ import classes.model.Chip;
 import classes.model.Competition;
 import classes.model.CompetitionState;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -48,7 +49,7 @@ public abstract class CompetitionView implements Initializable {
 	@FXML protected Button startBtn;
 	@FXML protected TextField scanTextField;
 	
-	protected boolean started;
+	protected boolean started; // Wird wegen CompetitionState nicht mehr benötigt?
 	/*
 	 * Anmerkung: Die Chips werden nicht im Wettkampf
 	 * gespeichert! Dies liegt daran, dass jeder Chip,
@@ -124,9 +125,10 @@ public abstract class CompetitionView implements Initializable {
 				// Diese Abfrage verhindert einen "Doppelscan"
 				// TODO: Doppelscan in der addLap() abfragen ?
 				if(SECONDS.between(timestampOfLastRound, LocalTime.now()) >= 10) {
-					List<CompetitionViewRowData> dataList = dataTable.getItems();
+					//List<CompetitionViewRowData> dataList = dataTable.getItems();
 					chipsController.addLap(scannedId);
-					dataList.add(new CompetitionViewRowData(chip));
+					//dataList.add(new CompetitionViewRowData(chip));
+					comp.getData().add(new CompetitionViewRowData(chip));
 					log("Runde (id: " + scannedId + ")");
 				}
 			} else {
@@ -145,30 +147,25 @@ public abstract class CompetitionView implements Initializable {
 		roundNumberCol.setCellValueFactory(cellData -> cellData.getValue().lapNumberProperty());
 		timestampCol.setCellValueFactory(cellData -> cellData.getValue().timestampProperty());
 		
-		// Hier muss aufgrund der checkReqirements() nicht auf die Anzahl an vorhandenen Runden 
+		// Hier muss aufgrund der checkRequirements() nicht auf die Anzahl an vorhandenen Runden 
 		// überprüft werden. 
 		
 		// TODO: Die gesamte Methode ab hier überarbeiten. Was passiert, wenn ein Wettkampf
 		// DataRows hat ? -> DataRows anzeigen und Chips in Ruhe lassen.
 		List<Chip> chips = chipsController.getChips();
-		LinkedList<CompetitionViewRowData> dataList = new LinkedList<CompetitionViewRowData>();
 		for(int i = 0; i < chips.size(); i++) {
 			Chip curChip = chips.get(i);
 			// Dies fügt die Runde -1 ein.
 			chipsController.addLap(curChip.getId());
-			dataList.add(new CompetitionViewRowData(curChip, curChip.getLaps().getLast()));
+			comp.getData().add(new CompetitionViewRowData(curChip, curChip.getLaps().getLast()));
 		}
 		chipsController.save();
-		dataTable.setItems(FXCollections.observableList(dataList));
+		dataTable.setItems(comp.getData());
 		logTextArea.appendText("Wettkampf initialisiert.");
 		
 		try {
-			if(comp != null) {
-				// unter Umständen ist das Wettkampfobjekt nicht vorhanden.
-				comp.setData(dataList);
-				comp.setState(CompetitionState.ENDED);
-				Data.writeComp(Data.COMPETITION_DIR, comp);
-			}
+			comp.setState(CompetitionState.ENDED); // NUR ZUM TEST
+			Data.writeComp(Data.COMPETITION_DIR, comp);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -183,15 +180,15 @@ public abstract class CompetitionView implements Initializable {
 	 */
 	public boolean checkRequirements() {
 		// Falls ein Wettkampf existiert, muss dieser erst 
-		// resetet werden.
-		if(comp.getState() != CompetitionState.PREPARE) {
+		// resetet werden. Allerdings nur, wenn Status == RUNNING || ENDED.
+		if(comp.getState() != CompetitionState.PREPARE || comp.getState() != CompetitionState.READY) {
 			Alert alert = generateAlert("competitionExists");
 			Optional<ButtonType> result = alert.showAndWait();
 			if(result.isPresent()) {
 				if(result.get().getButtonData().equals(ButtonData.YES)) {
 					// Wettkampf + Runden zurücksetzen
-					comp.setData(new LinkedList<CompetitionViewRowData>()); // Hier darf kein neuer Wettkampf erstellt werden,
-					comp.setState(CompetitionState.PREPARE);      			// da so die Einstellungen verloren gehen würden.
+					comp.init(); // Hier darf kein neuer Wettkampf erstellt werden,
+			     			     // da so die Einstellungen verloren gehen würden.
 					// Chips neu laden, damit neu eingetragene oder gelöschte auch 
 					// angezeigt werden ode eben nicht.
 					Data.copyChips(Data.BASIC_DIR, Data.COMPETITION_DIR);

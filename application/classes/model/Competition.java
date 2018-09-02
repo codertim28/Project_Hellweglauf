@@ -3,6 +3,8 @@ package classes.model;
 import java.util.LinkedList;
 
 import classes.CompetitionViewRowData;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class Competition {
 	
@@ -14,13 +16,20 @@ public class Competition {
 	// Wenn Wettkampf auf Zeit
 	private int time; // in Sekunden
 	
-	private CompetitionState state = CompetitionState.PREPARE;
+	private CompetitionState state;
 	
 	// Die Daten (gelistet nach Runden; wie in der 
-	// ursprünglichen Software
-	// TODO: ObservableList draus machen und dann als
-	// Content der DataTable im CompetitionView setzen
-	private LinkedList<CompetitionViewRowData> data = new LinkedList();
+	// ursprünglichen Software)
+	private ObservableList<CompetitionViewRowData> data;
+	
+	public Competition() {
+		init();
+	}
+	
+	public void init() {
+		setState(CompetitionState.PREPARE);
+		setData(FXCollections.observableList(new LinkedList<CompetitionViewRowData>()));
+	}
 	
 	public String getName() {
 		return name;
@@ -54,11 +63,11 @@ public class Competition {
 		this.time = time;
 	}
 
-	public LinkedList<CompetitionViewRowData> getData() {
+	public ObservableList<CompetitionViewRowData> getData() {
 		return data;
 	}
 
-	public void setData(LinkedList<CompetitionViewRowData> data) {
+	public void setData(ObservableList<CompetitionViewRowData> data) {
 		this.data = data;
 	}
 
