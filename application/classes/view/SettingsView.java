@@ -13,6 +13,15 @@ public class SettingsView {
 	private Label settingsHeaderLabel;
 	@FXML
 	private GridPane currentView;
+	
+	// Das MainView wird hier benötigt, damit es 
+	// ggf. geupdatet werden kann (z.B. wenn keine Chips
+	// vorhanden sind, werden die Wettkampfbuttons gesperrt usw.)
+	@FXML private MainView mainView;
+	
+	public void setMainView(MainView mainView) {
+		this.mainView = mainView;
+	}
 
 	
 	// FÜR DIE NAVIGATION AUF DER LINKEN SEITE

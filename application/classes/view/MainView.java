@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import classes.Data;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -55,10 +56,18 @@ public class MainView implements Initializable {
 		stage.setResizable(false);
 		stage.initOwner(((Button) e.getSource()).getScene().getWindow());
 		stage.initModality(Modality.WINDOW_MODAL);
+		
+		// Wenn das Einstellungsfenster geschlossen wird, 
+		// updaten, damit die Fehlernachrichten neu geschrieben
+		// werden können...
+		stage.setOnCloseRequest(EventHandler -> {
+			this.check();
+		});
 
 		Parent parent = FXMLLoader.load(getClass().getResource("/templates/settings/settingsView.fxml"));
 		Scene scene = new Scene(parent, 500, 400);
 		scene.getStylesheets().add(getClass().getResource("/css/application.css").toExternalForm());
+			
 		stage.setScene(scene);
 		stage.show();
 	}
@@ -71,22 +80,26 @@ public class MainView implements Initializable {
 		tabPane.getTabs().add(tab);
 		tabPane.getSelectionModel().select(tab);
 	}
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	
+	private void check() {
 		// Testen, ob es Chips gibt. Falls es keine Chips gibt, müssen der Wettkampf- und 
 		// Trainingsbutton deaktiviert werden. 
 		int basicChipsFile = Data.testForFile(Data.BASIC_DIR + "/" + Data.CHIPS_FILE);
 		
 		// Die Chipsdatei im BASIC_DIR ist die Wichtigste. Ohne diese kann das Programm kaum richtig arbeiten,
 		// da bei jedem neuen Wettkampf (und auch Training) die Chips von dort aus kopiert werden.
-		if(basicChipsFile < 0) {
-			// TODO: Updaten, wenn Chips hinzugefügt wurden.
-			competitionPane.setDisable(true);
-			trainingPane.setDisable(true);
-			errorLabel.setText("Fehler: Die Datei \"/data/basic/chips.xml\" ist nicht vorhanden.");
+		if(basicChipsFile == 0) {
+			errorLabel.setText("Anmerkung: Es sind keine Chips vorhanden. (Einstellungen -> Chips verwalten)");
+		}
+		else if(basicChipsFile < 0) {
+			errorLabel.setText("Fehler: Die Datei \"data/basic/chips.xml\" ist nicht vorhanden.");
 			errorLabel.setTooltip(new Tooltip("Dieser Fehler kann behoben werden, indem Chips eingetragen werden. "
 					+ "(Einstellungen -> Chips verwalten)"));
 		}
+	}
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		check();
 	}
 }

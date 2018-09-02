@@ -113,17 +113,25 @@ public final class Data {
 	/**
 	 * Diese Methode erstellt das data-Verzeichnis. In dem Data-Verzeichnis arbeitet
 	 * das Programm.
+	 * @throws IOException 
 	 */
-	public static void createDataDirIfNotExists() {
+	public static void createDataDirIfNotExists() throws IOException {
 		File file = new File(DIR);
 		// Verzeichnis erstellen
 		if (!file.exists()) {
 			file.mkdir();
 		}
+		
 		// und das Unterverzeichnis für die Basisdaten
 		file = new File(DIR + "/" + BASIC_DIR);
 		if (!file.exists()) {
 			file.mkdir();
+		}
+		
+		// und eine leere Chipsdatei
+		file = new File(DIR + "/" + BASIC_DIR  + "/" + CHIPS_FILE);
+		if (!file.exists()) {
+			file.createNewFile();
 		}
 		
 		// Auch das Wettkampfverzeichnis erstellen ?
@@ -169,7 +177,6 @@ public final class Data {
 			
 			return true;
 		} catch (IOException e) {
-			System.err.println(e.getMessage());
 			return false;
 		}
 	}
