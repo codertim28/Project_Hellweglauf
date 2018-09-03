@@ -18,4 +18,4 @@ Ja, genau. Das hört sich so an, als wäre das Projekt schon abgeschlossen. Das 
 Aufgrund nicht vorhandener Dokumentation und schlechter Programmierung entwickle ich das Projekt neu. Als ich die erste Version entwickelte hatte ich noch keine Ahnung von der Programmierung (wenn ich es aus heutiger sicht betrachte :D).
 
 ## Mitmachen
-Hierzu werde ich bald etwas schreiben. Sollte jetzt schon Interresse bestehen, schreib mir ein E-Mail an info@coder-tim.de
+Bitte lies meine [Contributing Guidelines](https://github.com/timpo28/Project_Hellweglauf/blob/master/CONTRIBUTING.md), um an diesem Projekt mitzuwirken (und/oder schreibe eine E-Mail an info@coder-tim.de). Ich freue mich über jeden, der freiwillig und mit Spaß mitarbeitet. 
