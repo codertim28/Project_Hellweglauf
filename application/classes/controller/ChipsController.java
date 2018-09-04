@@ -1,5 +1,7 @@
 package classes.controller;
 
+import static java.time.temporal.ChronoUnit.SECONDS;
+
 import java.io.IOException;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -28,15 +30,27 @@ public class ChipsController {
 	/**
 	 * Fügt eine Runde hinzu (z.B. in einem Wettkampf)
 	 * @param chipId Der Chip, dem die Runde hinzugefügt werden soll
-	 * @return 0: Erfolgreich, -1: Fehler
+	 * @return 0: Erfolgreich, -1: Doppelscan (Fehler), -2: allg. Fehler
 	 */
 	public int addLap(String chipId) {
 		try {
 			Chip c = getChipById(chipId);
-			c.getLaps().add(new Lap(LocalTime.now(), c.getLapCount() + 1));
+			Lap lastLap = c.getLaps().getLast();
+			
+			// Diese Abfrage verhindert einen "Doppelscan".
+			// Zwischen jedem Scan müssen 10 Sekunden vergangen sein.
+			if(SECONDS.between(lastLap.getTimestamp(), LocalTime.now()) >= 10) {
+				// Runde einhängen
+				c.getLaps().add(new Lap(LocalTime.now(), c.getLapCount() + 1));
+			} else {
+				throw new Exception("Doppescan");
+			}
 		} catch(Exception ex) {
-			// z.B.: null-Pointer-Exception
-			return -1;
+			if(ex.getMessage().equals("Doppescan")) {
+				return -1;
+			}
+			// Null-Pointer-Exception
+			return -2;
 		}
 		return 0;
 	}

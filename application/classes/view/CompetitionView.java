@@ -117,20 +117,19 @@ public abstract class CompetitionView implements Initializable {
 	@FXML
 	private void scanTextFieldOnKeyPressed(KeyEvent ke) {
 		if(ke.getCode() == KeyCode.ENTER) {
+			
 			String scannedId = scanTextField.getText().trim();
-			Chip chip = chipsController.getChipById(scannedId);
-			// Wenn ein Chip gefunden wurde, ist alles gut.
-			if(chip != null) {
-				LocalTime timestampOfLastRound = chip.getLaps().getLast().getTimestamp();
-				// Diese Abfrage verhindert einen "Doppelscan"
-				// TODO: Doppelscan in der addLap() abfragen ?
-				if(SECONDS.between(timestampOfLastRound, LocalTime.now()) >= 10) {
-					//List<CompetitionViewRowData> dataList = dataTable.getItems();
-					chipsController.addLap(scannedId);
-					//dataList.add(new CompetitionViewRowData(chip));
-					comp.getData().add(new CompetitionViewRowData(chip));
-					log("Runde (id: " + scannedId + ")");
-				}
+			int addLapResult = chipsController.addLap(scannedId);
+			
+			if(addLapResult == 0) {
+				// Eine Null-Pointer-exception muss hier nicht mehr abgefangen werden,
+				// da diese bei einem Rückgabewert von -2 auftritt. Somit ist der Chip 
+				// bei einem Rückgabewert von 0 vorhanden.
+				comp.getData().add(new CompetitionViewRowData(chipsController.getChipById(scannedId)));
+				log("Runde (id: " + scannedId + ")");
+				
+			} else if(addLapResult == -1) {
+				log("Doppelscan (id: " + scannedId + ")");
 			} else {
 				// Kein Chip gefunden: loggen
 				log("FEHLER (1) (id: " + scannedId +")");
@@ -181,7 +180,7 @@ public abstract class CompetitionView implements Initializable {
 	public boolean checkRequirements() {
 		// Falls ein Wettkampf existiert, muss dieser erst 
 		// resetet werden. Allerdings nur, wenn Status == RUNNING || ENDED.
-		if(comp.getState() != CompetitionState.PREPARE || comp.getState() != CompetitionState.READY) {
+		if(comp.getState() != CompetitionState.PREPARE && comp.getState() != CompetitionState.READY) {
 			Alert alert = generateAlert("competitionExists");
 			Optional<ButtonType> result = alert.showAndWait();
 			if(result.isPresent()) {
