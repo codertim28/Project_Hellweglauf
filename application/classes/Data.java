@@ -153,10 +153,14 @@ public final class Data {
 			// Kopieren. Ist das Wettkampfverzeichnis nicht vorhanden, können
 			// die Chips auch nicht vorhanden sein. 
 			copyChips(Data.BASIC_DIR, Data.COMPETITION_DIR);
+		}
+		
+		// Es kann auch sein, dass das Verzeichnis vorhanden ist, die Wettkampf
+		// Datei aber nicht.
+		if(!new File(DIR + "/" + COMPETITION_DIR + "/" + COMPETITION_FILE).exists()) {
 			// Kopieren. Einen Standard-Wettkampf
-			Competition comp;
 			try {
-				comp = readComp(Data.BASIC_DIR);
+				Competition comp = readComp(Data.BASIC_DIR);
 				writeComp(Data.COMPETITION_DIR, comp);
 			} catch (IOException e) {
 				return false;
