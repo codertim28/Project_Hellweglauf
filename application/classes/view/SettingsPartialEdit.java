@@ -1,10 +1,13 @@
 package classes.view;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import classes.Data;
 import classes.controller.ChipsController;
 import classes.model.Chip;
 import javafx.beans.value.ObservableValue;
@@ -19,6 +22,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
@@ -34,9 +38,11 @@ public class SettingsPartialEdit implements Initializable {
 	@FXML private TableView<Chip> dataTable;
 	@FXML private TableColumn<Chip,String> idCol;
 	@FXML private TableColumn<Chip,String> nameCol;
+	@FXML private TableColumn<Chip,String> formCol;
 	
 	@FXML private TextField chipField;
 	@FXML private TextField nameField;
+	@FXML private ChoiceBox<String> formChoiceBox;
 	
 	// Der ChipsController verwaltet die Chips. 
 	// Die Chips werden von der Tablle in diesen geschrieben und 
@@ -49,7 +55,7 @@ public class SettingsPartialEdit implements Initializable {
 		
 		if(nameField.getText().equals("createTestChips")) {
 			for(int i = 0; i < 50; i++) {
-				Chip c = new Chip("" + (1000 + i), "Testperson " + (i + 1));
+				Chip c = new Chip("" + (1000 + i), "Testperson " + (i + 1), "None");
 				chipsController.getChips().add(c);
 			}
 		}
@@ -58,7 +64,7 @@ public class SettingsPartialEdit implements Initializable {
 		String name = nameField.getText().trim();
 		
 		if(!id.equals("") && !name.equals("")) {
-			Chip c = new Chip(chipField.getText().trim(), nameField.getText().trim());
+			Chip c = new Chip(chipField.getText().trim(), nameField.getText().trim(), formChoiceBox.getSelectionModel().getSelectedItem());
 			// Wenn ein Chip mit der gleichen Id bereits vorhanden ist, muss gefragt werden, ob
 			// der vorhandene Chip überschrieben werden soll.
 			// Die Entscheidung wird über writeChip gesteuert.
@@ -113,6 +119,7 @@ public class SettingsPartialEdit implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		idCol.setCellValueFactory(new PropertyValueFactory("id"));
 		nameCol.setCellValueFactory(new PropertyValueFactory("studentName"));
+		formCol.setCellValueFactory(new PropertyValueFactory("form"));
 		// NameCol soll editierbar sein, damit man z.B. den Namen ändern kann, 
 		// falls man sich vertipt hat.
 		nameCol.setCellFactory(TextFieldTableCell.<Chip>forTableColumn());
@@ -153,7 +160,17 @@ public class SettingsPartialEdit implements Initializable {
 		    };
 	    });
 		
+		// Die Klassen laden und in die ChoiceBox einfügen
+		try {
+			formChoiceBox.setItems(FXCollections.observableList((ArrayList<String>)Data.readObject(Data.BASIC_DIR + "/" + Data.FORMS_FILE)));
+			// Damit immer das erste Item ausgewählt ist und keine Fehler entstehen.
+			formChoiceBox.getSelectionModel().select(0); 
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+		// Die Chips laden und anzeigen
 		chipsController = new ChipsController();
 		chipsController.load();
 		List<Chip> chips = chipsController.getChips();
@@ -162,3 +179,6 @@ public class SettingsPartialEdit implements Initializable {
 		}		
 	}
 }
+
+// FIXME: Das Formular zum Eintragen der Chips muss neu angeordnet werden.
+// So wie es momentan ist, kann es nicht bleiben!

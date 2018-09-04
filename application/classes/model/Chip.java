@@ -5,9 +5,6 @@ import java.util.LinkedList;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-// TODO: Auch die Klasse speichern (als Attribut)? So könnte man wählen,
-// welche Klasse an einem Wettkampf teilnehmen. Momentan nehmen alle Chips
-// automatisch an einem WK teil.
 
 public class Chip {
 	
@@ -19,6 +16,7 @@ public class Chip {
 	
 	private StringProperty id;
 	private StringProperty studentName;
+	private StringProperty form; // Die Klasse des Schülers
 	private LinkedList<Lap> laps;
 
 	/**
@@ -26,16 +24,24 @@ public class Chip {
 	 * Sollte sonst nicht (!) verwendet werden.
 	 */
 	public Chip() {
-		this("sg-1_default1234", "Daniel Jackson");
+		this("default1234", "Daniel Jackson", "SG-1");
 	}
 	
-	public Chip(String id, String studentName) {	
+	public Chip(String id, String studentName, String form) {	
 		this.id = new SimpleStringProperty(this, "id");
 		this.studentName = new SimpleStringProperty(this, "studentName");
+		this.form = new SimpleStringProperty(this, "form");
 		
 		setId(id);
 		setStudentName(studentName);
+		setForm(form);
 		setLaps(new LinkedList<Lap>());
+	}
+	
+	// TODO: Diesen Konstruktor entfernen! Ist nur vorhanden, damit der
+	// BufferedReader keinen Fehler wirft.
+	public Chip(String id, String studentName) {	
+		this(id, studentName, "None");
 	}
 	
 	// PROPERTIES
@@ -45,6 +51,10 @@ public class Chip {
 	
 	public StringProperty studentNameProperty() {
 		return studentName;
+	}
+	
+	public StringProperty formProperty() {
+		return form;
 	}
 	
 	// GETTER AND SETTER
@@ -62,6 +72,14 @@ public class Chip {
 	
 	public void setStudentName(String studentName) {
 		studentNameProperty().set(studentName);
+	}
+	
+	public String getForm() {
+		return formProperty().get();
+	}
+	
+	public void setForm(String form) {
+		formProperty().set(form);
 	}
 	
 	public LinkedList<Lap> getLaps() {

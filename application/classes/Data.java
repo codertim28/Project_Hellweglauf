@@ -2,6 +2,7 @@ package classes;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import classes.io.*;
 import classes.model.Chip;
@@ -19,6 +20,7 @@ public final class Data {
 	public final static String CHIPS_FILE = "chips.xml";
 	private final static String COMPETITION_FILE = "competition.xml";
 	private final static String TRAINING_FILE = "training.xml";
+	public final static String FORMS_FILE = "forms";
 	
 	public static void writeChips(String dir, ArrayList<Chip> chips) throws IOException {					
 		// Der PrintWriter wird hier erzeugt (wegen throws im Methodenkopf)
@@ -97,7 +99,7 @@ public final class Data {
 		oos.close();
 	}
 	
-	public static Object readObject(String pathToFile) throws IOException, ClassNotFoundException {	
+	public static Object readObject(String pathToFile) throws IOException, ClassNotFoundException, EOFException {	
 		if(testForFile(pathToFile) <= -1) {
 			throw new IOException("No file available.");
 		}
@@ -132,6 +134,19 @@ public final class Data {
 		file = new File(DIR + "/" + BASIC_DIR  + "/" + CHIPS_FILE);
 		if (!file.exists()) {
 			file.createNewFile();
+		}
+		
+		// und alle Klassen speichern
+		file = new File(DIR + "/" + BASIC_DIR  + "/" + FORMS_FILE);
+		if (!file.exists()) {
+			file.createNewFile();
+			writeObject(BASIC_DIR + "/" + FORMS_FILE, 
+				new ArrayList<String>(Arrays.asList(new String[] {
+					"5a", "5b", "5c", "5d", "6a", "6b", "6c", "6d",
+					"7a", "7b", "7c", "7d", "8a", "8b", "8c", "8d",
+					"9a", "9b", "9c", "9d",
+				}))
+			);
 		}
 		
 		// Auch das Wettkampfverzeichnis erstellen ?
