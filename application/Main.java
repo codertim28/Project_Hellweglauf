@@ -20,7 +20,7 @@ public class Main extends Application {
 			Data.createDataDirIfNotExists();
 		}
 		catch(IOException ioe) {
-			new StandardAlert(StandardMessageType.ERROR).showAndWait();
+			ioe.printStackTrace();
 		}
 	}
 
