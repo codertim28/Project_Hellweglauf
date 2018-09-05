@@ -149,6 +149,18 @@ public final class Data {
 			);
 		}
 		
+		// und einen StandardWettkampf erzeugen
+		file = new File(DIR + "/" + BASIC_DIR  + "/" + COMPETITION_FILE);
+		if (!file.exists()) {
+			file.createNewFile();
+			Competition defaultComp = new Competition();
+			defaultComp.setName("Wettkampf");
+			defaultComp.setLapCount(2.5);
+			defaultComp.setLapLength(400);
+			defaultComp.setTime(30);
+			writeComp(Data.BASIC_DIR, defaultComp);
+		}
+		
 		// Auch das Wettkampfverzeichnis erstellen ?
 		// Wird momentan nur im CompetitionView erstellt
 		// createCompetitionDirIfNotExists();
