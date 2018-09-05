@@ -42,6 +42,7 @@ public class HellwegPrintWriter extends PrintWriter {
 		// Jedes Attribut schreiben.
 		println("\t<id>" + chip.getId() + "</id>");
 		println("\t<studentName>" + chip.getStudentName() + "</studentName>");
+		println("\t<form>" + chip.getForm() + "</form>");
 		
 		// Runden schreiben
 		println("\t<laps>");

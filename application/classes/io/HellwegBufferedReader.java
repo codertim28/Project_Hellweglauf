@@ -124,7 +124,7 @@ public class HellwegBufferedReader extends BufferedReader {
 		String timestamp = line.substring(timestampPos, line.indexOf('"', timestampPos));
 		LocalTime lt = LocalTime.parse(timestamp, DateTimeFormatter.ofPattern("HH:mm:ss"));
 		
-		return new CompetitionViewRowData(new Chip(chipId, studentName), new Lap(lt, lapNumber));
+		return new CompetitionViewRowData(chipId, studentName, lt.format(DateTimeFormatter.ofPattern("HH:mm:ss")), lapNumber);
 	}
 	
 	/**
@@ -165,6 +165,10 @@ public class HellwegBufferedReader extends BufferedReader {
 				
 				if(line.indexOf("<studentName>") != -1) {
 					chip.setStudentName(getContent(line, "studentName"));
+				}
+				
+				if(line.indexOf("<form>") != -1) {
+					chip.setForm(getContent(line, "form"));
 				}
 				
 				// Diese (und die nächste) Abfrage ist an dieser Stelle nicht nötig.

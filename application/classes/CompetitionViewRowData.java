@@ -38,6 +38,22 @@ public class CompetitionViewRowData {
         this(chip, chip.getLaps().getLast());
     }
     
+    /**
+     * Erstellt eine DataRow auch wenn kein vollständige(r) Runde oder Chip
+     * zur Verfügung steht (z.B. beim Laden eines Wettkampfes). 
+     * @param id ID des (unvollständigen) Chips
+     * @param studentName Schüler (Name) des (unvollständigen) Chips
+     * @param timestamp Zeitstempel der Runde für die DataRow (Format: HH:mm:ss)
+     * @param lapNumber Nummer der Runde für die DataRow
+     */
+    public CompetitionViewRowData(String id, String studentName, String timestamp, int lapNumber) {
+        init();
+        this.chipId.set(id);
+    	this.studentName.set(studentName);
+    	this.number.set(lapNumber);
+    	this.timestamp.set(timestamp);
+    }
+    
     private void init() {
     	this.chipId = new SimpleStringProperty();
     	this.studentName = new SimpleStringProperty();
