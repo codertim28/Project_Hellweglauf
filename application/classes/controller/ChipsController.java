@@ -35,21 +35,24 @@ public class ChipsController {
 	public int addLap(String chipId) {
 		try {
 			Chip c = getChipById(chipId);
-			Lap lastLap = c.getLaps().getLast();
 			
 			// Diese Abfrage verhindert einen "Doppelscan".
 			// Zwischen jedem Scan müssen 10 Sekunden vergangen sein.
-			if(SECONDS.between(lastLap.getTimestamp(), LocalTime.now()) >= 10) {
+			// ODER Nicht "Doppelscan" werfen, wenn noch keine Runde 
+			// vorhanden ist. Die Abfrage oben tut dies nämlich.
+			if(c.getLapCount() == Chip.LAPCOUNT_START ||
+					SECONDS.between(c.getLaps().getLast().getTimestamp(), LocalTime.now()) >= 10) {
 				// Runde einhängen
 				c.getLaps().add(new Lap(LocalTime.now(), c.getLapCount() + 1));
-			} else {
-				throw new Exception("Doppescan");
+			}
+			else {
+				throw new Exception("Doppelscan");
 			}
 		} catch(Exception ex) {
-			if(ex.getMessage().equals("Doppescan")) {
+			if("Doppelscan".equals(ex.getMessage())) {
 				return -1;
 			}
-			// Null-Pointer-Exception
+			// z.B. Null-Pointer-Exception
 			return -2;
 		}
 		return 0;
