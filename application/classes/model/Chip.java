@@ -38,12 +38,6 @@ public class Chip {
 		setLaps(new LinkedList<Lap>());
 	}
 	
-	// TODO: Diesen Konstruktor entfernen! Ist nur vorhanden, damit der
-	// BufferedReader keinen Fehler wirft.
-	public Chip(String id, String studentName) {	
-		this(id, studentName, "None");
-	}
-	
 	// PROPERTIES
 	public StringProperty idProperty() {
 		return id;
