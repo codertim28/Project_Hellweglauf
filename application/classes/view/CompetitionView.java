@@ -1,12 +1,9 @@
 package classes.view;
 
-import static java.time.temporal.ChronoUnit.SECONDS;
-
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -17,8 +14,6 @@ import classes.controller.ChipsController;
 import classes.model.Chip;
 import classes.model.Competition;
 import classes.model.CompetitionState;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -49,7 +44,6 @@ public abstract class CompetitionView implements Initializable {
 	@FXML protected Button startBtn;
 	@FXML protected TextField scanTextField;
 	
-	protected boolean started; // Wird wegen CompetitionState nicht mehr benötigt?
 	/*
 	 * Anmerkung: Die Chips werden nicht im Wettkampf
 	 * gespeichert! Dies liegt daran, dass jeder Chip,
@@ -61,7 +55,6 @@ public abstract class CompetitionView implements Initializable {
 	protected ChipsController chipsController;
 	
 	public CompetitionView() throws IOException {
-		started = false;
 		// Bevor der ChipsController erstellt wird: Das Wettkampfverzeichnis erstellen
 		// (falls nicht vorhanden) und Chips + Wettkampf kopieren. 
 		Data.createCompetitionDirIfNotExists();
@@ -94,7 +87,7 @@ public abstract class CompetitionView implements Initializable {
 	}
 
 	protected void stopCompetition() {
-		started = false;
+		comp.setState(CompetitionState.ENDED);
 		scanTextField.setDisable(true);
 		scanTextField.setText("");
 		log("Zeit abgelaufen!");

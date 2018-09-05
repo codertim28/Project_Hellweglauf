@@ -3,11 +3,6 @@ package classes.model;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-
 public class Lap {
 	
 	private LocalTime timestamp;

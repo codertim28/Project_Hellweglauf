@@ -1,8 +1,5 @@
 package classes;
 
-import java.io.Serializable;
-import java.time.format.DateTimeFormatter;
-
 import classes.model.Chip;
 import classes.model.Lap;
 import javafx.beans.property.IntegerProperty;

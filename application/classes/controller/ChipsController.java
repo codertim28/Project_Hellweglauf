@@ -39,8 +39,8 @@ public class ChipsController {
 			// Diese Abfrage verhindert einen "Doppelscan".
 			// Zwischen jedem Scan müssen 10 Sekunden vergangen sein.
 			// ODER Nicht "Doppelscan" werfen, wenn noch keine Runde 
-			// vorhanden ist. Die Abfrage oben tut dies nämlich.
-			if(c.getLapCount() == Chip.LAPCOUNT_START ||
+			// vorhanden ist oder nur Runde -1. Die Abfrage oben tut dies nämlich.
+			if(c.getLapCount() <= (Chip.LAPCOUNT_START + 1) ||
 					SECONDS.between(c.getLaps().getLast().getTimestamp(), LocalTime.now()) >= 10) {
 				// Runde einhängen
 				c.getLaps().add(new Lap(LocalTime.now(), c.getLapCount() + 1));

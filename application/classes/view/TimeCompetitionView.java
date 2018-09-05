@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import classes.HellwegTimer;
+import classes.model.CompetitionState;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -26,7 +27,7 @@ public class TimeCompetitionView extends CompetitionView {
 	
 	@FXML
 	protected void startBtnClick(Event event) {
-		if(!started) {
+		if(comp.getState() == CompetitionState.READY) {
 			setStartRounds();
 			hellwegTimer = new HellwegTimer(timeLabel, timeProgressBar, new Runnable() {
 				@Override
@@ -38,7 +39,7 @@ public class TimeCompetitionView extends CompetitionView {
 			scanTextField.setDisable(false);
 			scanTextField.requestFocus();
 			super.log("Wettkampf gestartet!");
-			started = true;
+			comp.setState(CompetitionState.RUNNING);
 		}
 	}
 	
