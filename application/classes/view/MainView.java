@@ -61,7 +61,7 @@ public class MainView implements Initializable {
 		// updaten, damit die Fehlernachrichten neu geschrieben
 		// werden können...
 		stage.setOnCloseRequest(EventHandler -> {
-			this.check();
+			check();
 		});
 
 		Parent parent = FXMLLoader.load(getClass().getResource("/templates/settings/settingsView.fxml"));
@@ -82,6 +82,7 @@ public class MainView implements Initializable {
 	}
 	
 	private void check() {
+		errorLabel.setText(new String());
 		// Testen, ob es Chips gibt. Falls es keine Chips gibt, müssen der Wettkampf- und 
 		// Trainingsbutton deaktiviert werden. 
 		int basicChipsFile = Data.testForFile(Data.BASIC_DIR + "/" + Data.CHIPS_FILE);
