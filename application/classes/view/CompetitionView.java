@@ -179,8 +179,14 @@ public abstract class CompetitionView implements Initializable {
 			if(result.isPresent()) {
 				if(result.get().getButtonData().equals(ButtonData.YES)) {
 					// Wettkampf + Runden zurücksetzen
-					comp.init(); // Hier darf kein neuer Wettkampf erstellt werden,
-			     			     // da so die Einstellungen verloren gehen würden.
+					try {
+						// Einen frischen Wettkampf laden, damit eventuelle
+						// neue Einstellungen übernommen werden.
+						Data.writeComp(Data.COMPETITION_DIR, Data.readComp(Data.BASIC_DIR));
+						comp = Data.readComp(Data.COMPETITION_DIR);
+					} catch (IOException e) {
+						return false;
+					}
 					// Chips neu laden, damit neu eingetragene oder gelöschte auch 
 					// angezeigt werden ode eben nicht.
 					Data.copyChips(Data.BASIC_DIR, Data.COMPETITION_DIR);

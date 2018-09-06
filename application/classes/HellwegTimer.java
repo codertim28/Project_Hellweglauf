@@ -13,15 +13,18 @@ public class HellwegTimer extends Thread {
 	private ProgressBar timeProgressBar;
 	private double onePercent;
 
-	public HellwegTimer(Label timeLabel, ProgressBar timeProgressBar, Runnable stopCompetitionCallback) {
+	public HellwegTimer(int seconds, Label timeLabel, ProgressBar timeProgressBar, Runnable stopCompetitionCallback) {
 		this.setPriority(Thread.MIN_PRIORITY);
+		setSeconds(seconds);
 		this.timeLabel = timeLabel;
 		this.timeProgressBar = timeProgressBar;
 		this.stopCompetitionCallback = stopCompetitionCallback;
+		
+		// Vor ab die Zeit anzeigen
+		showTime();
 	}
 	
-	public void startTimer(int seconds) {
-	    setSeconds(seconds);    
+	public void startTimer() {   
 	    this.onePercent = 1.0 / (double)seconds;
 	    this.start();
 	}
@@ -38,35 +41,42 @@ public class HellwegTimer extends Thread {
 	    return seconds;
 	}
 	
+	private void showTime() {
+		// entsprechende UI Komponenten updaten
+    	timeLabel.setText(String.format(
+			"%d:%02d:%02d", 
+			(seconds / 3600), 
+			(seconds % 3600) / 60, 
+			(seconds % 60)
+		));
+	}
+	
 	@Override
 	public void run() {
-		try {
-			while (!this.isInterrupted() && seconds > 0) {
-	            setSeconds(seconds - 1);      
-	            // UI updaten
-	            Platform.runLater(new Runnable() {
-	                @Override
-	                public void run() {
-	                    // entsprechende UI Komponenten updaten
-	                	timeLabel.setText(String.format(
-                			"%d:%02d:%02d", 
-                			(seconds / 3600), 
-        					(seconds % 3600) / 60, 
-        					(seconds % 60)
-    					));
-	                	timeProgressBar.setProgress(timeProgressBar.getProgress() + onePercent);
-	                }
-	            });
-	            // Schlafen / Warten
-	            sleep(1000);
+		while (!this.isInterrupted() && seconds > 0) {
+            setSeconds(seconds - 1);      
+            // UI updaten
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    // entsprechende UI Komponenten updaten
+                	showTime();
+                	timeProgressBar.setProgress(timeProgressBar.getProgress() + onePercent);
+                }
+            });
+            // Schlafen / Warten
+            try {
+				sleep(1000);
+			} catch (InterruptedException e) {
+				// Wenn der Thread schläft, soll der Interrupt
+				// trotzdem bearbeitet werden.
+				this.interrupt();
 			}
-			// Wenn die Zeit abgelaufen ist, muss dennoch überprüft 
-			// werden, da ein Interrupt auch hinter die Schleife führt
-			if(seconds == 0) {
-				stopCompetitionCallback.run();
-			}
-		} catch(Exception e) {
-			// Das soll gar nicht behandelt werden..
+		}
+		// Wenn die Zeit abgelaufen ist, muss dennoch überprüft 
+		// werden, da ein Interrupt auch hinter die Schleife führt
+		if(seconds == 0) {
+			stopCompetitionCallback.run();
 		}
 		
 	}

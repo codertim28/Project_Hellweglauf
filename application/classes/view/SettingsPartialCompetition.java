@@ -34,7 +34,7 @@ public class SettingsPartialCompetition implements Initializable {
 		try {
 			comp.setLapLength(Integer.parseInt(lapLengthField.getText().replace(',', '.')));
 			comp.setLapCount(Double.parseDouble(lapCountField.getText().replace(',', '.')));
-			comp.setTime(Integer.parseInt(timeField.getText().replace(',', '.')) * 60);
+			comp.setTime(Integer.parseInt(timeField.getText()) * 60);
 		} catch(NumberFormatException nfe) {
 			errorLabel.setText("Bitte beachte die korrekte Formatierung (Rundenlänge, Rundenanzahl & Zeit).");
 			// Aussteigen, damit fehlerhafte Werte nicht geschrieben werden.
@@ -64,7 +64,7 @@ public class SettingsPartialCompetition implements Initializable {
 		defaultComp.setName("Wettkampf");
 		defaultComp.setLapCount(2.5);
 		defaultComp.setLapLength(400);
-		defaultComp.setTime(30);
+		defaultComp.setTime(30 * 60);
 		
 		try {
 			Data.writeComp(Data.BASIC_DIR, defaultComp);
@@ -86,7 +86,7 @@ public class SettingsPartialCompetition implements Initializable {
 			// bearbeitet werden können.
 			lapLengthField.setText("" + comp.getLapLength());
 			lapCountField.setText("" + comp.getLapCount());
-			timeField.setText("" + comp.getTime());
+			timeField.setText("" + (comp.getTime() / 60));
 		} catch (IOException e) {
 			// Allgemeine Fehlernachricht
 			new StandardAlert(StandardMessageType.ERROR).showAndWait();

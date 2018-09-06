@@ -27,15 +27,10 @@ public class TimeCompetitionView extends CompetitionView {
 	
 	@FXML
 	protected void startBtnClick(Event event) {
+		comp.setState(CompetitionState.READY); // NUR ZUM TEST
 		if(comp.getState() == CompetitionState.READY) {
 			setStartRounds();
-			hellwegTimer = new HellwegTimer(timeLabel, timeProgressBar, new Runnable() {
-				@Override
-				public void run() {
-					stopCompetition();
-				}
-			});
-			hellwegTimer.startTimer(30);
+			hellwegTimer.startTimer();
 			scanTextField.setDisable(false);
 			scanTextField.requestFocus();
 			super.log("Wettkampf gestartet!");
@@ -47,12 +42,12 @@ public class TimeCompetitionView extends CompetitionView {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		super.initialize(arg0, arg1);
 		
-		//hellwegTimer = new HellwegTimer(timeLabel, new Runnable() {
-		//	@Override
-		//	public void run() {
-		//		stopCompetition();
-		//	}
-		//});
+		hellwegTimer = new HellwegTimer(comp.getTime(), timeLabel, timeProgressBar, new Runnable() {
+			@Override
+			public void run() {
+				stopCompetition();
+			}
+		});
 	}
 	
 }
