@@ -142,25 +142,41 @@ public abstract class CompetitionView implements Initializable {
 		// Hier muss aufgrund der checkRequirements() nicht auf die Anzahl an vorhandenen Runden 
 		// überprüft werden. 
 		
-		// TODO: Die gesamte Methode ab hier überarbeiten. Was passiert, wenn ein Wettkampf
-		// DataRows hat ? -> DataRows anzeigen und Chips in Ruhe lassen.
-		List<Chip> chips = chipsController.getChips();
-		for(int i = 0; i < chips.size(); i++) {
-			Chip curChip = chips.get(i);
-			// Dies fügt die Runde -1 ein.
-			chipsController.addLap(curChip.getId());
-			comp.getData().add(new CompetitionViewRowData(curChip, curChip.getLaps().getLast()));
+		
+		// Je nach dem in welchem Zustand sich der Wettkampf befindet, muss anders 
+		// verfahren werden: 
+		// (1) - State == PREPARE || READY
+		//       -> Alle Runden löschen und neu eintragen (es ist nur Runde -1 vorhanden)
+		// (2) - State == RUNNUNG || ENDED
+		//       -> Die vorhandenen Wettkampfdaten anzeigen. Dabei RUNNING genau wie 
+		//          ENDED behandeln.
+		
+		
+		// Fall (1)
+		if(comp.getState() == CompetitionState.PREPARE || comp.getState() == CompetitionState.READY) {
+			
+			for(final Chip c : chipsController.getChips()) {
+				// Dies fügt Runde -1 ein.
+				chipsController.addLap(c.getId());
+				comp.getData().add(new CompetitionViewRowData(c));
+			}
+			
+			logTextArea.appendText("Wettkampf initialisiert.");
 		}
-		chipsController.save();
+		// Fall (2)
+		else {
+			logTextArea.appendText("Wettkampf im \"Anzeigemodus\". ");
+		}
+		
+		// Die Daten aus dem Wettkampf mit der Tabelle verknüpfen.
 		dataTable.setItems(comp.getData());
-		logTextArea.appendText("Wettkampf initialisiert.");
+		
 		
 		try {
-			comp.setState(CompetitionState.ENDED); // NUR ZUM TEST
+			//comp.setState(CompetitionState.ENDED); // NUR ZUM TEST
 			Data.writeComp(Data.COMPETITION_DIR, comp);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log("Warnung: Wettkampf kann nicht gespeichert werden!");
 		}
 	}
 	
