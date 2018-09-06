@@ -34,7 +34,7 @@ public class SettingsPartialCompetition implements Initializable {
 		try {
 			comp.setLapLength(Integer.parseInt(lapLengthField.getText().replace(',', '.')));
 			comp.setLapCount(Double.parseDouble(lapCountField.getText().replace(',', '.')));
-			comp.setTime(Integer.parseInt(timeField.getText().replace(',', '.')));
+			comp.setTime(Integer.parseInt(timeField.getText().replace(',', '.')) * 60);
 		} catch(NumberFormatException nfe) {
 			errorLabel.setText("Bitte beachte die korrekte Formatierung (Rundenlänge, Rundenanzahl & Zeit).");
 			// Aussteigen, damit fehlerhafte Werte nicht geschrieben werden.
