@@ -113,7 +113,7 @@ public abstract class CompetitionView implements Initializable {
 	protected abstract void startBtnClick(Event event);
 	
 	@FXML
-	private void scanTextFieldOnKeyPressed(KeyEvent ke) {
+	protected void scanTextFieldOnKeyPressed(KeyEvent ke) {
 		if(ke.getCode() == KeyCode.ENTER) {
 			
 			String scannedId = scanTextField.getText().trim();

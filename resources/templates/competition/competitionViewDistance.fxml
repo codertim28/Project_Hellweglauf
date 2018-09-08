@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.web.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.*?>
@@ -44,21 +45,30 @@
             </ImageView>
          </children>
       </Pane>
-      <Pane GridPane.columnIndex="1" GridPane.rowIndex="2">
+      <Pane prefHeight="190.0" prefWidth="310.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <children>
             <Button fx:id="startBtn" layoutX="13.0" layoutY="31.0" mnemonicParsing="false" onAction="#startBtnClick" prefHeight="39.0" prefWidth="285.0" text="Start" />
-            <ProgressBar fx:id="timeProgressBar" layoutX="13.0" layoutY="158.0" prefHeight="11.0" prefWidth="285.0" progress="0.0" />
-            <Label fx:id="timeLabel" layoutX="14.0" layoutY="128.0" text="00:00:00">
+            <ProgressBar fx:id="leadingStudentProgressBar" layoutX="13.0" layoutY="158.0" prefHeight="11.0" prefWidth="285.0" progress="0.0" />
+            <Label layoutX="13.0" layoutY="138.0" text="Führende(r):">
                <font>
-                  <Font size="20.0" />
-               </font></Label>
+                  <Font size="14.0" />
+               </font>
+            </Label>
             <Label layoutX="13.0" layoutY="14.0" text="Wettkampfsteuerung:" />
+            <Label fx:id="leadingStudentLabel" layoutX="88.0" layoutY="138.0">
+               <padding>
+                  <Insets left="4.0" />
+               </padding>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>
    <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="470.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="310.0" />
    </columnConstraints>
    <rowConstraints>
       <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />

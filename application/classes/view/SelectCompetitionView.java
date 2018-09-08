@@ -6,9 +6,11 @@ import java.io.IOException;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Tab;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -56,7 +58,7 @@ public class SelectCompetitionView {
 				TimeCompetitionView tcv = new TimeCompetitionView();
 				if (tcv.checkRequirements()) {
 					// wenn die Voraussetzungen geklärt sind, den View einbinden, sonst nicht
-					mainView.addTab(createTab("Wettkampf (Zeit)", "/templates/competition/competitionView.fxml", tcv));
+					mainView.addTab(createTab("Wettkampf (Zeit)", "/templates/competition/competitionViewTime.fxml", tcv));
 				}
 			}
 		});
@@ -68,8 +70,10 @@ public class SelectCompetitionView {
 			@Override
 			public void run() throws Exception {
 				// Den Tab erstellen und hinzufügen
-				mainView.addTab(createTab("Wettkampf (Distanz)", "/templates/competition/competitionView.fxml", null));
-
+				DistanceCompetitionView dcv = new DistanceCompetitionView();
+				if (dcv.checkRequirements()) {
+					mainView.addTab(createTab("Wettkampf (Distanz)", "/templates/competition/competitionViewDistance.fxml", dcv));
+				}
 				// TODO: CompetitionView Controller (Distanz) hinzufügen, um einen Wettkampf
 				// zu kontrollieren. Diesem einen Wettkampf mitgeben. So wird entschieden,
 				// welcher Wettkampf ausgeführt wird
@@ -77,11 +81,13 @@ public class SelectCompetitionView {
 		});
 	}
 
-	private Tab createTab(String title, String resource, CompetitionView controller) throws IOException {
+	private Tab createTab(String title, String resource, CompetitionView view) throws IOException {
 		Tab tab = new Tab(title);
-		FXMLLoader loader = new FXMLLoader(getClass().getResource(resource));
-		loader.setController(controller);
-		tab.setContent(loader.load());
+		// vorbereiten...
+		FXMLLoader templateLoader = new FXMLLoader(getClass().getResource(resource));
+		templateLoader.setController(view);
+		// und laden
+		tab.setContent(templateLoader.load());
 		return tab;
 	}
 
