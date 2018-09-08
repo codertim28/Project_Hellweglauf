@@ -65,7 +65,7 @@ public class MainView implements Initializable {
 		});
 
 		Parent parent = FXMLLoader.load(getClass().getResource("/templates/settings/settingsView.fxml"));
-		Scene scene = new Scene(parent, 500, 400);
+		Scene scene = new Scene(parent, 540, 400);
 		scene.getStylesheets().add(getClass().getResource("/css/application.css").toExternalForm());
 			
 		stage.setScene(scene);

@@ -180,5 +180,3 @@ public class SettingsPartialEdit implements Initializable {
 	}
 }
 
-// FIXME: Das Formular zum Eintragen der Chips muss neu angeordnet werden.
-// So wie es momentan ist, kann es nicht bleiben!
