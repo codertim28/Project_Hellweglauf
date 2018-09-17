@@ -159,7 +159,11 @@ public abstract class CompetitionView implements Initializable {
 		
 		// Fall (1)
 		if(comp.getState() == CompetitionState.PREPARE || comp.getState() == CompetitionState.READY) {
-			
+			// Bevor die Runde -1 eingefügt werden kann, müssen vorhandene Runden entfernt werden.
+			// Dies ist nur ein Schönheitsaspekt, denn der Zeitstempel in Runde -1 ist irrelevant.
+			chipsController.resetLaps();
+			comp.getData().clear();
+			// Jetzt in Ruhe zurücksetzen
 			for(final Chip c : chipsController.getChips()) {
 				// Dies fügt Runde -1 ein.
 				chipsController.addLap(c.getId());
