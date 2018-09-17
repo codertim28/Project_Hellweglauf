@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.web.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.effect.*?>
@@ -100,7 +101,7 @@
           <Menu disable="true" mnemonicParsing="false" text="Hilfe" />
           <Menu mnemonicParsing="false" text="Info">
             <items>
-              <MenuItem disable="true" mnemonicParsing="false" text="Über" />
+              <MenuItem mnemonicParsing="false" onAction="#aboutMenuClick" text="Über" />
                   <MenuItem mnemonicParsing="false" text="Version 0.1" />
             </items>
           </Menu>

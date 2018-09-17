@@ -1,6 +1,8 @@
 package classes.view;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -11,6 +13,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -18,7 +21,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Tooltip;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -72,6 +77,32 @@ public class MainView implements Initializable {
 		stage.show();
 	}
 	
+	@FXML 
+	private void aboutMenuClick() {
+		
+		// Die HTML-Datei für den Über-Tab
+		File f = new File("about.html");
+		// Den Tab erzeugen
+		Tab tab = new Tab("Über die Software");
+		BorderPane bp = new BorderPane();
+		bp.setPadding(new Insets(20));
+		
+		WebView aboutWebView = new WebView();
+		bp.setCenter(aboutWebView);
+		
+		tab.setContent(bp);
+		
+		try {
+			aboutWebView.getEngine().load(f.toURI().toURL().toString());
+			// Tab wird hier hinzugefügt, damit dieser nicht angezeigt wird,
+			// wenn die Datei(about.html) nicht geladen werden konnte.
+			addTab(tab);
+		} catch(MalformedURLException e) {
+			// Dem Benutzer anzeigen, dass etwas nicht 
+			// geklappt hat.
+			errorLabel.setText("Die \"Über\"-Seite konnte nicht geladen werden.");
+		}
+	}
 	
 	// GETTER UND SETTER
 	// So muss es keinen Getter geben, der das 
@@ -101,6 +132,6 @@ public class MainView implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		check();
+		check();		
 	}
 }

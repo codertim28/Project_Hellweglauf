@@ -74,9 +74,6 @@ public class SelectCompetitionView {
 				if (dcv.checkRequirements()) {
 					mainView.addTab(createTab("Wettkampf (Distanz)", "/templates/competition/competitionViewDistance.fxml", dcv));
 				}
-				// TODO: CompetitionView Controller (Distanz) hinzufügen, um einen Wettkampf
-				// zu kontrollieren. Diesem einen Wettkampf mitgeben. So wird entschieden,
-				// welcher Wettkampf ausgeführt wird
 			}
 		});
 	}
