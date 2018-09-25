@@ -16,7 +16,10 @@ import classes.model.Competition;
 import classes.model.CompetitionState;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -28,8 +31,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import tp.dialog.StandardAlert;
+import tp.dialog.StandardMessageType;
 
 
 public abstract class CompetitionView implements Initializable {
@@ -256,6 +264,35 @@ public abstract class CompetitionView implements Initializable {
 		}
 		
 		return true;
+	}
+	
+	
+	/**
+	 * Sorgt dafür, das der "Vorbereitungsdialog" geöffnet wird.
+	 */
+	@FXML
+	private void prepareBtnClick(Event e) {
+		// Das Checklisten-Fenster erstellen
+		Stage stage = new Stage();
+		stage.setResizable(false);
+		stage.initOwner(((ImageView) e.getSource()).getScene().getWindow());
+		stage.initModality(Modality.WINDOW_MODAL);
+		
+		
+		// Das Laden vorbereiten...
+		FXMLLoader templateLoader = new FXMLLoader(getClass().getResource("/templates/competition/prepareView.fxml"));
+		templateLoader.setController(new PrepareView(chipsController, comp));
+		// und laden
+		Parent parent;
+		try {
+			// Laden und anzeigen
+			parent = (Parent)templateLoader.load();
+			Scene scene = new Scene(parent, 400, 400);
+			stage.setScene(scene);
+			stage.show();
+		} catch(IOException e1) {
+			new StandardAlert(StandardMessageType.ERROR);
+		}
 	}
 	
 	private Alert generateAlert(String type) {
