@@ -3,6 +3,8 @@ package classes.view;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.sun.xml.internal.ws.util.StringUtils;
+
 import classes.controller.ChipsController;
 import classes.model.Competition;
 import javafx.fxml.FXML;
@@ -29,11 +31,19 @@ public class PrepareView implements Initializable {
 		setCompetition(comp);
 	}
 	
+	@FXML
+	private void readyBtnClick() {
+		// TODO: Die (eventuell) neuen Wettkampfparameter übernehmen
+		// und die Einstellungen im CompetitionView aktualisieren bzw.
+		// anzeigen...
+	}
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-		
+		// Alle Werte laden bzw. anzeigen
+		timeField.setText("" + competition.getTime() / 60);
+		lapLengthField.setText("" + competition.getLapLength());
+		lapCountField.setText("" + competition.getLapCount());		
 	}
 
 
