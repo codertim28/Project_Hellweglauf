@@ -64,7 +64,7 @@
                <children>
                   <Label text="(2)" />
                   <Label text="Schüler aufrufen" GridPane.columnIndex="1" />
-                  <TextField fx:id="chipIdField" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <TextField fx:id="chipIdField" onKeyPressed="#chipIdFieldOnKeyPressed" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <tooltip>
                         <Tooltip text="Chip scannen" />
                      </tooltip>
@@ -72,8 +72,8 @@
                   <Label fx:id="studentNameLabel" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="4.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <children>
-                        <Button fx:id="yesBtn" mnemonicParsing="false" prefWidth="45.0" text="Ja" />
-                        <Button fx:id="noBtn" mnemonicParsing="false" prefWidth="45.0" text="Nein" />
+                        <Button fx:id="yesBtn" mnemonicParsing="false" onAction="#yesBtnClick" prefWidth="45.0" text="Ja" />
+                        <Button fx:id="noBtn" mnemonicParsing="false" onAction="#noBtnClick" prefWidth="45.0" text="Nein" />
                      </children>
                   </HBox>
                   <Label text="Chip scannen:" GridPane.columnIndex="1" GridPane.rowIndex="1" />

@@ -12,6 +12,7 @@ import classes.CompetitionViewRowData;
 import classes.Data;
 import classes.controller.ChipsController;
 import classes.model.Chip;
+import classes.model.ChipState;
 import classes.model.Competition;
 import classes.model.CompetitionState;
 import javafx.event.Event;
@@ -89,8 +90,13 @@ public abstract class CompetitionView implements Initializable {
 		for(int i = 0; i < size; i++) {
 			String curId = dataList.get(i).chipIdProperty().get();
 			Chip curChip = chipsController.getChipById(curId);
-			chipsController.addLap(curId);
-			dataList.add(new CompetitionViewRowData(curChip, curChip.getLaps().getLast()));
+			// Die Startrunde soll nur eingefügt werden, wenn der Schüler
+			// auch startet. Ist der Status eines Chips == DNS wird dieser nicht 
+			// starten.
+			if(curChip.getState() != ChipState.DNS) {
+				chipsController.addLap(curId);
+				dataList.add(new CompetitionViewRowData(curChip, curChip.getLaps().getLast()));
+			}
 		}
 	}
 

@@ -18,7 +18,8 @@ public class Chip {
 	private StringProperty studentName;
 	private StringProperty form; // Die Klasse des Schülers
 	private LinkedList<Lap> laps;
-
+	private ChipState state;
+	
 	/**
 	 * Wird von "HellwegBufferedReader" benutzt.
 	 * Sollte sonst nicht (!) verwendet werden.
@@ -36,6 +37,7 @@ public class Chip {
 		setStudentName(studentName);
 		setForm(form);
 		setLaps(new LinkedList<Lap>());
+		setState(ChipState.OK);
 	}
 	
 	// PROPERTIES
@@ -82,6 +84,14 @@ public class Chip {
 
 	public void setLaps(LinkedList<Lap> laps) {
 		this.laps = laps;
+	}
+
+	public ChipState getState() {
+		return state;
+	}
+
+	public void setState(ChipState state) {
+		this.state = state;
 	}
 
 	public int getLapCount() {
