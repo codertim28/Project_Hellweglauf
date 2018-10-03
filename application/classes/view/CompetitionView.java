@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 
 import classes.CompetitionViewRowData;
 import classes.Data;
+import classes.SetupUtils;
 import classes.controller.ChipsController;
 import classes.model.Chip;
 import classes.model.ChipState;
@@ -66,7 +67,7 @@ public abstract class CompetitionView implements Initializable {
 	public CompetitionView() throws IOException {
 		// Bevor der ChipsController erstellt wird: Das Wettkampfverzeichnis erstellen
 		// (falls nicht vorhanden) und Chips + Wettkampf kopieren. 
-		Data.createCompetitionDirIfNotExists();
+		SetupUtils.createCompetitionDirIfNotExists();
 		chipsController = new ChipsController(Data.COMPETITION_DIR);
 		// Muss hier geladen werden. Chips werden bereits vor der initialize(...)
 		// verwendet. (s. checkRequirements)

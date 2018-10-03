@@ -2,6 +2,7 @@
 import java.io.IOException;
 
 import classes.Data;
+import classes.SetupUtils;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -13,7 +14,7 @@ public class Main extends Application {
 	@Override 
 	public void init() {
 		try {
-			Data.createDataDirIfNotExists();
+			SetupUtils.createDataDirIfNotExists();
 		}
 		catch(IOException ioe) {
 			ioe.printStackTrace();
