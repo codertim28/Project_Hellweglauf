@@ -24,6 +24,7 @@ public final class Data {
 	public final static String TRAINING_FILE = "training.xml";
 	public final static String FORMS_FILE = "forms";
 	
+	@Deprecated
 	public static void writeChips(String dir, ArrayList<Chip> chips) throws IOException {					
 		// Der PrintWriter wird hier erzeugt (wegen throws im Methodenkopf)
 		HellwegPrintWriter hpw = new HellwegPrintWriter(new FileWriter(DIR + "/" + dir + "/" + CHIPS_FILE));
@@ -58,9 +59,8 @@ public final class Data {
 	 * @return Eine Liste aller Chips.
 	 * @throws IOException - Falls ein IOError auftritt.
 	 */
+	@Deprecated
 	public static ArrayList<Chip> readChips(String dir) throws IOException {
-		// TODO: in eigenem Thread lesen ? Könnte sonst etwas viel
-		// werden, während eines Wettkampfes. Oder gezielt nur einen Chip schreiben.
 		ArrayList<Chip> chipList = new ArrayList<Chip>();
 		       
     	HellwegBufferedReader hbr = new HellwegBufferedReader(new FileReader(DIR + "/" + dir + "/" + CHIPS_FILE));   		
@@ -73,6 +73,7 @@ public final class Data {
 		return chipList;
 	}
 	
+	@Deprecated
 	public static void writeComp(String dir, Competition compToWrite) throws IOException {					
 		HellwegPrintWriter hpw = new HellwegPrintWriter(new FileWriter(DIR + "/" + dir + "/" + COMPETITION_FILE));
 		hpw.print(compToWrite);
@@ -80,8 +81,8 @@ public final class Data {
 		hpw.close();
 	}
 	
+	@Deprecated
 	public static Competition readComp(String dir) throws IOException {
-	
     	HellwegBufferedReader hbr = new HellwegBufferedReader(new FileReader(DIR + "/" + dir + "/" + COMPETITION_FILE));   		
     	Competition comp = hbr.readCompetition();
 		hbr.close();
