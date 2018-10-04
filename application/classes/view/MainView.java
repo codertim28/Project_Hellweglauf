@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import classes.Data;
+import classes.SetupUtils;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -116,7 +117,7 @@ public class MainView implements Initializable {
 		errorLabel.setText(new String());
 		// Testen, ob es Chips gibt. Falls es keine Chips gibt, müssen der Wettkampf- und 
 		// Trainingsbutton deaktiviert werden. 
-		int basicChipsFile = Data.testForFile(Data.BASIC_DIR + "/" + Data.CHIPS_FILE);
+		int basicChipsFile = SetupUtils.testForFile(Data.BASIC_DIR + "/" + Data.CHIPS_FILE);
 		
 		// Die Chipsdatei im BASIC_DIR ist die Wichtigste. Ohne diese kann das Programm kaum richtig arbeiten,
 		// da bei jedem neuen Wettkampf (und auch Training) die Chips von dort aus kopiert werden.

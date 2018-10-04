@@ -1,6 +1,9 @@
 package classes;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -93,5 +96,23 @@ public final class SetupUtils {
 			
 		return returnValue;
 	}
-
+	
+	/**
+	 * Diese Methode testet, ob eine Datei existiert.
+	 * @param file : String, der Pfad zur Datei.
+	 * @return Größe der Datei, -1 wenn Datei nicht existiert, -2 wenn eine andere IOException auftritt.
+	 */
+	public static int testForFile(String file) {
+		try {
+			BufferedInputStream bis = new BufferedInputStream(new FileInputStream(Data.DIR + "/" + file));
+			int size = bis.available();
+			bis.close();
+			return size;
+		} catch (FileNotFoundException e) {
+			// wenn eine Datei nicht existiert
+			return -1;
+		} catch (IOException e) {
+			return -2;
+		}
+	}
 }

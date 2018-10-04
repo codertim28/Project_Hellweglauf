@@ -102,7 +102,7 @@ public final class Data {
 	}
 	
 	public static Object readObject(String pathToFile) throws IOException, ClassNotFoundException, EOFException {	
-		if(testForFile(pathToFile) <= -1) {
+		if(SetupUtils.testForFile(pathToFile) <= -1) {
 			throw new IOException("No file available.");
 		}
 		
@@ -126,25 +126,6 @@ public final class Data {
 			return true;
 		} catch (IOException e) {
 			return false;
-		}
-	}
-	
-	/**
-	 * Diese Methode testet, ob eine Datei existiert.
-	 * @param file : String, der Pfad zur Datei.
-	 * @return Größe der Datei, -1 wenn Datei nicht existiert, -2 wenn eine andere IOException auftritt.
-	 */
-	public static int testForFile(String file) {
-		try {
-			BufferedInputStream bis = new BufferedInputStream(new FileInputStream(DIR + "/" + file));
-			int size = bis.available();
-			bis.close();
-			return size;
-		} catch (FileNotFoundException e) {
-			// wenn eine Datei nicht existiert
-			return -1;
-		} catch (IOException e) {
-			return -2;
 		}
 	}
 }
