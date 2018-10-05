@@ -16,6 +16,7 @@ import classes.model.Chip;
 import classes.model.ChipState;
 import classes.model.Competition;
 import classes.model.CompetitionState;
+import classes.repository.CompetitionRepository;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -63,6 +64,7 @@ public abstract class CompetitionView implements Initializable {
 	 * teilnimmt. Somit bilden die Chips eine eigene
 	 * Einheit.
 	 */
+	protected CompetitionRepository compRepo; // w/r eines Wettkampfes
 	protected Competition comp;	
 	protected ChipsController chipsController;
 	
@@ -76,8 +78,9 @@ public abstract class CompetitionView implements Initializable {
 		chipsController.load(); 
 		// Noch den entsprechenden Wettkampf laden, wenn es einen gibt
 		// Schauen, ob ein Wettkampf bereits vorhanden ist.
-		comp = Data.readComp(Data.COMPETITION_DIR);
-		//          ^^^^^^^^
+		compRepo = new CompetitionRepository(Data.DIR + "/" + Data.COMPETITION_DIR + "/" + Data.COMPETITION_FILE);
+		comp = compRepo.read();
+		//              ^^^^^^
 		// Das ist der Teil, welche die Exception auslösen kann
 	}
 	
@@ -113,7 +116,7 @@ public abstract class CompetitionView implements Initializable {
 		// durch. Am Besten: Bei jeder Runde den jeweiligen Chip speichern.
 		chipsController.save();
 		try {
-			Data.writeComp(Data.COMPETITION_DIR, comp);
+			compRepo.write(comp);
 		} catch (IOException e) {
 			log("Wettkampf konnte NICHT gespeichert werden!");
 		}
@@ -201,7 +204,7 @@ public abstract class CompetitionView implements Initializable {
 		
 		
 		try {
-			Data.writeComp(Data.COMPETITION_DIR, comp);
+			compRepo.write(comp);
 		} catch (IOException e) {
 			log("Warnung: Wettkampf kann nicht gespeichert werden!");
 		}
@@ -292,8 +295,8 @@ public abstract class CompetitionView implements Initializable {
 		try {
 			// Einen frischen Wettkampf laden, damit eventuelle
 			// neue Einstellungen übernommen werden.
-			Data.writeComp(Data.COMPETITION_DIR, Data.readComp(Data.BASIC_DIR));
-			comp = Data.readComp(Data.COMPETITION_DIR);
+			compRepo.write(compRepo.read());
+			comp = compRepo.read();
 		} catch (IOException e) {
 			return false;
 		}

@@ -9,7 +9,7 @@ import classes.model.Chip;
 import classes.model.Competition;
 import tp.Synchronizer;
 
-// TODO: Aus Data ein Repository machen
+// TODO: Data abschaffen
 
 public final class Data {
 

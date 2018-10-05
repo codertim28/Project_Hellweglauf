@@ -3,6 +3,7 @@ package classes.model;
 import java.util.LinkedList;
 
 import classes.CompetitionViewRowData;
+import classes.repository.CompetitionRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

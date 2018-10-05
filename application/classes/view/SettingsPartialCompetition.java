@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import classes.Data;
 import classes.model.Competition;
+import classes.repository.CompetitionRepository;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
@@ -21,6 +22,8 @@ public class SettingsPartialCompetition implements Initializable {
 	@FXML private TextField timeField;
 	
 	@FXML private Label errorLabel;
+	
+	private CompetitionRepository repository;
 	
 	@FXML
 	private void saveBtnClick() {
@@ -42,7 +45,7 @@ public class SettingsPartialCompetition implements Initializable {
 		}
 		
 		try {
-			Data.writeComp(Data.BASIC_DIR, comp);
+			repository.write(comp);
 			// Allgemeine Erfolgsnachricht
 			StandardAlert standardAlert = new StandardAlert(StandardMessageType.SUCCESS);
 			standardAlert.showAndWait();
@@ -67,7 +70,7 @@ public class SettingsPartialCompetition implements Initializable {
 		defaultComp.setTime(30 * 60);
 		
 		try {
-			Data.writeComp(Data.BASIC_DIR, defaultComp);
+			repository.write(defaultComp);
 			// Allgemeine Erfolgsnachricht
 			new StandardAlert(StandardMessageType.SUCCESS).showAndWait();
 		} catch (IOException e) {
@@ -78,10 +81,11 @@ public class SettingsPartialCompetition implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		repository = new CompetitionRepository(Data.DIR + "/" + Data.BASIC_DIR + "/" + Data.COMPETITION_FILE);
 		
 		try {
-			// Das Wettkampfobjekt aus dem basic_dir lesen und casten
-			Competition comp = Data.readComp(Data.BASIC_DIR);
+			// Das Wettkampfobjekt aus dem basic_dir lesen
+			Competition comp = repository.read();
 			// Die Attribute in Textfelder schreiben, damit diese vom Benutzer
 			// bearbeitet werden können.
 			lapLengthField.setText("" + comp.getLapLength());
