@@ -54,6 +54,8 @@ public abstract class CompetitionView implements Initializable {
 	@FXML protected Button startBtn;
 	@FXML protected TextField scanTextField;
 	
+	// FIXME: TimerThread zerstören, wenn Wettkampf-Tab geschlossen wird.
+	
 	/*
 	 * Anmerkung: Die Chips werden nicht im Wettkampf
 	 * gespeichert! Dies liegt daran, dass jeder Chip,
@@ -219,21 +221,7 @@ public abstract class CompetitionView implements Initializable {
 			Optional<ButtonType> result = alert.showAndWait();
 			if(result.isPresent()) {
 				if(result.get().getButtonData().equals(ButtonData.YES)) {
-					// Wettkampf + Runden zurücksetzen
-					try {
-						// Einen frischen Wettkampf laden, damit eventuelle
-						// neue Einstellungen übernommen werden.
-						Data.writeComp(Data.COMPETITION_DIR, Data.readComp(Data.BASIC_DIR));
-						comp = Data.readComp(Data.COMPETITION_DIR);
-					} catch (IOException e) {
-						return false;
-					}
-					// Chips neu laden, damit neu eingetragene oder gelöschte auch 
-					// angezeigt werden ode eben nicht.
-					Data.copyChips(Data.BASIC_DIR, Data.COMPETITION_DIR);
-					chipsController.load();
-					return true;
-					
+					return reload();
 				} else if(result.get().getButtonData().equals(ButtonData.NO)) {
 					// vorhandenen Wettkampf anzeigen
 					return true;
@@ -241,13 +229,32 @@ public abstract class CompetitionView implements Initializable {
 					return false;
 				}
 			}
+		}
+		else if(comp.getState() == CompetitionState.READY) {
+			// Gibt es einen bereits vorbereiteten Wettkampf, so soll der Benutzer
+			// gefragt werden, was geschen soll.
+			Alert alert = generateAlert("competitionReady");
+			Optional<ButtonType> result = alert.showAndWait();
+			
+			if(result.isPresent()) {
+				if(result.get().getButtonData().equals(ButtonData.YES)) {
+					// vorhandenen Wettkampf anzeigen
+					return true;
+				} else if(result.get().getButtonData().equals(ButtonData.NO)) {
+					return reload();
+				} else if(result.get().getButtonData().equals(ButtonData.CANCEL_CLOSE)) {
+					return false;
+				}
+			}
 		} else {
-			// Falls Runden existieren, aber keine Wettkampf-Datei.
+			// Falls Runden existieren, aber keine Wettkampf-Datei (oder Wettkampf
+			// im Status PREPARE).
 			// Die Runde -1 soll einfach übergangen werden, es interressiert
 			// im Endeffekt eh nicht, welcher Timestamp dort hinterlegt ist.
 			if(chipsController.getHighestLapCount() == Chip.LAPCOUNT_START + 1) {
-				// Runden zurücksetzen -> true zurückgeben.
-				chipsController.resetLaps();
+				// Chips neu laden -> true zurückgeben.
+				Data.copyChips(Data.BASIC_DIR, Data.COMPETITION_DIR);
+				chipsController.load();
 				return true;
 			}
 			// sonst sollte jedoch der Benutzer entscheiden
@@ -259,8 +266,9 @@ public abstract class CompetitionView implements Initializable {
 				Optional<ButtonType> result = alert.showAndWait();
 				if(result.isPresent()) {
 					if(result.get().getButtonData().equals(ButtonData.YES)) {
-						// Runden zurücksetzen -> true zurückgeben.
-						chipsController.resetLaps();
+						// Chips neu laden -> true zurückgeben.
+						Data.copyChips(Data.BASIC_DIR, Data.COMPETITION_DIR);
+						chipsController.load();
 						return true;
 					}
 					else if(result.get().getButtonData().equals(ButtonData.CANCEL_CLOSE)) {
@@ -268,11 +276,33 @@ public abstract class CompetitionView implements Initializable {
 					}
 				}
 			}
+			else {
+				// in jedem anderen Fall:
+				// Chips neu laden -> true zurückgeben.
+				Data.copyChips(Data.BASIC_DIR, Data.COMPETITION_DIR);
+				chipsController.load();
+			}
 		}
 		
 		return true;
 	}
 	
+	private boolean reload() {
+		// Wettkampf + Runden zurücksetzen
+		try {
+			// Einen frischen Wettkampf laden, damit eventuelle
+			// neue Einstellungen übernommen werden.
+			Data.writeComp(Data.COMPETITION_DIR, Data.readComp(Data.BASIC_DIR));
+			comp = Data.readComp(Data.COMPETITION_DIR);
+		} catch (IOException e) {
+			return false;
+		}
+		// Chips neu laden, damit neu eingetragene oder gelöschte auch 
+		// angezeigt werden ode eben nicht.
+		Data.copyChips(Data.BASIC_DIR, Data.COMPETITION_DIR);
+		chipsController.load();
+		return true;
+	}
 	
 	/**
 	 * Sorgt dafür, das der "Vorbereitungsdialog" geöffnet wird.
@@ -327,6 +357,13 @@ public abstract class CompetitionView implements Initializable {
 					"Um einen neuen Wettkampf zu starten, muss ein neuer Wettkampf erstellt werden.");
 			alert.getButtonTypes().addAll(new ButtonType("Neu", ButtonBar.ButtonData.YES),
 					new ButtonType("Anzeigen", ButtonBar.ButtonData.NO),
+					new ButtonType("Abbrechen", ButtonBar.ButtonData.CANCEL_CLOSE));
+		}
+		else if(type.equals("competitionReady")) {
+			alert.setContentText("Es ist bereits ein Wettkampf vorbereitet. " + 
+					"Es kann mit diesem weiter gearbeitet werden oder ein neuer erstellt werden.");
+			alert.getButtonTypes().addAll(new ButtonType("Weiter", ButtonBar.ButtonData.YES),
+					new ButtonType("Neu", ButtonBar.ButtonData.NO),
 					new ButtonType("Abbrechen", ButtonBar.ButtonData.CANCEL_CLOSE));
 		}
 		
