@@ -68,7 +68,7 @@ public abstract class CompetitionView implements Initializable {
 		// Bevor der ChipsController erstellt wird: Das Wettkampfverzeichnis erstellen
 		// (falls nicht vorhanden) und Chips + Wettkampf kopieren. 
 		SetupUtils.createCompetitionDirIfNotExists();
-		chipsController = new ChipsController(Data.COMPETITION_DIR);
+		chipsController = new ChipsController(Data.DIR + "/" + Data.COMPETITION_DIR + "/" + Data.CHIPS_FILE);
 		// Muss hier geladen werden. Chips werden bereits vor der initialize(...)
 		// verwendet. (s. checkRequirements)
 		chipsController.load(); 

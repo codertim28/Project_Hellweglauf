@@ -10,21 +10,24 @@ import java.util.LinkedList;
 import classes.Data;
 import classes.model.Chip;
 import classes.model.Lap;
+import classes.repository.ChipRepository;
 
 public class ChipsController {
 	
 	private ArrayList<Chip> chips;
-	// Das Arbeitsverzeichnis: "competition", "training" oder "basic" (s. Data)
-	private String dir;
+	private ChipRepository repository;
 	
 	public ChipsController() {
-		setChips(new ArrayList<Chip>());
-		setDir(Data.BASIC_DIR);
+		this(Data.DIR + "/" + Data.BASIC_DIR + "/" + Data.CHIPS_FILE);
 	}
 	
-	public ChipsController(String dir) {
+	public ChipsController(String path) {
+		this(new ChipRepository(path));
+	}
+	
+	public ChipsController(ChipRepository repository) {
 		setChips(new ArrayList<Chip>());
-		setDir(dir);
+		setRepository(repository);
 	}
 	
 	/**
@@ -72,7 +75,7 @@ public class ChipsController {
 	 */
 	public void save() {
 		try {
-			Data.writeChips(dir, chips);
+			repository.write(chips);
 		} catch (IOException e) {}
 	}
 	
@@ -82,7 +85,7 @@ public class ChipsController {
 	 */
 	public void load() {
 		try {
-			chips = Data.readChips(dir);
+			chips = (ArrayList<Chip>)repository.read();
 		} catch (IOException ioe) {}
 	}
 	
@@ -114,11 +117,11 @@ public class ChipsController {
 		return highest;
 	}
 
-	public String getDir() {
-		return dir;
+	public ChipRepository getRepository() {
+		return repository;
 	}
 
-	private void setDir(String dir) {
-		this.dir = dir;
+	public void setRepository(ChipRepository repository) {
+		this.repository = repository;
 	}
 }
