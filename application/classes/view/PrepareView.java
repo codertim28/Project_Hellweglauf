@@ -69,7 +69,9 @@ public class PrepareView implements Initializable {
 	@FXML 
 	private void noBtnClick() {
 		// Anmerken, dass dieser Chip / Schüler nicht starten wird.
-		scannedChip.setState(ChipState.DNS);
+		if(scannedChip != null) {
+			scannedChip.setState(ChipState.DNS);
+		}
 		
 		clearChipIdField();
 	}
