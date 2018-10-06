@@ -9,6 +9,7 @@ import classes.controller.ChipsController;
 import classes.model.Chip;
 import classes.model.ChipState;
 import classes.model.Competition;
+import classes.model.CompetitionState;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -78,6 +79,9 @@ public class PrepareView implements Initializable {
 		// TODO: Die (eventuell) neuen Wettkampfparameter übernehmen
 		// und die Einstellungen im CompetitionView aktualisieren bzw.
 		// anzeigen...
+		// Den Wettkampf als "vorbereitet" vermerken und schließen 
+		competition.setState(CompetitionState.READY);
+		readyBtn.getScene().getWindow().hide();
 	}
 	
 	@Override
