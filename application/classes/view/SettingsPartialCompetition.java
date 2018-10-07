@@ -44,12 +44,12 @@ public class SettingsPartialCompetition implements Initializable {
 			return;
 		}
 		
-		try {
-			repository.write(comp);
+		boolean success = repository.write(comp);
+		if(success) {
 			// Allgemeine Erfolgsnachricht
 			StandardAlert standardAlert = new StandardAlert(StandardMessageType.SUCCESS);
 			standardAlert.showAndWait();
-		} catch (IOException e) {
+		} else {
 			// Allgemeine Fehlernachricht
 			StandardAlert standardAlert = new StandardAlert(StandardMessageType.ERROR);
 			standardAlert.showAndWait();
@@ -69,11 +69,11 @@ public class SettingsPartialCompetition implements Initializable {
 		defaultComp.setLapLength(400);
 		defaultComp.setTime(30 * 60);
 		
-		try {
-			repository.write(defaultComp);
+		boolean success = repository.write(defaultComp);
+		if(success) {
 			// Allgemeine Erfolgsnachricht
 			new StandardAlert(StandardMessageType.SUCCESS).showAndWait();
-		} catch (IOException e) {
+		} else {
 			// Allgemeine Fehlernachricht
 			new StandardAlert(StandardMessageType.ERROR).showAndWait();
 		}
