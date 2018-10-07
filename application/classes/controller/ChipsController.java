@@ -76,7 +76,9 @@ public class ChipsController {
 	 * Schreibt alle Chips in eine Datei.
 	 */
 	public void save() {
-		repository.write(chips);
+		try {
+			repository.writeAsync(chips);
+		} catch(IOException e) {}
 	}
 	
 	/**
