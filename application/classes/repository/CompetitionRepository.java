@@ -19,14 +19,21 @@ public class CompetitionRepository extends Repository implements SWriteRead<Comp
 	}
 
 	@Override
-	public void write(Competition compToWrite) throws IOException {
-		HellwegPrintWriter hpw = new HellwegPrintWriter(new FileWriter(path));
-		hpw.print(compToWrite);
-		hpw.flush();
-		hpw.close();	
+	public boolean write(Competition compToWrite) {
+		HellwegPrintWriter hpw;
+		try {
+			hpw = new HellwegPrintWriter(new FileWriter(path));
+			hpw.print(compToWrite);
+			hpw.flush();
+			hpw.close();
+		} catch(IOException e) {
+			return false;
+		}	
 		
 		// ChipsController speichern
 		compToWrite.getChipsController().save();
+		
+		return true;
 	}
 
 	@Override

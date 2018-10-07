@@ -20,7 +20,7 @@ public class ChipRepository extends Repository implements MWriteRead<Chip> {
 	}
 
 	@Override
-	public void write(List<Chip> chips) throws IOException {
+	public void writeAsync(List<Chip> chips) throws IOException {
 		// Der PrintWriter wird hier erzeugt (wegen throws im Methodenkopf)
 		HellwegPrintWriter hpw = new HellwegPrintWriter(new FileWriter(path));
 		
@@ -46,6 +46,11 @@ public class ChipRepository extends Repository implements MWriteRead<Chip> {
 		});
 		// Alle Chips schreiben
 		writerThread.start();		
+	}
+	
+	@Override
+	public boolean write(List<Chip> chips) {
+		return false;	
 	}
 
 	/**

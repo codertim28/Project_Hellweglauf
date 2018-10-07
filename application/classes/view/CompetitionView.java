@@ -110,9 +110,8 @@ public abstract class CompetitionView implements Initializable {
 		// TODO: Nicht nur hier speichern, sondern auch zwischen
 		// durch. Am Besten: Bei jeder Runde den jeweiligen Chip speichern.
 		chipsController.save();
-		try {
-			compRepo.write(comp);
-		} catch (IOException e) {
+		boolean success = compRepo.write(comp);
+		if(!success) {
 			log("Wettkampf konnte NICHT gespeichert werden!");
 		}
 	}
@@ -198,9 +197,9 @@ public abstract class CompetitionView implements Initializable {
 		dataTable.setItems(comp.getData());
 		
 		
-		try {
-			compRepo.write(comp);
-		} catch (IOException e) {
+
+		boolean success = compRepo.write(comp);
+		if(!success) {
 			log("Warnung: Wettkampf kann nicht gespeichert werden!");
 		}
 	}
