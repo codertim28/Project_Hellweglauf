@@ -3,6 +3,7 @@ package classes.model;
 import java.util.LinkedList;
 
 import classes.CompetitionViewRowData;
+import classes.controller.ChipsController;
 import classes.repository.CompetitionRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,17 +20,23 @@ public class Competition {
 	
 	private CompetitionState state;
 	
+	// Der Wettkampf hält einen ChipsController, indem alle
+	// Chips gespeichert / verwaltet werden, die an diesem Wettkampf 
+	// teilnehmen.
+	private ChipsController chipsController;
+	
 	// Die Daten (gelistet nach Runden; wie in der 
 	// ursprünglichen Software)
 	private ObservableList<CompetitionViewRowData> data;
 	
 	public Competition() {
-		init();
+		this(new ChipsController());
 	}
 	
-	public void init() {
+	public Competition(ChipsController cc) {
 		setState(CompetitionState.PREPARE);
 		setData(FXCollections.observableList(new LinkedList<CompetitionViewRowData>()));
+		setChipsController(cc);
 	}
 	
 	public String getName() {
@@ -78,5 +85,13 @@ public class Competition {
 
 	public void setState(CompetitionState state) {
 		this.state = state;
+	}
+
+	public ChipsController getChipsController() {
+		return chipsController;
+	}
+
+	public void setChipsController(ChipsController chipsController) {
+		this.chipsController = chipsController;
 	}
 }

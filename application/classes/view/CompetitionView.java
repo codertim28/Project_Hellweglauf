@@ -58,11 +58,8 @@ public abstract class CompetitionView implements Initializable {
 	// FIXME: TimerThread zerstören, wenn Wettkampf-Tab geschlossen wird.
 	
 	/*
-	 * Anmerkung: Die Chips werden nicht im Wettkampf
-	 * gespeichert! Dies liegt daran, dass jeder Chip,
-	 * welcher dem System bekannt ist, an jedem Wettkampf
-	 * teilnimmt. Somit bilden die Chips eine eigene
-	 * Einheit.
+	 * Anmerkung: Die Chips sind Teil des Wettkampfes! Die Referenz auf den Controller
+	 * Wird nur direkt in den View gezogen, um Aktionen mit dem Controller zu vereinfachen.
 	 */
 	protected CompetitionRepository compRepo; // w/r eines Wettkampfes
 	protected Competition comp;	
@@ -72,16 +69,14 @@ public abstract class CompetitionView implements Initializable {
 		// Bevor der ChipsController erstellt wird: Das Wettkampfverzeichnis erstellen
 		// (falls nicht vorhanden) und Chips + Wettkampf kopieren. 
 		SetupUtils.createCompetitionDirIfNotExists();
-		chipsController = new ChipsController(Data.DIR + "/" + Data.COMPETITION_DIR + "/" + Data.CHIPS_FILE);
-		// Muss hier geladen werden. Chips werden bereits vor der initialize(...)
-		// verwendet. (s. checkRequirements)
-		chipsController.load(); 
 		// Noch den entsprechenden Wettkampf laden, wenn es einen gibt
 		// Schauen, ob ein Wettkampf bereits vorhanden ist.
 		compRepo = new CompetitionRepository(Data.DIR + "/" + Data.COMPETITION_DIR + "/" + Data.COMPETITION_FILE);
 		comp = compRepo.read();
 		//              ^^^^^^
 		// Das ist der Teil, welche die Exception auslösen kann
+		// Den ChipsController aus dem Wettkampf holen.
+		chipsController = comp.getChipsController();
 	}
 	
 	protected void setStartRounds() {
@@ -295,7 +290,8 @@ public abstract class CompetitionView implements Initializable {
 		try {
 			// Einen frischen Wettkampf laden, damit eventuelle
 			// neue Einstellungen übernommen werden.
-			compRepo.write(compRepo.read());
+			CompetitionRepository tempRepo = new CompetitionRepository(Data.DIR + "/" + Data.BASIC_DIR + "/" + Data.COMPETITION_FILE);
+			compRepo.write(tempRepo.read());
 			comp = compRepo.read();
 		} catch (IOException e) {
 			return false;
@@ -303,6 +299,8 @@ public abstract class CompetitionView implements Initializable {
 		// Chips neu laden, damit neu eingetragene oder gelöschte auch 
 		// angezeigt werden ode eben nicht.
 		Data.copyChips(Data.BASIC_DIR, Data.COMPETITION_DIR);
+		// Referenz updaten
+		chipsController = comp.getChipsController();
 		chipsController.load();
 		return true;
 	}

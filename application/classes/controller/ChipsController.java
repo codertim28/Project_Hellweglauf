@@ -17,6 +17,8 @@ public class ChipsController {
 	private ArrayList<Chip> chips;
 	private ChipRepository repository;
 	
+	// Dieser Konstruktor wird in den Einstellungen verwendet,
+	// um neue Chips einzutragen.
 	public ChipsController() {
 		this(Data.DIR + "/" + Data.BASIC_DIR + "/" + Data.CHIPS_FILE);
 	}
