@@ -59,6 +59,7 @@ public class SelectCompetitionView {
 				if (tcv.checkRequirements()) {
 					// wenn die Voraussetzungen geklärt sind, den View einbinden, sonst nicht
 					mainView.addTab(createTab("Wettkampf (Zeit)", "/templates/competition/competitionViewTime.fxml", tcv));
+					mainView.setCurrentCompetitionAndRepository(tcv.getCompetition(), tcv.getCompetitionRepository());
 				}
 			}
 		});
@@ -73,11 +74,12 @@ public class SelectCompetitionView {
 				DistanceCompetitionView dcv = new DistanceCompetitionView();
 				if (dcv.checkRequirements()) {
 					mainView.addTab(createTab("Wettkampf (Distanz)", "/templates/competition/competitionViewDistance.fxml", dcv));
+					mainView.setCurrentCompetitionAndRepository(dcv.getCompetition(), dcv.getCompetitionRepository());
 				}
 			}
 		});
 	}
-
+	
 	private Tab createTab(String title, String resource, CompetitionView view) throws IOException {
 		Tab tab = new Tab(title);
 		// vorbereiten...
@@ -85,6 +87,7 @@ public class SelectCompetitionView {
 		templateLoader.setController(view);
 		// und laden
 		tab.setContent(templateLoader.load());
+		
 		return tab;
 	}
 

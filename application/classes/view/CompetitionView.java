@@ -332,6 +332,18 @@ public abstract class CompetitionView implements Initializable {
 		}
 	}
 	
+	// GETTER UND SETTER
+	// wird vom MainView verwendet, um den Wetkampf
+	// vom Benutzer speichern zu lassen
+	public Competition getCompetition() {
+		return comp;
+	}
+	// wird vom MainView verwendet, um den Wetkampf
+	// vom Benutzer speichern zu lassen
+	public CompetitionRepository getCompetitionRepository() {
+		return compRepo;
+	}
+	
 	private Alert generateAlert(String type) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setHeaderText("Achtung!");

@@ -8,6 +8,8 @@ import java.util.ResourceBundle;
 
 import classes.Data;
 import classes.SetupUtils;
+import classes.model.Competition;
+import classes.repository.CompetitionRepository;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -19,6 +21,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Tooltip;
@@ -33,6 +36,12 @@ public class MainView implements Initializable {
 	@FXML private TabPane tabPane;
 	@FXML private Pane competitionPane, trainingPane;
 	@FXML private Label errorLabel;
+	@FXML private Menu saveMenu;
+	
+	// Der MainView bekommt den geöffneten Wettkampf (und Repository), damit dieser
+	// so gespeichert werden kann vom Benutzer...
+	private Competition currentCompetition;
+	private CompetitionRepository currentCompetitionRepository;
 	
 	// Click-Events
 	public void competitionPaneClick(Event e) throws IOException {
@@ -105,12 +114,30 @@ public class MainView implements Initializable {
 		}
 	}
 	
+	@FXML 
+	private void saveMenuClick() {
+		// TODO: Speichern
+	}
+	
 	// GETTER UND SETTER
+	public void setCurrentCompetitionAndRepository(Competition c, CompetitionRepository cr) {
+		currentCompetition = c;
+		currentCompetitionRepository = cr;
+		
+		// Den Menüpunkt aktualisieren
+		if(c != null && cr != null) {
+			saveMenu.setDisable(false);
+		}
+		else {
+			saveMenu.setDisable(true);
+		}
+	}
+	
 	// So muss es keinen Getter geben, der das 
 	// ganze TabPane nach außen gibt.
 	public void addTab(Tab tab) {
 		tabPane.getTabs().add(tab);
-		tabPane.getSelectionModel().select(tab);
+		tabPane.getSelectionModel().select(tab);		
 	}
 	
 	private void check() {
