@@ -21,10 +21,33 @@ public class ChipRepository extends Repository implements MWriteRead<Chip> {
 
 	@Override
 	public void writeAsync(List<Chip> chips) throws IOException {
+		createWriterThread(chips).start();	
+	}
+	
+	/**
+	 * Schreibt alle Chips. Wartet dabei (mit join) auf 
+	 * den schreibenden Thread.
+	 */
+	@Override
+	public boolean write(List<Chip> chips) {
+	
+		try {
+			Thread wt = createWriterThread(chips);
+			wt.start();
+			wt.join();
+		} catch(IOException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	private Thread createWriterThread(List<Chip> chips) throws IOException {
 		// Der PrintWriter wird hier erzeugt (wegen throws im Methodenkopf)
 		HellwegPrintWriter hpw = new HellwegPrintWriter(new FileWriter(path));
 		
-		Thread writerThread = new Thread(new Runnable() {
+		return new Thread(new Runnable() {
 			@Override 
 			public void run() {
 				
@@ -44,15 +67,8 @@ public class ChipRepository extends Repository implements MWriteRead<Chip> {
 				hpw.close();
 			}
 		});
-		// Alle Chips schreiben
-		writerThread.start();		
 	}
 	
-	@Override
-	public boolean write(List<Chip> chips) {
-		return false;	
-	}
-
 	/**
 	 * Es werden alle Chips aus der Chipsdatei gelesen.
 	 * Anschlieﬂend werden die so erzeugten Chips in eine Liste geschrieben.

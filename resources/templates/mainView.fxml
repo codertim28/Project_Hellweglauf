@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.input.*?>
 <?import javafx.scene.web.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
@@ -11,7 +12,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-<GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="classes.view.MainView">
+<GridPane fx:id="root" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="classes.view.MainView">
    <columnConstraints>
       <ColumnConstraints percentWidth="100.0" />
    </columnConstraints>
@@ -98,7 +99,11 @@
       </TabPane>
       <MenuBar>
         <menus>
-            <Menu fx:id="saveMenu" disable="true" mnemonicParsing="false" onAction="#saveMenuClick" text="Speichern" />
+            <Menu fx:id="fileMenu" disable="true" mnemonicParsing="false" text="Datei">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#saveMenuClick" text="Speichern unter..." />
+                  <MenuItem disable="true" mnemonicParsing="false" text="Öffnen..." />
+               </items></Menu>
           <Menu disable="true" mnemonicParsing="false" text="Hilfe" />
           <Menu mnemonicParsing="false" text="Info">
             <items>

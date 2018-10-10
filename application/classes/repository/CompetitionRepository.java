@@ -20,20 +20,36 @@ public class CompetitionRepository extends Repository implements SWriteRead<Comp
 
 	@Override
 	public boolean write(Competition compToWrite) {
-		HellwegPrintWriter hpw;
+		return write(compToWrite, false);
+	}
+	
+	public boolean write(Competition compToWrite, boolean waitForThread) {	
+		boolean success = true;
+		
 		try {
-			hpw = new HellwegPrintWriter(new FileWriter(path));
+			HellwegPrintWriter hpw = new HellwegPrintWriter(new FileWriter(path));
 			hpw.print(compToWrite);
 			hpw.flush();
 			hpw.close();
 		} catch(IOException e) {
-			return false;
+			success = false;
 		}	
 		
-		// ChipsController speichern
-		compToWrite.getChipsController().save();
+		// Speichern
+		// -> entweder per Thread oder auf den Thread wartend.
+		if(waitForThread) {
+			// Wenn auf den Thread gewartet werden soll, dann speichert
+			// der Benutzer, also muss hier der gewünschte Pfad gesetzt werden.
+			String chipsPath = path.replaceAll(".xml", ".chips.xml");
+			ChipsController cc = compToWrite.getChipsController();
+			cc.getRepository().setPath(chipsPath);
+			success = cc.saveSync();
+		}
+		else {
+			compToWrite.getChipsController().save();
+		}
 		
-		return true;
+		return success;
 	}
 
 	@Override

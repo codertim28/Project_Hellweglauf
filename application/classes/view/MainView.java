@@ -17,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -26,17 +27,20 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.web.WebView;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class MainView implements Initializable {
 
+	@FXML private GridPane root;
 	@FXML private TabPane tabPane;
 	@FXML private Pane competitionPane, trainingPane;
 	@FXML private Label errorLabel;
-	@FXML private Menu saveMenu;
+	@FXML private Menu fileMenu;
 	
 	// Der MainView bekommt den geöffneten Wettkampf (und Repository), damit dieser
 	// so gespeichert werden kann vom Benutzer...
@@ -115,8 +119,17 @@ public class MainView implements Initializable {
 	}
 	
 	@FXML 
-	private void saveMenuClick() {
-		// TODO: Speichern
+	private void saveMenuClick(ActionEvent e) {
+		FileChooser fileChooser = new FileChooser();
+        // Extensionfilter setzen 
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML-Dateien (*.xml)", "*.xml"));
+        // Speichern-Dialog anzeigen
+        File file = fileChooser.showSaveDialog(root.getScene().getWindow());
+        
+        if(file != null){
+            currentCompetitionRepository.setPath(file.getAbsolutePath());
+            currentCompetitionRepository.write(currentCompetition, true); // true: auf Thread warten
+        }
 	}
 	
 	// GETTER UND SETTER
@@ -124,20 +137,20 @@ public class MainView implements Initializable {
 		currentCompetition = c;
 		currentCompetitionRepository = cr;
 		
-		// Den Menüpunkt aktualisieren
-		if(c != null && cr != null) {
-			saveMenu.setDisable(false);
-		}
-		else {
-			saveMenu.setDisable(true);
-		}
+		toggleCompetitionRelevantUIComponents();
 	}
 	
 	// So muss es keinen Getter geben, der das 
 	// ganze TabPane nach außen gibt.
 	public void addTab(Tab tab) {
 		tabPane.getTabs().add(tab);
-		tabPane.getSelectionModel().select(tab);		
+		tabPane.getSelectionModel().select(tab);	
+		
+		// Ein Event-Handler für das Schließen eines Wettkampfes einhängen
+		tab.setOnClosed(e -> {
+			// TODO: Benutzer fragen, ob Tab wirklich geschlossen werden soll
+			setCurrentCompetitionAndRepository(null, null);
+		});
 	}
 	
 	private void check() {
@@ -155,6 +168,20 @@ public class MainView implements Initializable {
 			errorLabel.setText("Fehler: Die Datei \"data/basic/chips.xml\" ist nicht vorhanden.");
 			errorLabel.setTooltip(new Tooltip("Dieser Fehler kann behoben werden, indem Chips eingetragen werden. "
 					+ "(Einstellungen -> Chips verwalten)"));
+		}
+	}
+	
+	private void toggleCompetitionRelevantUIComponents() {
+		if(currentCompetition != null && currentCompetitionRepository != null) {
+			fileMenu.setDisable(false);
+			// Nur ein Wettkampf (nur ein Wettkampf darf geöffnet werden)
+			competitionPane.setDisable(true);
+			trainingPane.setDisable(true);
+		}
+		else {
+			fileMenu.setDisable(true);
+			competitionPane.setDisable(false);
+			trainingPane.setDisable(false);
 		}
 	}
 	

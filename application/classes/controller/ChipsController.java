@@ -82,6 +82,15 @@ public class ChipsController {
 	}
 	
 	/**
+	 * Schreibt alle Chips in eine Datei. 
+	 * Dabei wird die Methode des Repositories verwendet,
+	 * welche auf den Thread wartet.
+	 */
+	public boolean saveSync() {
+		return repository.write(chips);
+	}
+	
+	/**
 	 * Das Laden aller Chips wird angestoßen.
 	 * Das Resultat wird dem Controller hinzugefügt.
 	 */
