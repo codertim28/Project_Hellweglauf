@@ -33,6 +33,8 @@ import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import tp.dialog.StandardAlert;
+import tp.dialog.StandardMessageType;
 
 public class MainView implements Initializable {
 
@@ -132,6 +134,37 @@ public class MainView implements Initializable {
         }
 	}
 	
+	// TODO: Die Logik beachten: Wenn ein Wettkampf geöffnet ist, darf kein
+	// weiterer geöffnet sein usw... UI-Kompenenten blockieren usw...
+	@FXML 
+	private void openMenuClick(ActionEvent e) {
+		FileChooser fileChooser = new FileChooser();
+        // Extensionfilter setzen 
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML-Dateien (*.xml)", "*.xml"));
+        // Speichern-Dialog anzeigen
+        File file = fileChooser.showOpenDialog(root.getScene().getWindow());
+        
+        if(file != null){
+            currentCompetitionRepository = new CompetitionRepository(file.getAbsolutePath());
+            try {
+				currentCompetition = currentCompetitionRepository.read(true); // true: Pfad beachten
+			
+				// Den Tab erstellen und hinzufügen
+				// TODO: Im Wettkampf speichern, ob dieser über Distanz oder
+				// Zeit stattfindet, um hier unterscheiden zu können.
+				TimeCompetitionView tcv = new TimeCompetitionView(currentCompetition, currentCompetitionRepository);
+				// Hier müssen keine Vorrausetzungen geklärt werden, da der Benutzer
+				// lediglich einen vorhandenen Wettkampf lädt und keinen neuen erstellen
+				// möchte...
+				addTab(createTab("Wettkampf (Zeit)", "/templates/competition/competitionViewTime.fxml", tcv));
+				// Ui updaten
+				setCurrentCompetitionAndRepository(tcv.getCompetition(), tcv.getCompetitionRepository());
+            } catch (IOException ioe) {
+				new StandardAlert(StandardMessageType.ERROR).showAndWait();
+			} 
+        }
+	}
+	
 	// GETTER UND SETTER
 	public void setCurrentCompetitionAndRepository(Competition c, CompetitionRepository cr) {
 		currentCompetition = c;
@@ -151,6 +184,17 @@ public class MainView implements Initializable {
 			// TODO: Benutzer fragen, ob Tab wirklich geschlossen werden soll
 			setCurrentCompetitionAndRepository(null, null);
 		});
+	}
+	
+	public Tab createTab(String title, String resource, CompetitionView view) throws IOException {
+		Tab tab = new Tab(title);
+		// vorbereiten...
+		FXMLLoader templateLoader = new FXMLLoader(getClass().getResource(resource));
+		templateLoader.setController(view);
+		// und laden
+		tab.setContent(templateLoader.load());
+		
+		return tab;
 	}
 	
 	private void check() {

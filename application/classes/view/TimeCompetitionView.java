@@ -5,7 +5,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import classes.HellwegTimer;
+import classes.model.Competition;
 import classes.model.CompetitionState;
+import classes.repository.CompetitionRepository;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -25,6 +27,10 @@ public class TimeCompetitionView extends CompetitionView {
 		// Somit muss diese Zeile (s.o.) in die initialize-Methode.
 	}
 	
+	public TimeCompetitionView(Competition comp, CompetitionRepository compRepo) {
+		super(comp, compRepo);
+	}
+
 	@FXML
 	protected void startBtnClick(Event event) {	
 		comp.setState(CompetitionState.READY); // NUR ZUM TEST

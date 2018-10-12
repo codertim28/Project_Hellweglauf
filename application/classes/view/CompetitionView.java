@@ -65,6 +65,14 @@ public abstract class CompetitionView implements Initializable {
 	protected Competition comp;	
 	protected ChipsController chipsController;
 	
+	// Wird verwendet vom MainView. Also wenn der Benutzer einen Wettkampf 
+	// direkt ins Programm lädt.
+	public CompetitionView(Competition comp, CompetitionRepository compRepo) {
+		this.compRepo = compRepo;
+		this.comp = comp;
+		chipsController = comp.getChipsController();
+	}
+	
 	public CompetitionView() throws IOException {
 		// Bevor der ChipsController erstellt wird: Das Wettkampfverzeichnis erstellen
 		// (falls nicht vorhanden) und Chips + Wettkampf kopieren. 

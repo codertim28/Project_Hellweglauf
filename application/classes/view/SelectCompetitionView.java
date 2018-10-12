@@ -80,6 +80,7 @@ public class SelectCompetitionView {
 		});
 	}
 	
+	// TODO: diese Methode in das MainView auslagern
 	private Tab createTab(String title, String resource, CompetitionView view) throws IOException {
 		Tab tab = new Tab(title);
 		// vorbereiten...

@@ -46,6 +46,9 @@ public class CompetitionRepository extends Repository implements SWriteRead<Comp
 			success = cc.saveSync();
 		}
 		else {
+			// TODO: Prüfen, ob in korrekten Pfad geschrieben wird (s.o.) +
+			// Alle Speicheranweisungen im CompetitionView überarbeiten, da 
+			// das Competitionrepository nun die Chips speichert.
 			compToWrite.getChipsController().save();
 		}
 		
@@ -54,13 +57,30 @@ public class CompetitionRepository extends Repository implements SWriteRead<Comp
 
 	@Override
 	public Competition read() throws IOException {
+		// ganz normal laden
+		return read(false);
+	}
+	
+	/**
+	 * Liest alle Wettkampf- und Chipdaten ein. Diese 
+	 * Werden einem Wettkampfobjekt zugewiesen und zurückgegeben.
+	 * @param userRead So wird entschieden, ob der vom Benutzer eingegebene Pfad beachtet werden soll.
+	 * @throws IOException Wenn ein IO-Fehler auftritt.
+	 */
+	public Competition read(boolean userRead) throws IOException {
 		HellwegBufferedReader hbr = new HellwegBufferedReader(new FileReader(path));   		
     	Competition comp = hbr.readCompetition();
 		hbr.close();
 		
 		// Auch den dazugehörigen ChipsController laden
-		// TODO: Pfad anpassen
-		ChipsController cc = new ChipsController(Data.DIR + "/" + Data.COMPETITION_DIR + "/" + Data.CHIPS_FILE);
+		ChipsController cc;
+		if(userRead) {
+			cc = new ChipsController(Data.DIR + "/" + Data.COMPETITION_DIR + "/" + Data.CHIPS_FILE);
+		}
+		else {
+			String chipsPath = path.replaceAll(".xml", ".chips.xml");
+			cc = new ChipsController(chipsPath);
+		}
 		cc.load();
 		comp.setChipsController(cc);
 		
