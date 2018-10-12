@@ -74,7 +74,7 @@ public class CompetitionRepository extends Repository implements SWriteRead<Comp
 		
 		// Auch den dazugehörigen ChipsController laden
 		ChipsController cc;
-		if(userRead) {
+		if(!userRead) {
 			cc = new ChipsController(Data.DIR + "/" + Data.COMPETITION_DIR + "/" + Data.CHIPS_FILE);
 		}
 		else {
