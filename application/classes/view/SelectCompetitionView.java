@@ -58,7 +58,7 @@ public class SelectCompetitionView {
 				TimeCompetitionView tcv = new TimeCompetitionView();
 				if (tcv.checkRequirements()) {
 					// wenn die Voraussetzungen geklärt sind, den View einbinden, sonst nicht
-					mainView.addTab(createTab("Wettkampf (Zeit)", "/templates/competition/competitionViewTime.fxml", tcv));
+					mainView.addTab(mainView.createTab("Wettkampf (Zeit)", "/templates/competition/competitionViewTime.fxml", tcv));
 					mainView.setCurrentCompetitionAndRepository(tcv.getCompetition(), tcv.getCompetitionRepository());
 				}
 			}
@@ -73,23 +73,11 @@ public class SelectCompetitionView {
 				// Den Tab erstellen und hinzufügen
 				DistanceCompetitionView dcv = new DistanceCompetitionView();
 				if (dcv.checkRequirements()) {
-					mainView.addTab(createTab("Wettkampf (Distanz)", "/templates/competition/competitionViewDistance.fxml", dcv));
+					mainView.addTab(mainView.createTab("Wettkampf (Distanz)", "/templates/competition/competitionViewDistance.fxml", dcv));
 					mainView.setCurrentCompetitionAndRepository(dcv.getCompetition(), dcv.getCompetitionRepository());
 				}
 			}
 		});
-	}
-	
-	// TODO: diese Methode in das MainView auslagern
-	private Tab createTab(String title, String resource, CompetitionView view) throws IOException {
-		Tab tab = new Tab(title);
-		// vorbereiten...
-		FXMLLoader templateLoader = new FXMLLoader(getClass().getResource(resource));
-		templateLoader.setController(view);
-		// und laden
-		tab.setContent(templateLoader.load());
-		
-		return tab;
 	}
 
 	private void close() {
