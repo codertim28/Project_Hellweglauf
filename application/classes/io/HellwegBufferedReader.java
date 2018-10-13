@@ -78,12 +78,19 @@ public class HellwegBufferedReader extends BufferedReader {
 						case "PREPARE": 
 							comp.setState(CompetitionState.PREPARE);
 							break;
+						case "READY": 
+							comp.setState(CompetitionState.READY);
+							break;
 						case "RUNNING": 
 							comp.setState(CompetitionState.RUNNING);
 							break;
 						default: 
 							comp.setState(CompetitionState.ENDED);
 					}
+				}
+				
+				if(line.indexOf("<type>") != -1) {
+					comp.setType(Integer.parseInt(getContent(line, "type")));
 				}
 			
 				if(inRowsTag) {	
