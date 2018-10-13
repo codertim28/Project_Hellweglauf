@@ -23,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Tooltip;
@@ -42,7 +43,8 @@ public class MainView implements Initializable {
 	@FXML private TabPane tabPane;
 	@FXML private Pane competitionPane, trainingPane;
 	@FXML private Label errorLabel;
-	@FXML private Menu fileMenu;
+	// Unterpunkte des Datei-Menü
+	@FXML private MenuItem saveMenu, openMenu;
 	
 	// Der MainView bekommt den geöffneten Wettkampf (und Repository), damit dieser
 	// so gespeichert werden kann vom Benutzer...
@@ -134,8 +136,6 @@ public class MainView implements Initializable {
         }
 	}
 	
-	// TODO: Die Logik beachten: Wenn ein Wettkampf geöffnet ist, darf kein
-	// weiterer geöffnet sein usw... UI-Kompenenten blockieren usw...
 	@FXML 
 	private void openMenuClick(ActionEvent e) {
 		FileChooser fileChooser = new FileChooser();
@@ -152,7 +152,8 @@ public class MainView implements Initializable {
 				// Den Tab erstellen und hinzufügen
 				CompetitionView cv;
 				if(currentCompetition.getType() == 0) {
-					 cv = new TimeCompetitionView(currentCompetition, currentCompetitionRepository);
+					// FIXME: richtigen View verwenden...
+					cv = new TimeCompetitionView(currentCompetition, currentCompetitionRepository);
 					// Hier müssen keine Vorrausetzungen geklärt werden, da der Benutzer
 					// lediglich einen vorhandenen Wettkampf lädt und keinen neuen erstellen
 					// möchte...
@@ -167,6 +168,7 @@ public class MainView implements Initializable {
 				// Ui updaten
 				setCurrentCompetitionAndRepository(cv.getCompetition(), cv.getCompetitionRepository());
             } catch (IOException ioe) {
+            	ioe.printStackTrace();
 				new StandardAlert(StandardMessageType.ERROR).showAndWait();
 			} 
         }
@@ -224,13 +226,15 @@ public class MainView implements Initializable {
 	
 	private void toggleCompetitionRelevantUIComponents() {
 		if(currentCompetition != null && currentCompetitionRepository != null) {
-			fileMenu.setDisable(false);
-			// Nur ein Wettkampf (nur ein Wettkampf darf geöffnet werden)
+			// Nur ein Wettkampf darf geöffnet sein
+			saveMenu.setDisable(false);
+			openMenu.setDisable(true);
 			competitionPane.setDisable(true);
 			trainingPane.setDisable(true);
 		}
 		else {
-			fileMenu.setDisable(true);
+			saveMenu.setDisable(true);
+			openMenu.setDisable(false);
 			competitionPane.setDisable(false);
 			trainingPane.setDisable(false);
 		}
@@ -238,6 +242,7 @@ public class MainView implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		check();		
+		check();	
+		toggleCompetitionRelevantUIComponents();
 	}
 }

@@ -101,8 +101,8 @@
         <menus>
             <Menu fx:id="fileMenu" disable="false" mnemonicParsing="false" text="Datei">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#saveMenuClick" text="Speichern unter..." />
-                  <MenuItem disable="false" onAction="#openMenuClick" mnemonicParsing="false" text="Öffnen..." />
+                  <MenuItem fx:id="saveMenu" mnemonicParsing="false" onAction="#saveMenuClick" text="Speichern unter..." />
+                  <MenuItem fx:id="openMenu" disable="false" mnemonicParsing="false" onAction="#openMenuClick" text="Öffnen..." />
                </items></Menu>
           <Menu disable="true" mnemonicParsing="false" text="Hilfe" />
           <Menu mnemonicParsing="false" text="Info">
