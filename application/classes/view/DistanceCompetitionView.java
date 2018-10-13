@@ -6,7 +6,9 @@ import java.util.ResourceBundle;
 
 import classes.CompetitionViewRowData;
 import classes.model.Chip;
+import classes.model.Competition;
 import classes.model.CompetitionState;
+import classes.repository.CompetitionRepository;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -18,7 +20,7 @@ public class DistanceCompetitionView extends CompetitionView {
 	
 	// TODO: Der Benutzer muss im Prepare-Modus eingeben können, wann die halbe Runde
 	// statt findet (am Anfang oder am Ende).
-	
+
 	@FXML private Label leadingStudentLabel;
 	@FXML private ProgressBar leadingStudentProgressBar;
 	private double onePercent;
@@ -26,6 +28,10 @@ public class DistanceCompetitionView extends CompetitionView {
 
 	public DistanceCompetitionView() throws IOException {
 		super(1);
+	}
+	
+	public DistanceCompetitionView(Competition comp, CompetitionRepository compRepo) {
+		super(comp, compRepo);
 	}
 	
 	// TODO: DRY Code erzeugen, indem diese Methode aufgesplittet wird, damit
@@ -56,8 +62,8 @@ public class DistanceCompetitionView extends CompetitionView {
 				// Kein Chip gefunden: loggen
 				log("FEHLER (1) (id: " + scanTextField.getText().trim() +")");
 			}
+			scanTextField.setText("");
 		}
-		scanTextField.setText("");
 	}
 
 	@Override
