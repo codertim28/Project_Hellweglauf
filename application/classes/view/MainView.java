@@ -150,15 +150,22 @@ public class MainView implements Initializable {
 				currentCompetition = currentCompetitionRepository.read(true); // true: Pfad beachten
 			
 				// Den Tab erstellen und hinzufügen
-				// TODO: Im Wettkampf speichern, ob dieser über Distanz oder
-				// Zeit stattfindet, um hier unterscheiden zu können.
-				TimeCompetitionView tcv = new TimeCompetitionView(currentCompetition, currentCompetitionRepository);
-				// Hier müssen keine Vorrausetzungen geklärt werden, da der Benutzer
-				// lediglich einen vorhandenen Wettkampf lädt und keinen neuen erstellen
-				// möchte...
-				addTab(createTab("Wettkampf (Zeit)", "/templates/competition/competitionViewTime.fxml", tcv));
+				CompetitionView cv;
+				if(currentCompetition.getType() == 0) {
+					 cv = new TimeCompetitionView(currentCompetition, currentCompetitionRepository);
+					// Hier müssen keine Vorrausetzungen geklärt werden, da der Benutzer
+					// lediglich einen vorhandenen Wettkampf lädt und keinen neuen erstellen
+					// möchte...
+					addTab(createTab("Wettkampf (Zeit)", "/templates/competition/competitionViewTime.fxml", cv));
+				}
+				else {
+					cv = new TimeCompetitionView(currentCompetition, currentCompetitionRepository);
+					// s.o.
+					addTab(createTab("Wettkampf (Distanz)", "/templates/competition/competitionViewDistance.fxml", cv));
+				}
+				
 				// Ui updaten
-				setCurrentCompetitionAndRepository(tcv.getCompetition(), tcv.getCompetitionRepository());
+				setCurrentCompetitionAndRepository(cv.getCompetition(), cv.getCompetitionRepository());
             } catch (IOException ioe) {
 				new StandardAlert(StandardMessageType.ERROR).showAndWait();
 			} 
