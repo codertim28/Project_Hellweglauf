@@ -25,7 +25,7 @@ public class DistanceCompetitionView extends CompetitionView {
 	private double leadingLapCount;
 
 	public DistanceCompetitionView() throws IOException {
-		super();
+		super(1);
 	}
 	
 	// TODO: DRY Code erzeugen, indem diese Methode aufgesplittet wird, damit

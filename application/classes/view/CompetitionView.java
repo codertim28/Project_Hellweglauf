@@ -73,7 +73,7 @@ public abstract class CompetitionView implements Initializable {
 		chipsController = comp.getChipsController();
 	}
 	
-	public CompetitionView() throws IOException {
+	public CompetitionView(int compType) throws IOException {
 		// Bevor der ChipsController erstellt wird: Das Wettkampfverzeichnis erstellen
 		// (falls nicht vorhanden) und Chips + Wettkampf kopieren. 
 		SetupUtils.createCompetitionDirIfNotExists();
@@ -83,6 +83,7 @@ public abstract class CompetitionView implements Initializable {
 		comp = compRepo.read();
 		//              ^^^^^^
 		// Das ist der Teil, welche die Exception auslösen kann
+		comp.setType(compType);
 		// Den ChipsController aus dem Wettkampf holen.
 		chipsController = comp.getChipsController();
 	}

@@ -19,6 +19,7 @@ public class Competition {
 	private int time; // in Sekunden
 	
 	private CompetitionState state;
+	private int type; // 0: Auf Zeit, 1: Auf Distanz
 	
 	// Der Wettkampf hält einen ChipsController, indem alle
 	// Chips gespeichert / verwaltet werden, die an diesem Wettkampf 
@@ -35,6 +36,7 @@ public class Competition {
 	
 	public Competition(ChipsController cc) {
 		setState(CompetitionState.PREPARE);
+		setType(0); // Standard: Auf Zeit
 		setData(FXCollections.observableList(new LinkedList<CompetitionViewRowData>()));
 		setChipsController(cc);
 	}
@@ -85,6 +87,17 @@ public class Competition {
 
 	public void setState(CompetitionState state) {
 		this.state = state;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		// nur 0 und 1 erlauben.
+		if(type >= 0 && type < 2) {
+			this.type = type;
+		}
 	}
 
 	public ChipsController getChipsController() {

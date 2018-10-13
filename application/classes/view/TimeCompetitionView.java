@@ -20,7 +20,7 @@ public class TimeCompetitionView extends CompetitionView {
 	private HellwegTimer hellwegTimer;
 	
 	public TimeCompetitionView() throws IOException {
-		super();
+		super(0);
 		// Im Konstruktor sind die JavaFx-Komponenten scheinbar
 		// noch nicht vorhanden.
 		// hellwegTimer = new HellwegTimer(timeLabel);
