@@ -44,10 +44,7 @@ public class TimeCompetitionView extends CompetitionView {
 		}
 	}
 	
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		super.initialize(arg0, arg1);
-		
+	protected void updateUI() {
 		// Den Timer-Thread erstellen.
 		hellwegTimer = new HellwegTimer(comp.getTime(), timeLabel, timeProgressBar, new Runnable() {
 			@Override
@@ -55,6 +52,12 @@ public class TimeCompetitionView extends CompetitionView {
 				stopCompetition();
 			}
 		});
+	}
+	
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		super.initialize(arg0, arg1);
+		updateUI();
 	}
 	
 }

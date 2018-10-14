@@ -17,6 +17,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import tp.dialog.StandardAlert;
+import tp.dialog.StandardMessageType;
 
 public class PrepareView implements Initializable {
 	
@@ -82,8 +84,18 @@ public class PrepareView implements Initializable {
 		// und die Einstellungen im CompetitionView aktualisieren bzw.
 		// anzeigen...
 		// Den Wettkampf als "vorbereitet" vermerken und schlieﬂen 
-		competition.setState(CompetitionState.READY);
-		readyBtn.getScene().getWindow().hide();
+		try {
+			competition.setTime(Integer.parseInt(timeField.getText()) * 60);
+			competition.setLapLength(Integer.parseInt(lapLengthField.getText()));
+			competition.setLapCount(Double.parseDouble(lapCountField.getText()));
+			// Wenn keine Exception aufgetreten ist, den Wettkampf als
+			// vorbereitet markieren und das Fenster schlieﬂen
+			competition.setState(CompetitionState.READY);
+			readyBtn.getScene().getWindow().hide();
+		}
+		catch(Exception e) {
+			new StandardAlert(StandardMessageType.ERROR).showAndWait();
+		}
 	}
 	
 	@Override

@@ -130,6 +130,9 @@ public abstract class CompetitionView implements Initializable {
 		logTextArea.appendText("\n[" + timestamp + "] " + message);
 	}
 	
+	// aktualisiert alle Komponenten des UI
+	protected abstract void updateUI();
+	
 	// FXML-METHODEN
 	
 	@FXML
@@ -167,8 +170,8 @@ public abstract class CompetitionView implements Initializable {
 		roundNumberCol.setCellValueFactory(cellData -> cellData.getValue().lapNumberProperty());
 		timestampCol.setCellValueFactory(cellData -> cellData.getValue().timestampProperty());
 		
-		// Hier muss aufgrund der checkRequirements() nicht auf die Anzahl an vorhandenen Runden 
-		// überprüft werden. 
+		// Hier muss aufgrund der checkRequirements() nicht auf die Anzahl 
+		// an vorhandenen Runden überprüft werden. 
 		
 		
 		// Je nach dem in welchem Zustand sich der Wettkampf befindet, muss anders 
@@ -323,7 +326,11 @@ public abstract class CompetitionView implements Initializable {
 		stage.setResizable(false);
 		stage.initOwner(((ImageView) e.getSource()).getScene().getWindow());
 		stage.initModality(Modality.WINDOW_MODAL);
-		
+		// Um das CompetitionView zu aktualisieren, wenn 
+		// der Benutzer das PrepareView schließt.
+		stage.setOnHiding(v -> {
+			updateUI();
+		});
 		
 		// Das Laden vorbereiten...
 		FXMLLoader templateLoader = new FXMLLoader(getClass().getResource("/templates/competition/prepareView.fxml"));

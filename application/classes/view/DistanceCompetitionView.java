@@ -79,6 +79,11 @@ public class DistanceCompetitionView extends CompetitionView {
 	}
 	
 	@Override
+	protected void updateUI() {
+
+	}
+	
+	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		super.initialize(arg0, arg1);
 		
