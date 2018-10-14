@@ -3,8 +3,6 @@ package classes.view;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import com.sun.xml.internal.ws.util.StringUtils;
-
 import classes.controller.ChipsController;
 import classes.model.Chip;
 import classes.model.ChipState;

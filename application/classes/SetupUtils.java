@@ -57,7 +57,7 @@ public final class SetupUtils {
 			defaultComp.setName("Wettkampf");
 			defaultComp.setLapCount(2.5);
 			defaultComp.setLapLength(400);
-			defaultComp.setTime(30);
+			defaultComp.setTime(30 * 60);
 			Data.writeComp(Data.BASIC_DIR, defaultComp);
 		}
 		
