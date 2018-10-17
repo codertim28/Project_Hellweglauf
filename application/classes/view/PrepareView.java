@@ -78,9 +78,8 @@ public class PrepareView implements Initializable {
 	
 	@FXML
 	private void readyBtnClick() {
-		// TODO: Die (eventuell) neuen Wettkampfparameter übernehmen
-		// und die Einstellungen im CompetitionView aktualisieren bzw.
-		// anzeigen...
+		// Aktualisierung des Wettkampf-Interfaces wird im entsprechenden
+		// View durchgeführt...
 		// Den Wettkampf als "vorbereitet" vermerken und schließen 
 		try {
 			competition.setTime(Integer.parseInt(timeField.getText()) * 60);
