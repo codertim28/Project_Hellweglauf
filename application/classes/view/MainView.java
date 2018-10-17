@@ -20,7 +20,10 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -187,9 +190,20 @@ public class MainView implements Initializable {
 		tabPane.getTabs().add(tab);
 		tabPane.getSelectionModel().select(tab);	
 		
+		// Den Benutzer fragen, ob der Tab wirklich geschlossen werden soll.
+		tab.setOnCloseRequest(e -> {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setContentText("Soll der Tab wirklich geschlossen werden?");
+			alert.showAndWait().ifPresent(c -> {
+				if(c.getButtonData().equals(ButtonBar.ButtonData.CANCEL_CLOSE)) {
+					// Das Event konsumieren, um das Schließen des Tabs
+					// zu verhindern.
+					e.consume();
+				}
+			});
+		});
 		// Ein Event-Handler für das Schließen eines Wettkampfes einhängen
 		tab.setOnClosed(e -> {
-			// TODO: Benutzer fragen, ob Tab wirklich geschlossen werden soll
 			setCurrentCompetitionAndRepository(null, null);
 		});
 	}
