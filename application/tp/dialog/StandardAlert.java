@@ -25,7 +25,7 @@ public class StandardAlert extends Alert {
 				super.setAlertType(AlertType.ERROR);
 				break;
 			default:
-				text = "Es ist ein Fehler aufgetreten!"; // TODO: Stelle aus 1984 eintragen.
+				text = "2 + 2 = 4!";
 		}
 		super.setContentText(text);
 	}
