@@ -152,7 +152,6 @@ public class MainView implements Initializable {
 				// Den Tab erstellen und hinzufügen
 				CompetitionView cv;
 				if(currentCompetition.getType() == 0) {
-					// FIXME: richtigen View verwenden...
 					cv = new TimeCompetitionView(currentCompetition, currentCompetitionRepository);
 					// Hier müssen keine Vorrausetzungen geklärt werden, da der Benutzer
 					// lediglich einen vorhandenen Wettkampf lädt und keinen neuen erstellen
@@ -160,7 +159,7 @@ public class MainView implements Initializable {
 					addTab(createTab("Wettkampf (Zeit)", "/templates/competition/competitionViewTime.fxml", cv));
 				}
 				else {
-					cv = new TimeCompetitionView(currentCompetition, currentCompetitionRepository);
+					cv = new DistanceCompetitionView(currentCompetition, currentCompetitionRepository);
 					// s.o.
 					addTab(createTab("Wettkampf (Distanz)", "/templates/competition/competitionViewDistance.fxml", cv));
 				}
