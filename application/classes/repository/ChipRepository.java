@@ -36,8 +36,6 @@ public class ChipRepository extends Repository implements MWriteRead<Chip> {
 			wt.start();
 			wt.join();
 		} catch(IOException | InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			return false;
 		}
 		return true;
