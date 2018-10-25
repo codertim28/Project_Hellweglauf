@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import classes.Data;
 import classes.controller.ChipsController;
@@ -54,10 +56,10 @@ public class SettingsPartialEdit implements Initializable {
 	public void addChip(ActionEvent e) {
 		
 		if(nameField.getText().equals("createTestChips")) {
-			for(int i = 0; i < 50; i++) {
-				Chip c = new Chip("" + (1000 + i), "Testperson " + (i + 1), "None");
-				chipsController.getChips().add(c);
-			}
+			List<Chip> testChips = IntStream.range(1000, 1050)
+					.mapToObj(i -> new Chip("" + i, "Testperson " + (i + 1), "None"))
+					.collect(Collectors.toList());
+			chipsController.getChips().addAll(testChips);
 		}
 		
 		String id = chipField.getText().trim();
