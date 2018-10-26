@@ -55,8 +55,6 @@ public abstract class CompetitionView implements Initializable {
 	@FXML protected Button startBtn;
 	@FXML protected TextField scanTextField;
 	
-	// FIXME: TimerThread zerstören, wenn Wettkampf-Tab geschlossen wird.
-	
 	/*
 	 * Anmerkung: Die Chips sind Teil des Wettkampfes! Die Referenz auf den Controller
 	 * Wird nur direkt in den View gezogen, um Aktionen mit dem Controller zu vereinfachen.

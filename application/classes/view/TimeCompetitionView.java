@@ -17,7 +17,6 @@ public class TimeCompetitionView extends CompetitionView {
 	
 	@FXML private Label timeLabel;
 	@FXML private ProgressBar timeProgressBar;
-	private HellwegTimer hellwegTimer;
 	
 	public TimeCompetitionView() throws IOException {
 		super(0);
@@ -31,12 +30,13 @@ public class TimeCompetitionView extends CompetitionView {
 		super(comp, compRepo);
 	}
 
+	
 	@FXML
 	protected void startBtnClick(Event event) {	
 		comp.setState(CompetitionState.READY); // NUR ZUM TEST
 		if(comp.getState() == CompetitionState.READY) {
 			setStartRounds();
-			hellwegTimer.startTimer();
+			comp.getTimer().startTimer();
 			scanTextField.setDisable(false);
 			scanTextField.requestFocus();
 			super.log("Wettkampf gestartet!");
@@ -46,12 +46,8 @@ public class TimeCompetitionView extends CompetitionView {
 	
 	protected void updateUI() {
 		// Den Timer-Thread erstellen.
-		hellwegTimer = new HellwegTimer(comp.getTime(), timeLabel, timeProgressBar, new Runnable() {
-			@Override
-			public void run() {
-				stopCompetition();
-			}
-		});
+		comp.setTimer(new HellwegTimer(comp.getTime(), timeLabel, 
+				timeProgressBar, () -> stopCompetition()));
 	}
 	
 	@Override

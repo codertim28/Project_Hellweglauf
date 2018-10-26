@@ -3,6 +3,7 @@ package classes.model;
 import java.util.LinkedList;
 
 import classes.CompetitionViewRowData;
+import classes.HellwegTimer;
 import classes.controller.ChipsController;
 import classes.repository.CompetitionRepository;
 import javafx.collections.FXCollections;
@@ -29,6 +30,11 @@ public class Competition {
 	// Die Daten (gelistet nach Runden; wie in der 
 	// ursprünglichen Software)
 	private ObservableList<CompetitionViewRowData> data;
+	
+	// Muss hier (leider) liegen, denn der Timer muss zerstört werden,
+	// wenn ein Tab geschlossen wird (anders ist der Thread nicht durch
+	// den MainView erreichbar...)
+	private HellwegTimer timer;
 	
 	public Competition() {
 		this(new ChipsController());
@@ -106,5 +112,13 @@ public class Competition {
 
 	public void setChipsController(ChipsController chipsController) {
 		this.chipsController = chipsController;
+	}
+
+	public HellwegTimer getTimer() {
+		return timer;
+	}
+
+	public void setTimer(HellwegTimer timer) {
+		this.timer = timer;
 	}
 }

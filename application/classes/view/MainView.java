@@ -204,6 +204,11 @@ public class MainView implements Initializable {
 		});
 		// Ein Event-Handler für das Schließen eines Wettkampfes einhängen
 		tab.setOnClosed(e -> {
+			if(currentCompetition.getTimer() != null) {
+				// Damit nicht noch unerwartet in Dateien 
+				// geschrieben wird oder ähnliches.
+				currentCompetition.getTimer().stopTimer();
+			}
 			setCurrentCompetitionAndRepository(null, null);
 		});
 	}
