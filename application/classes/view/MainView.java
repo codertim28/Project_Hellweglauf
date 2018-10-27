@@ -176,6 +176,21 @@ public class MainView implements Initializable {
         }
 	}
 	
+	@FXML 
+	private void printMenuClick(ActionEvent e) throws IOException {
+		// TODO: nur klickbar machen, wenn Wettkampf geladen und Status == ENDED
+		
+		Stage stage = new Stage();
+		stage.setTitle("Drucken");
+		
+		FXMLLoader templateLoader = new FXMLLoader(getClass().getResource("/templates/print/printView.fxml"));
+		templateLoader.setController(new PrintView(currentCompetition));
+			
+		stage.setScene(new Scene(templateLoader.load()));
+		stage.show();
+		
+	}
+	
 	// GETTER UND SETTER
 	public void setCurrentCompetitionAndRepository(Competition c, CompetitionRepository cr) {
 		currentCompetition = c;
