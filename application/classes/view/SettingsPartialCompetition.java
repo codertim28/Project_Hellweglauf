@@ -32,6 +32,7 @@ public class SettingsPartialCompetition implements Initializable {
 		
 		// Alles auslesen und speichern oder einen Fehler anzeigen
 		Competition comp = new Competition();
+		comp.getChipsController().load(); // laden, damit die Chips nicht überschrieben werden
 		comp.setName("Wettkampf"); // Attribut wird derzeit nicht verwendet
 		// TODO: Parse-Fehler abfangen während der Benutzer die Daten einträgt
 		try {
