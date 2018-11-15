@@ -39,7 +39,7 @@
       <HBox alignment="CENTER" prefHeight="40.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" text="Ergebnisliste drucken" />
-            <Button mnemonicParsing="false" text="Drucken" />
+            <Button mnemonicParsing="false" onAction="#printBtnClick" text="Drucken" />
          </children>
       </HBox>
    </bottom>
