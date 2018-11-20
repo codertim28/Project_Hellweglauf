@@ -1,7 +1,6 @@
 
 import java.io.IOException;
 
-import classes.Data;
 import classes.SetupUtils;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

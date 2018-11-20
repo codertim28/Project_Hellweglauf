@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import classes.CompetitionViewRowData;
 import classes.model.Chip;
 import classes.model.Competition;
 import classes.model.CompetitionState;

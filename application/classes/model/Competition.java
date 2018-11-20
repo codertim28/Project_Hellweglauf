@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import classes.CompetitionViewRowData;
 import classes.HellwegTimer;
 import classes.controller.ChipsController;
-import classes.repository.CompetitionRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

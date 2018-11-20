@@ -12,10 +12,8 @@ import java.util.stream.IntStream;
 import classes.Data;
 import classes.controller.ChipsController;
 import classes.model.Chip;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,13 +25,11 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.util.Callback;
 
 public class SettingsPartialEdit implements Initializable {
 	
@@ -116,7 +112,6 @@ public class SettingsPartialEdit implements Initializable {
 		dataTable.refresh();
 	}
 	
-
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		idCol.setCellValueFactory(new PropertyValueFactory("id"));

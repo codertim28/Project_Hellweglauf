@@ -2,8 +2,6 @@ package classes;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-
 import classes.io.*;
 import classes.model.Chip;
 import classes.model.Competition;
