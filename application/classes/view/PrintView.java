@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -15,6 +15,7 @@ import javax.print.PrintException;
 import classes.Data;
 import classes.model.Chip;
 import classes.model.Competition;
+import classes.model.Lap;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableSet;
@@ -117,6 +118,21 @@ public class PrintView implements Initializable {
 	
 	// Rendert das HTML-Dokument mit einem entsprechendem Chip
 	private void renderDocument(Chip c) {
+		
+		// Die Rundenliste in Form einer HTML-Tabelle vorbereiten
+		LinkedList<Lap> laps = c.getLaps();
+		StringBuilder tableBuilder = new StringBuilder();
+		tableBuilder.append("<table>");
+		// Start (0 ist Runde -1 -> somit ist 1 die 0. Runde)
+		tableBuilder.append("<tr><td>Start</td><td>" + laps.get(1).getTimestampAsString() + "</td></tr>");
+		for(int i = 2; i < laps.size(); i++) {
+			Lap lap = laps.get(i);
+			tableBuilder.append("<tr><td>Runde " + lap.getNumber() + "</td><td>" + lap.getTimestampAsString() + "</td></tr>");
+		}	
+		tableBuilder.append("</table>");
+		// final, damit die Tabelle im Lambda verfügbar ist.
+		final String table = tableBuilder.toString();
+		
 		try {
 			// Die Vorlage auslesen
 			List<String> list = Files.readAllLines(new File(Data.DIR + "/" + Data.BASIC_DIR + "/urkunde-vorlage.html").toPath());
@@ -132,7 +148,8 @@ public class PrintView implements Initializable {
 			// Hier darf nicht gefiltert werden, da sonst HTML und CSS verloren geht
 			list.stream().map(line -> { 
 				return line = line.replaceAll("<%name%>", c.getStudentName())
-						.replaceAll("<%runden%>", "" + c.getLapCount());
+						.replaceAll("<%runden%>", "" + c.getLapCount())
+						.replaceAll("<%rundenliste%>", "" + table);
 			}).forEach(pw::println);
 			
 			pw.close();
