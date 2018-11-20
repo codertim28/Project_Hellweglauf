@@ -47,7 +47,7 @@ public class MainView implements Initializable {
 	@FXML private Pane competitionPane, trainingPane;
 	@FXML private Label errorLabel;
 	// Unterpunkte des Datei-Menü
-	@FXML private MenuItem saveMenu, openMenu;
+	@FXML private MenuItem saveMenu, openMenu, printMenu;
 	
 	// Der MainView bekommt den geöffneten Wettkampf (und Repository), damit dieser
 	// so gespeichert werden kann vom Benutzer...
@@ -178,7 +178,6 @@ public class MainView implements Initializable {
 	
 	@FXML 
 	private void printMenuClick(ActionEvent e) throws IOException {
-		// TODO: nur klickbar machen, wenn Wettkampf geladen und Status == ENDED
 		
 		Stage stage = new Stage();
 		stage.setTitle("Drucken");
@@ -262,12 +261,14 @@ public class MainView implements Initializable {
 			// Nur ein Wettkampf darf geöffnet sein
 			saveMenu.setDisable(false);
 			openMenu.setDisable(true);
+			printMenu.setDisable(false);
 			competitionPane.setDisable(true);
 			trainingPane.setDisable(true);
 		}
 		else {
 			saveMenu.setDisable(true);
 			openMenu.setDisable(false);
+			printMenu.setDisable(true);
 			competitionPane.setDisable(false);
 			trainingPane.setDisable(false);
 		}

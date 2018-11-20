@@ -103,7 +103,7 @@
                <items>
                   <MenuItem fx:id="saveMenu" mnemonicParsing="false" onAction="#saveMenuClick" text="Speichern unter..." />
                   <MenuItem fx:id="openMenu" disable="false" mnemonicParsing="false" onAction="#openMenuClick" text="Öffnen..." />
-                  <MenuItem mnemonicParsing="false" onAction="#printMenuClick" text="Drucken" />
+                  <MenuItem fx:id="printMenu" mnemonicParsing="false" onAction="#printMenuClick" text="Drucken" />
                </items></Menu>
           <Menu disable="true" mnemonicParsing="false" text="Hilfe" />
           <Menu mnemonicParsing="false" text="Info">
