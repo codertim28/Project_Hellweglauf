@@ -32,6 +32,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.transform.Scale;
 import javafx.scene.web.WebView;
+import javafx.stage.Stage;
 import tp.dialog.StandardAlert;
 import tp.dialog.StandardMessageType;
 
@@ -49,17 +50,25 @@ public class PrintView implements Initializable {
 		setCompetition(comp);
 	}
 	
+	@FXML
+	private void listOfResultsPrintBtnClick() {
+		// FIXME: Beim Drucken gehen die Style angaben verloren
+		// Die Liste rendern
+		renderListOfResults();
+		
+        previewWebView.setZoom(1); // Damit die volle Breite des Blattes ausgenutzt wird
+		PrinterJob job = PrinterJob.createPrinterJob(getSelectedPrinter());
+		job.showPrintDialog(previewWebView.getScene().getWindow());
+	    if (job != null) {
+	    	previewWebView.getEngine().print(job);
+	        job.endJob();
+	    }
+	    previewWebView.setZoom(0.38); // Zurück setzten, damit es für den Benutzer schön ist
+	}
+	
 	@FXML 
 	private void printBtnClick() throws PrintException, IOException {
-		// Ausgewählten Printer holen
-		// (muss leider so kompliziert sein, anders kann man auf die
-		//  Elemente des ObservableSet nicht zugreifen...)
-		Printer printer = allPrinter.stream().filter(p -> {
-			if(p.getName().equals(printerChoiceBox.getSelectionModel().getSelectedItem())) {
-				return true;
-			}
-			return false;
-		}).findFirst().get(); // endlich das Element bekommen..
+		Printer printer = getSelectedPrinter();
 		
 		Node node = this.previewWebView;
 		// Das WebView transformieren... bisschen unschön an dieser Stelle
@@ -82,6 +91,7 @@ public class PrintView implements Initializable {
 		allPrinter = Printer.getAllPrinters();
 		// die verfügbaren Printer setzen
 		allPrinter.stream().forEach(ps -> printerChoiceBox.getItems().add(ps.getName()));
+		// TODO: ersten Printer auswählen um Exception zu verhindern
 		
 		// Alle Schüler anzeigen, die mind. eine Runde gelaufen sind
 		// zuerst cellfactory setzen
@@ -132,7 +142,7 @@ public class PrintView implements Initializable {
 		tableBuilder.append("</table>");
 		// final, damit die Tabelle im Lambda verfügbar ist.
 		final String table = tableBuilder.toString();
-		
+			
 		try {
 			// Die Vorlage auslesen
 			List<String> list = Files.readAllLines(new File(Data.DIR + "/" + Data.BASIC_DIR + "/urkunde-vorlage.html").toPath());
@@ -163,6 +173,46 @@ public class PrintView implements Initializable {
 			new StandardAlert(StandardMessageType.ERROR);
 		}
 	}
+	
+	private void renderListOfResults() {
+		
+		// Die Erbenisliste (lor -> list of results) erstellen
+		StringBuilder lorBuilder = new StringBuilder();
+		lorBuilder.append("<table><tr><th>Name<th><th>Runden<th></tr>");
+		
+		for(Chip chip : comp.getChipsController().getChips()) {
+			lorBuilder.append("<tr><td>" + chip.getStudentName() + "<td>"
+					+ "<td>" + chip.getLapCount() + "</td></tr>");
+		}
+		
+		lorBuilder.append("</table>");
+		final String lor = lorBuilder.toString();
+		
+		try {
+			// Die Vorlage auslesen
+			List<String> list = Files.readAllLines(new File(Data.DIR + "/" + Data.BASIC_DIR + "/ergebnisliste-vorlage.html").toPath());
+		
+			// Zeile für Zeile in die Datei "letzterDruck.html" schreiben.
+			// Dabei werden die entsprechenden Templatevariablen ersetzt:
+			//   - <%list%>            Dort wird die Tabelle reingeschrieben
+			PrintWriter pw = new PrintWriter(new FileWriter(Data.DIR + "/" + Data.BASIC_DIR + "/letzterDruck.html"));
+			
+			// Hier darf nicht gefiltert werden, da sonst HTML und CSS verloren geht
+			list.stream().map(line -> { 
+				return line = line.replaceAll("<%list%>", lor);
+			}).forEach(pw::println);
+			
+			pw.close();
+			
+			// Anzeigen
+			previewWebView.getEngine().load(new File(Data.DIR + "/" + Data.BASIC_DIR + "/letzterDruck.html").toURI().toURL().toString());
+		
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			new StandardAlert(StandardMessageType.ERROR);
+		}
+	}
 
 	// GETTER UND SETTER
 	public Competition getCompetition() {
@@ -171,6 +221,18 @@ public class PrintView implements Initializable {
 
 	public void setCompetition(Competition comp) {
 		this.comp = comp;
+	}
+	
+	private Printer getSelectedPrinter() {
+		// Ausgewählten Printer holen
+		// (muss leider so kompliziert sein, anders kann man auf die
+		//  Elemente des ObservableSet nicht zugreifen...)
+		return allPrinter.stream().filter(p -> {
+			if(p.getName().equals(printerChoiceBox.getSelectionModel().getSelectedItem())) {
+				return true;
+			}
+			return false;
+		}).findFirst().get(); // endlich das Element bekommen..
 	}
 
 }
