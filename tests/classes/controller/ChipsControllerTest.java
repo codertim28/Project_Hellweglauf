@@ -40,7 +40,7 @@ class ChipsControllerTest {
 	@AfterEach
 	void tearDown() throws Exception {
 		File dir = new File("data/test");
-		if (!dir.exists()) {
+		if (dir.exists()) {
 			dir.delete();
 		}
 	}
