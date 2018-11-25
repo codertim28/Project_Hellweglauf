@@ -9,8 +9,7 @@ import java.nio.file.Files;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
-
-import javax.print.PrintException;
+import java.util.stream.Collectors;
 
 import classes.Data;
 import classes.model.Chip;
@@ -32,7 +31,6 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.transform.Scale;
 import javafx.scene.web.WebView;
-import javafx.stage.Stage;
 import tp.dialog.StandardAlert;
 import tp.dialog.StandardMessageType;
 
@@ -67,7 +65,25 @@ public class PrintView implements Initializable {
 	}
 	
 	@FXML 
-	private void printBtnClick() throws PrintException, IOException {
+	private void printBtnClick() {
+		print();
+	}
+	
+	@FXML
+	private void printAllBtnClick() {
+		// Schüler filtern. Bedingung: gelaufene Runden > 0
+		List<Chip> chips = comp.getChipsController().getChips().stream()
+			.filter(c -> c.getLapCount() > 0)
+			.collect(Collectors.toList());
+		
+		// nacheinander drucken
+		for(int i = chips.size() - 1; i >= 0; i--) {
+			renderDocument(chips.get(i));
+			print();
+		}
+	}
+	
+	private void print() {
 		Printer printer = getSelectedPrinter();
 		
 		Node node = this.previewWebView;
@@ -77,7 +93,7 @@ public class PrintView implements Initializable {
         double scaleY = pageLayout.getPrintableHeight() / node.getBoundsInParent().getHeight();
         node.getTransforms().add(new Scale(scaleX, scaleY));
  
-        PrinterJob job = PrinterJob.createPrinterJob();
+        PrinterJob job = PrinterJob.createPrinterJob(printer);
         if (job != null) {
             boolean success = job.printPage(node);
             if (success) {

@@ -28,8 +28,7 @@
                   <Label text="Drucker wählen:" />
                   <ChoiceBox fx:id="printerChoiceBox" prefWidth="150.0" />
                   <Label text="Schüler wählen:" />
-                  <ListView fx:id="studentListView" prefHeight="200.0" prefWidth="200.0" />
-                  <CheckBox fx:id="printAllCheckBox" mnemonicParsing="false" text="Alle drucken" />
+                  <ListView fx:id="studentListView" prefHeight="222.0" prefWidth="150.0" />
                </children>
             </VBox>
          </children>
@@ -40,6 +39,7 @@
          <children>
             <Button mnemonicParsing="false" onAction="#listOfResultsPrintBtnClick" text="Ergebnisliste drucken" />
             <Button mnemonicParsing="false" onAction="#printBtnClick" text="Drucken" />
+            <Hyperlink onAction="#printAllBtnClick" text="Alle drucken" />
          </children>
       </HBox>
    </bottom>
