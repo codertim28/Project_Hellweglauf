@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.nio.file.Files;
+import java.time.Duration;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -152,8 +155,17 @@ public class PrintView implements Initializable {
 		// Start (0 ist Runde -1 -> somit ist 1 die 0. Runde)
 		tableBuilder.append("<tr><td>Start</td><td>" + laps.get(1).getTimestampAsString() + "</td></tr>");
 		for(int i = 2; i < laps.size(); i++) {
+			Lap prevLap = laps.get(i - 1);
 			Lap lap = laps.get(i);
-			tableBuilder.append("<tr><td>Runde " + lap.getNumber() + "</td><td>" + lap.getTimestampAsString() + "</td></tr>");
+			// Die Differenz zur vorherigen Runde errechnen.
+			String diff = lap.getTimestamp()
+					.minusHours(prevLap.getTimestamp().getHour())
+					.minusMinutes(prevLap.getTimestamp().getMinute())
+					.minusSeconds(prevLap.getTimestamp().getSecond())
+					.minusNanos(prevLap.getTimestamp().getNano())
+					.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+			
+			tableBuilder.append("<tr><td>Runde " + lap.getNumber() + "</td><td> +" + diff + "</td></tr>");
 		}	
 		tableBuilder.append("</table>");
 		// final, damit die Tabelle im Lambda verfügbar ist.
