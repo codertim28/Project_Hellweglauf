@@ -110,7 +110,7 @@ public class PrintView implements Initializable {
 		allPrinter = Printer.getAllPrinters();
 		// die verfügbaren Printer setzen
 		allPrinter.stream().forEach(ps -> printerChoiceBox.getItems().add(ps.getName()));
-		// TODO: ersten Printer auswählen um Exception zu verhindern
+		printerChoiceBox.getSelectionModel().select(0); // 1. Item wählen, um Exc zu verhindern
 		
 		// Alle Schüler anzeigen, die mind. eine Runde gelaufen sind
 		// zuerst cellfactory setzen
