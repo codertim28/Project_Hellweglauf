@@ -35,20 +35,17 @@ public class CompetitionRepository extends Repository implements SWriteRead<Comp
 			success = false;
 		}	
 		
+		// Die Chips werden immer mit "compName.chips.xml" gespeichert
+		String chipsPath = path.replaceAll(".xml", ".chips.xml");
+		ChipsController cc = compToWrite.getChipsController();
+		cc.getRepository().setPath(chipsPath);
+		
 		// Speichern
 		// -> entweder per Thread oder auf den Thread wartend.
 		if(waitForThread) {
-			// Wenn auf den Thread gewartet werden soll, dann speichert
-			// der Benutzer, also muss hier der gewünschte Pfad gesetzt werden.
-			String chipsPath = path.replaceAll(".xml", ".chips.xml");
-			ChipsController cc = compToWrite.getChipsController();
-			cc.getRepository().setPath(chipsPath);
 			success = cc.saveSync();
 		}
 		else {
-			// TODOO: Prüfen, ob in korrekten Pfad geschrieben wird (s.o.) +
-			// Alle Speicheranweisungen im CompetitionView überarbeiten, da 
-			// das Competitionrepository nun die Chips speichert.
 			compToWrite.getChipsController().save();
 		}
 		

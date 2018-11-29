@@ -9,13 +9,11 @@ import classes.model.Competition;
 import classes.repository.CompetitionRepository;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import tp.dialog.StandardAlert;
 import tp.dialog.StandardMessageType;
 
-// FIXME: ALLE CHIPS WERDEN GELÖSCHT, wenn die Wettkampfeinstellungen gelöscht werden.
 
 public class SettingsPartialCompetition implements Initializable {
 	
