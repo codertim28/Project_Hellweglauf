@@ -160,7 +160,7 @@ public class PrintView implements Initializable {
 			// Die Differenz zur vorherigen Runde errechnen.
 			String diff = ltMinusLt(lap.getTimestamp(), prevLap.getTimestamp(), "HH:mm:ss");
 			
-			tableBuilder.append("<tr><td>Runde " + lap.getNumber() + "</td><td> +" + diff + "</td></tr>");
+			tableBuilder.append("<tr><td class=\"lapCol\">Runde " + lap.getNumber() + "</td><td> +" + diff + "</td></tr>");
 		}	
 		tableBuilder.append("</table>");
 		// final, damit die Tabelle im Lambda verfügbar ist.
