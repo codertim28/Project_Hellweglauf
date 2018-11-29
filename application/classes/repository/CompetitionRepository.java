@@ -46,7 +46,7 @@ public class CompetitionRepository extends Repository implements SWriteRead<Comp
 			success = cc.saveSync();
 		}
 		else {
-			// TODO: Prüfen, ob in korrekten Pfad geschrieben wird (s.o.) +
+			// TODOO: Prüfen, ob in korrekten Pfad geschrieben wird (s.o.) +
 			// Alle Speicheranweisungen im CompetitionView überarbeiten, da 
 			// das Competitionrepository nun die Chips speichert.
 			compToWrite.getChipsController().save();

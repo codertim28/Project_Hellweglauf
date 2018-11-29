@@ -53,7 +53,7 @@ public class PrintView implements Initializable {
 	
 	@FXML
 	private void listOfResultsPrintBtnClick() {
-		// FIXME: Beim Drucken gehen die Style angaben verloren
+		// FIXMENOTNOW: Beim Drucken gehen die Styleangaben verloren
 		// Die Liste rendern
 		renderListOfResults();
 		
@@ -158,12 +158,7 @@ public class PrintView implements Initializable {
 			Lap prevLap = laps.get(i - 1);
 			Lap lap = laps.get(i);
 			// Die Differenz zur vorherigen Runde errechnen.
-			String diff = lap.getTimestamp()
-					.minusHours(prevLap.getTimestamp().getHour())
-					.minusMinutes(prevLap.getTimestamp().getMinute())
-					.minusSeconds(prevLap.getTimestamp().getSecond())
-					.minusNanos(prevLap.getTimestamp().getNano())
-					.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+			String diff = ltMinusLt(lap.getTimestamp(), prevLap.getTimestamp(), "HH:mm:ss");
 			
 			tableBuilder.append("<tr><td>Runde " + lap.getNumber() + "</td><td> +" + diff + "</td></tr>");
 		}	
@@ -182,11 +177,17 @@ public class PrintView implements Initializable {
 			//   - <%rundenliste%>     Übersicht über die gelaufenen Runden mit Zeitstempel
 			//   - <%wettkampfdetail%> (Optional) Infos über den Wettkampf 
 			PrintWriter pw = new PrintWriter(new FileWriter(Data.DIR + "/" + Data.BASIC_DIR + "/letzterDruck.html"));
-			
+			System.out.println(comp.getType());
 			// Hier darf nicht gefiltert werden, da sonst HTML und CSS verloren geht
 			list.stream().map(line -> { 
+				String lapCount = c.getLapCount() + " Runden in " + (comp.getTime() / 60) + " Minuten";
+				// Falls Wettkampf auf Distanz, muss die Ausgabe anders aussehen
+				// Wegen halben Runden und genaue Zeit
+				if(comp.getType() == 1) {
+					lapCount = comp.getLapCount() + " Runden in " + ltMinusLt(c.getLaps().getLast().getTimestamp(), c.getLaps().get(1).getTimestamp(), "mm:ss") + " Minuten";
+				}
 				return line = line.replaceAll("<%name%>", c.getStudentName())
-						.replaceAll("<%runden%>", "" + c.getLapCount())
+						.replaceAll("<%runden%>", "" + lapCount)
 						.replaceAll("<%rundenliste%>", "" + table);
 			}).forEach(pw::println);
 			
@@ -240,6 +241,14 @@ public class PrintView implements Initializable {
 			e.printStackTrace();
 			new StandardAlert(StandardMessageType.ERROR);
 		}
+	}
+	
+	private String ltMinusLt(LocalTime lt, LocalTime minus, String pattern) {
+		return lt.minusHours(minus.getHour())
+			.minusMinutes(minus.getMinute())
+			.minusSeconds(minus.getSecond())
+			.minusNanos(minus.getNano())
+			.format(DateTimeFormatter.ofPattern(pattern));
 	}
 
 	// GETTER UND SETTER

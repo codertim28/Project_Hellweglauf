@@ -15,6 +15,8 @@ import javafx.scene.control.TextField;
 import tp.dialog.StandardAlert;
 import tp.dialog.StandardMessageType;
 
+// FIXME: ALLE CHIPS WERDEN GELÖSCHT, wenn die Wettkampfeinstellungen gelöscht werden.
+
 public class SettingsPartialCompetition implements Initializable {
 	
 	@FXML private TextField lapLengthField;
