@@ -63,6 +63,9 @@ public abstract class CompetitionView implements Initializable {
 	protected Competition comp;	
 	protected ChipsController chipsController;
 	
+	// Zählt die gescannten Runden. Alle 20 Runden wird gespeichert
+	private int lapCounter = 0;
+	
 	// Wird verwendet vom MainView. Also wenn der Benutzer einen Wettkampf 
 	// direkt ins Programm lädt.
 	public CompetitionView(Competition comp, CompetitionRepository compRepo) {
@@ -149,6 +152,11 @@ public abstract class CompetitionView implements Initializable {
 				// bei einem Rückgabewert von 0 vorhanden.
 				comp.getData().add(new CompetitionViewRowData(chipsController.getChipById(scannedId)));
 				log("Runde (id: " + scannedId + ")");
+				
+				// Eventuell speichern
+				if(++lapCounter % 20 == 0) {
+					compRepo.write(comp);
+				}
 				
 			} else if(addLapResult == -1) {
 				log("Doppelscan (id: " + scannedId + ")");

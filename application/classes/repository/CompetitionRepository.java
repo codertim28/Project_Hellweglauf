@@ -71,13 +71,8 @@ public class CompetitionRepository extends Repository implements SWriteRead<Comp
 		
 		// Auch den dazugehörigen ChipsController laden
 		ChipsController cc;
-		if(!userRead) {
-			cc = new ChipsController(Data.DIR + "/" + Data.COMPETITION_DIR + "/" + Data.CHIPS_FILE);
-		}
-		else {
-			String chipsPath = path.replaceAll(".xml", ".chips.xml");
-			cc = new ChipsController(chipsPath);
-		}
+		String chipsPath = path.replaceAll(".xml", ".chips.xml");
+		cc = new ChipsController(chipsPath);
 		cc.load();
 		comp.setChipsController(cc);
 		
