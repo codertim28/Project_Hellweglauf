@@ -55,4 +55,4 @@ if(c.getLapCount() < 5) {
 
 ## Siehe auch:
 
-[ChipsController]()
+[ChipsController](https://github.com/tpoerschke/Project_Hellweglauf/blob/dev/doc/ChipsController.java.md)
