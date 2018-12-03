@@ -68,8 +68,7 @@ public class DistanceCompetitionView extends CompetitionView {
 
 	@Override
 	protected void startBtnClick(Event event) {
-		comp.setState(CompetitionState.READY); // NUR ZUM TEST
-		if(comp.getState() == CompetitionState.READY) {
+		if(comp.getState() == CompetitionState.READY || comp.getState() == CompetitionState.PREPARE) {
 			setStartRounds();
 			scanTextField.setDisable(false);
 			scanTextField.requestFocus();
