@@ -15,7 +15,6 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-// FIXME: PREPARE-MODUS ist hier nicht verfügbar!
 
 public class DistanceCompetitionView extends CompetitionView {
 	
