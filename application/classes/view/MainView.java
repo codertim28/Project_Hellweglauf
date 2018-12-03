@@ -1,9 +1,14 @@
-package classes.view;
+ package classes.view;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import classes.Data;
@@ -50,6 +55,20 @@ public class MainView implements Initializable {
 	// so gespeichert werden kann vom Benutzer...
 	private Competition currentCompetition;
 	private CompetitionRepository currentCompetitionRepository;
+	
+	public MainView(Stage primaryStage) throws IOException {
+		FXMLLoader templateLoader = new FXMLLoader(getClass().getResource("/templates/mainView.fxml"));
+		templateLoader.setController(this);
+		primaryStage.setScene(new Scene(templateLoader.load()));
+		this.afterInitialize(); // weil in der initialize die Scene noch nicht vorhanden ist 
+		primaryStage.getScene().getStylesheets().add(getClass().getResource("/css/application.css").toExternalForm());
+		primaryStage.setMinHeight(640);
+		//primaryStage.setMaxHeight(640);
+		primaryStage.setMinWidth(640);
+		//primaryStage.setMaxWidth(800);
+		primaryStage.setTitle("Projekt Hellweglauf");
+		primaryStage.show();
+	}
 	
 	// Click-Events
 	public void competitionPaneClick(Event e) throws IOException {
@@ -275,5 +294,66 @@ public class MainView implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		check();	
 		toggleCompetitionRelevantUIComponents();
+	}
+	
+	// Eingeführt, da in der initialize noch keine Scene vorhanden ist.
+	private void afterInitialize() {
+		// Autoload-Funktion
+		String path = Data.DIR + "/" + Data.BASIC_DIR + "/autoOpen";
+		File autoload = new File(path);
+		if(autoload.exists()) {
+			try {
+				List<String> compPath = Files.readAllLines(autoload.toPath());
+				// In der Datei steht nur eine Zeile.
+				CompetitionRepository compRepo = new CompetitionRepository(compPath.get(0));
+				setCurrentCompetitionAndRepository(compRepo.read(), compRepo);
+				
+				// Den Tab erstellen und hinzufügen
+				CompetitionView cv;
+				if(currentCompetition.getType() == 0) {
+					cv = new TimeCompetitionView(currentCompetition, currentCompetitionRepository);
+					// Hier müssen keine Vorrausetzungen geklärt werden, da der Benutzer
+					// lediglich einen vorhandenen Wettkampf lädt und keinen neuen erstellen
+					// möchte...
+					addTab(createTab("Wettkampf (Zeit)", "/templates/competition/competitionViewTime.fxml", cv));
+				}
+				else {
+					cv = new DistanceCompetitionView(currentCompetition, currentCompetitionRepository);
+					// s.o.
+					addTab(createTab("Wettkampf (Distanz)", "/templates/competition/competitionViewDistance.fxml", cv));
+				}
+			} catch (IOException e1) {
+				// Sollte es einen Fehler geben, ist das nicht schlimm. 
+				// So muss der Benutzer den Wettkampf manuell laden.
+			}
+		}
+		toggleCompetitionRelevantUIComponents();
+		
+		// Beim Schließen einen eventuell geöffneten Wettkampf abspeichern
+		root.getScene().getWindow().setOnCloseRequest(e -> {	
+			// ist gerade ein Wettkampf geöffnet so wird der Pfad zu diesem 
+			// in eine Datei geschrieben, um diesen beim nächsten Start
+			// wieder des Programms wieder zu öffnen.
+			if(currentCompetition != null && currentCompetitionRepository != null) {
+				try {
+					PrintWriter pw = new PrintWriter(new FileWriter(path));
+					pw.print(currentCompetitionRepository.getPath());
+					pw.close();
+				} catch (IOException ex) {
+					// Wenn ein Fehler auftritt ist das nicht schlimm. 
+					// Dann wird beim starten der Wettkampf eben nicht 
+					// automatisch erneut geöffnet.
+				}
+			}
+			else {
+				// Ist kein Wettkampf geöffnet, so soll auch nichts geöffnet werden
+				// beim nächsten Start des Programms.
+				try {
+					Files.delete(new File(path).toPath());
+				} catch (IOException e1) {
+					// (Begründung: siehe oben)
+				}
+			}
+		});
 	}
 }

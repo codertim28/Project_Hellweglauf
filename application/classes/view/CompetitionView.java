@@ -117,8 +117,6 @@ public abstract class CompetitionView implements Initializable {
 		scanTextField.setText("");
 		log("Zeit abgelaufen!");
 		log("Wettkampf beendet");
-		// TODO: Nicht nur hier speichern, sondern auch zwischen
-		// durch. Am Besten: Bei jeder Runde den jeweiligen Chip speichern.
 		chipsController.save();
 		boolean success = compRepo.write(comp);
 		if(!success) {
