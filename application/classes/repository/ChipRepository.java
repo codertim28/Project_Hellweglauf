@@ -45,25 +45,18 @@ public class ChipRepository extends Repository implements MWriteRead<Chip> {
 		// Der PrintWriter wird hier erzeugt (wegen throws im Methodenkopf)
 		HellwegPrintWriter hpw = new HellwegPrintWriter(new FileWriter(path));
 		
-		return new Thread(new Runnable() {
-			@Override 
-			public void run() {
-				
-				// Dies sorgt dafür, dass der Schreibvorgang 
-				// nicht unterbrochen werden kann (z.B. von einem
-				// anderen SchreiberThread).
-				Synchronizer.sync(new Runnable() {
-					@Override
-					public void run() {
-						for(final Chip chipToWrite : chips) {
-							hpw.print(chipToWrite);
-						}
-					}
-				});
-				
-				hpw.flush();
-				hpw.close();
-			}
+		return new Thread(() -> {
+			// Dies sorgt dafür, dass der Schreibvorgang 
+			// nicht unterbrochen werden kann (z.B. von einem
+			// anderen SchreiberThread).
+			Synchronizer.sync(() -> {
+				for(final Chip chipToWrite : chips) {
+					hpw.print(chipToWrite);
+				}
+			});
+			
+			hpw.flush();
+			hpw.close();
 		});
 	}
 	
