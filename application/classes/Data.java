@@ -113,6 +113,7 @@ public final class Data {
 		return obj;
 	}
 	
+	@Deprecated
 	public static boolean copyChips(String from, String to) {
 		try {
 			ArrayList<Chip> chips = readChips(from);

@@ -4,10 +4,13 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import classes.io.HellwegPrintWriter;
+import classes.model.Chip;
 import classes.model.Competition;
 
 public final class SetupUtils {
@@ -77,10 +80,10 @@ public final class SetupUtils {
 		File file = new File(Data.DIR + "/" + Data.COMPETITION_DIR);
 		if (!file.exists()) {
 			returnValue = file.mkdir();
-			// Kopieren. Ist das Wettkampfverzeichnis nicht vorhanden, können
-			// die Chips auch nicht vorhanden sein. 
-			Data.copyChips(Data.BASIC_DIR, Data.COMPETITION_DIR);
 		}
+		
+		// Kopieren
+		returnValue = copyChips();
 		
 		// Es kann auch sein, dass das Verzeichnis vorhanden ist, die Wettkampf
 		// Datei aber nicht.
@@ -113,6 +116,21 @@ public final class SetupUtils {
 			return -1;
 		} catch (IOException e) {
 			return -2;
+		}
+	}
+	
+	private static boolean copyChips() {
+		try {
+			ArrayList<Chip> chips = Data.readChips(Data.BASIC_DIR);
+			
+			HellwegPrintWriter hpw = new HellwegPrintWriter(new FileWriter(Constants.competitionChipsFilePath()));
+			hpw.print(chips);
+			hpw.flush();
+			hpw.close();
+			
+			return true;
+		} catch (IOException e) {
+			return false;
 		}
 	}
 }
