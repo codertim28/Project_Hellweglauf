@@ -12,6 +12,7 @@ import classes.CompetitionViewRowData;
 import classes.Data;
 import classes.SetupUtils;
 import classes.controller.ChipsController;
+import classes.controller.CompetitionController;
 import classes.model.Chip;
 import classes.model.ChipState;
 import classes.model.Competition;
@@ -59,8 +60,7 @@ public abstract class CompetitionView implements Initializable {
 	 * Anmerkung: Die Chips sind Teil des Wettkampfes! Die Referenz auf den Controller
 	 * Wird nur direkt in den View gezogen, um Aktionen mit dem Controller zu vereinfachen.
 	 */
-	protected CompetitionRepository compRepo; // w/r eines Wettkampfes
-	protected Competition comp;	
+	protected CompetitionController competitionController;
 	protected ChipsController chipsController;
 	
 	// Zählt die gescannten Runden. Alle 20 Runden wird gespeichert
@@ -68,25 +68,23 @@ public abstract class CompetitionView implements Initializable {
 	
 	// Wird verwendet vom MainView. Also wenn der Benutzer einen Wettkampf 
 	// direkt ins Programm lädt.
-	public CompetitionView(Competition comp, CompetitionRepository compRepo) {
-		this.compRepo = compRepo;
-		this.comp = comp;
-		chipsController = comp.getChipsController();
+//	public CompetitionView(Competition comp, CompetitionRepository compRepo) {
+//		competitionController = new CompetitionController(comp, compRepo);
+//		chipsController = competitionController.getChipsController();
+//	}
+	
+	public CompetitionView(CompetitionController compCon) {
+		competitionController = compCon;
 	}
 	
 	public CompetitionView(int compType) throws IOException {
-		// Bevor der ChipsController erstellt wird: Das Wettkampfverzeichnis erstellen
-		// (falls nicht vorhanden) und Chips + Wettkampf kopieren. 
 		SetupUtils.createCompetitionDirIfNotExists();
 		// Noch den entsprechenden Wettkampf laden, wenn es einen gibt
 		// Schauen, ob ein Wettkampf bereits vorhanden ist.
-		compRepo = new CompetitionRepository(Data.DIR + "/" + Data.COMPETITION_DIR + "/" + Data.COMPETITION_FILE);
-		comp = compRepo.read();
-		//              ^^^^^^
-		// Das ist der Teil, welche die Exception auslösen kann
-		comp.setType(compType);
-		// Den ChipsController aus dem Wettkampf holen.
-		chipsController = comp.getChipsController();
+		competitionController = new CompetitionController(); // Kann eine Exception werfen
+		competitionController.getCompetition().setType(compType);
+
+		chipsController = competitionController.getChipsController();
 	}
 	
 	protected void setStartRounds() {
@@ -112,13 +110,15 @@ public abstract class CompetitionView implements Initializable {
 	}
 
 	protected void stopCompetition() {
+		// TODO: in competitioncontroller auslagern
+		Competition comp = competitionController.getCompetition();
 		comp.setState(CompetitionState.ENDED);
 		scanTextField.setDisable(true);
 		scanTextField.setText("");
 		log("Zeit abgelaufen!");
 		log("Wettkampf beendet");
 		chipsController.save();
-		boolean success = compRepo.write(comp);
+		boolean success = competitionController.save();
 		if(!success) {
 			log("Wettkampf konnte NICHT gespeichert werden!");
 		}
@@ -148,12 +148,12 @@ public abstract class CompetitionView implements Initializable {
 				// Eine Null-Pointer-exception muss hier nicht mehr abgefangen werden,
 				// da diese bei einem Rückgabewert von -2 auftritt. Somit ist der Chip 
 				// bei einem Rückgabewert von 0 vorhanden.
-				comp.getData().add(new CompetitionViewRowData(chipsController.getChipById(scannedId)));
+				competitionController.getCompetition().getData().add(new CompetitionViewRowData(chipsController.getChipById(scannedId)));
 				log("Runde (id: " + scannedId + ")");
 				
 				// Eventuell speichern
 				if(++lapCounter % 20 == 0) {
-					compRepo.write(comp);
+					competitionController.save();
 				}
 				
 			} else if(addLapResult == -1) {
@@ -186,7 +186,7 @@ public abstract class CompetitionView implements Initializable {
 		//       -> Die vorhandenen Wettkampfdaten anzeigen. Dabei RUNNING genau wie 
 		//          ENDED behandeln.
 		
-		
+		Competition comp = competitionController.getCompetition();
 		// Fall (1)
 		if(comp.getState() == CompetitionState.PREPARE || comp.getState() == CompetitionState.READY) {
 			// Bevor die Runde -1 eingefügt werden kann, müssen vorhandene Runden entfernt werden.
@@ -214,7 +214,7 @@ public abstract class CompetitionView implements Initializable {
 		
 		
 
-		boolean success = compRepo.write(comp);
+		boolean success = competitionController.save();
 		if(!success) {
 			log("Warnung: Wettkampf kann nicht gespeichert werden!");
 		}
@@ -227,6 +227,7 @@ public abstract class CompetitionView implements Initializable {
 	 * eingebunden werden kann, z.B. weil der Benutzer einen Wettkampf resetet hat.
 	 */
 	public boolean checkRequirements() {
+		Competition comp = competitionController.getCompetition();
 		// Falls ein Wettkampf existiert, muss dieser erst 
 		// resetet werden. Allerdings nur, wenn Status == RUNNING || ENDED.
 		if(comp.getState() != CompetitionState.PREPARE && comp.getState() != CompetitionState.READY) {
@@ -305,19 +306,20 @@ public abstract class CompetitionView implements Initializable {
 		try {
 			// Einen frischen Wettkampf laden, damit eventuelle
 			// neue Einstellungen übernommen werden.
-			CompetitionRepository tempRepo = new CompetitionRepository(Data.DIR + "/" + Data.BASIC_DIR + "/" + Data.COMPETITION_FILE);
-			compRepo.write(tempRepo.read());
-			comp = compRepo.read();
+			throw new IOException();
+			//CompetitionRepository tempRepo = new CompetitionRepository(Data.DIR + "/" + Data.BASIC_DIR + "/" + Data.COMPETITION_FILE);
+			//compRepo.write(tempRepo.read());
+			//comp = compRepo.read();
 		} catch (IOException e) {
 			return false;
 		}
 		// Chips neu laden, damit neu eingetragene oder gelöschte auch 
 		// angezeigt werden ode eben nicht.
-		Data.copyChips(Data.BASIC_DIR, Data.COMPETITION_DIR);
+		//Data.copyChips(Data.BASIC_DIR, Data.COMPETITION_DIR);
 		// Referenz updaten
-		chipsController = comp.getChipsController();
-		chipsController.load();
-		return true;
+		//chipsController = comp.getChipsController();
+		//chipsController.load();
+		//return true;
 	}
 	
 	/**
@@ -338,7 +340,8 @@ public abstract class CompetitionView implements Initializable {
 		
 		// Das Laden vorbereiten...
 		FXMLLoader templateLoader = new FXMLLoader(getClass().getResource("/templates/competition/prepareView.fxml"));
-		templateLoader.setController(new PrepareView(chipsController, comp));
+		templateLoader.setController(
+			new PrepareView(chipsController, competitionController.getCompetition()));
 		// und laden
 		Parent parent;
 		try {
@@ -353,15 +356,10 @@ public abstract class CompetitionView implements Initializable {
 	}
 	
 	// GETTER UND SETTER
-	// wird vom MainView verwendet, um den Wetkampf
+	// wird vom MainView verwendet, um den Wettkampf
 	// vom Benutzer speichern zu lassen
-	public Competition getCompetition() {
-		return comp;
-	}
-	// wird vom MainView verwendet, um den Wetkampf
-	// vom Benutzer speichern zu lassen
-	public CompetitionRepository getCompetitionRepository() {
-		return compRepo;
+	public CompetitionController getCompetitionController() {
+		return competitionController;
 	}
 	
 	private Alert generateAlert(String type) {

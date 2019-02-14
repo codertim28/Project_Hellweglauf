@@ -21,11 +21,6 @@ public class Competition {
 	private CompetitionState state;
 	private int type; // 0: Auf Zeit, 1: Auf Distanz
 	
-	// Der Wettkampf hält einen ChipsController, indem alle
-	// Chips gespeichert / verwaltet werden, die an diesem Wettkampf 
-	// teilnehmen.
-	private ChipsController chipsController;
-	
 	// Die Daten (gelistet nach Runden; wie in der 
 	// ursprünglichen Software)
 	private ObservableList<CompetitionViewRowData> data;
@@ -36,14 +31,9 @@ public class Competition {
 	private HellwegTimer timer;
 	
 	public Competition() {
-		this(new ChipsController());
-	}
-	
-	public Competition(ChipsController cc) {
 		setState(CompetitionState.PREPARE);
 		setType(0); // Standard: Auf Zeit
 		setData(FXCollections.observableList(new LinkedList<CompetitionViewRowData>()));
-		setChipsController(cc);
 	}
 	
 	public String getName() {
@@ -103,14 +93,6 @@ public class Competition {
 		if(type >= 0 && type < 2) {
 			this.type = type;
 		}
-	}
-
-	public ChipsController getChipsController() {
-		return chipsController;
-	}
-
-	public void setChipsController(ChipsController chipsController) {
-		this.chipsController = chipsController;
 	}
 
 	public HellwegTimer getTimer() {

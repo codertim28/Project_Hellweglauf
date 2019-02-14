@@ -53,7 +53,7 @@ public class SelectCompetitionView {
 				if (tcv.checkRequirements()) {
 					// wenn die Voraussetzungen geklärt sind, den View einbinden, sonst nicht
 					mainView.addTab(mainView.createTab("Wettkampf (Zeit)", "/templates/competition/competitionViewTime.fxml", tcv));
-					mainView.setCurrentCompetitionAndRepository(tcv.getCompetition(), tcv.getCompetitionRepository());
+					mainView.setCurrentCompetitionController(tcv.getCompetitionController());
 				}
 			}
 		});
@@ -68,7 +68,7 @@ public class SelectCompetitionView {
 				DistanceCompetitionView dcv = new DistanceCompetitionView();
 				if (dcv.checkRequirements()) {
 					mainView.addTab(mainView.createTab("Wettkampf (Distanz)", "/templates/competition/competitionViewDistance.fxml", dcv));
-					mainView.setCurrentCompetitionAndRepository(dcv.getCompetition(), dcv.getCompetitionRepository());
+					mainView.setCurrentCompetitionController(dcv.getCompetitionController());
 				}
 			}
 		});

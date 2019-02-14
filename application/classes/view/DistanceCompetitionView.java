@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import classes.controller.CompetitionController;
 import classes.model.Chip;
 import classes.model.Competition;
 import classes.model.CompetitionState;
@@ -30,14 +31,15 @@ public class DistanceCompetitionView extends CompetitionView {
 		super(1);
 	}
 	
-	public DistanceCompetitionView(Competition comp, CompetitionRepository compRepo) {
-		super(comp, compRepo);
+	public DistanceCompetitionView(CompetitionController competitionController) {
+		super(competitionController);
 	}
 	
 	// TODO: DRY Code erzeugen, indem diese Methode aufgesplittet wird, damit
 	// diese besser überschrieben werden kann.
 	@Override 
 	protected void scanTextFieldOnKeyPressed(KeyEvent ke) {
+		Competition comp = competitionController.getCompetition();
 		if(ke.getCode() == KeyCode.ENTER) {
 			try {
 				Chip c = chipsController.getChipById(scanTextField.getText().trim());
@@ -68,6 +70,7 @@ public class DistanceCompetitionView extends CompetitionView {
 
 	@Override
 	protected void startBtnClick(Event event) {
+		Competition comp = competitionController.getCompetition();
 		if(comp.getState() == CompetitionState.READY || comp.getState() == CompetitionState.PREPARE) {
 			setStartRounds();
 			scanTextField.setDisable(false);
@@ -88,7 +91,7 @@ public class DistanceCompetitionView extends CompetitionView {
 		
 		// Schritt für die Progressbar definieren.
 		// TODO: Halbe Runde beachten (auch beim erhöhen).
-		onePercent = 1.0 / comp.getLapCount();
+		onePercent = 1.0 / competitionController.getCompetition().getLapCount();
 		// Einen leadingLapCount setzen.
 		leadingLapCount = 0;
 		

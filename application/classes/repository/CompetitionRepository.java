@@ -17,13 +17,9 @@ public class CompetitionRepository extends Repository implements SWriteRead<Comp
 	public CompetitionRepository(String path) {
 		super(path);
 	}
-
-	@Override
-	public boolean write(Competition compToWrite) {
-		return write(compToWrite, false);
-	}
 	
-	public boolean write(Competition compToWrite, boolean waitForThread) {	
+	@Override
+	public boolean write(Competition compToWrite) {	
 		boolean success = true;
 		
 		try {
@@ -36,26 +32,20 @@ public class CompetitionRepository extends Repository implements SWriteRead<Comp
 		}	
 		
 		// Die Chips werden immer mit "compName.chips.xml" gespeichert
-		String chipsPath = path.replaceAll(".xml", ".chips.xml");
-		ChipsController cc = compToWrite.getChipsController();
-		cc.getRepository().setPath(chipsPath);
+//		String chipsPath = path.replaceAll(".xml", ".chips.xml");
+//		ChipsController cc = compToWrite.getChipsController();
+//		cc.getRepository().setPath(chipsPath);
 		
 		// Speichern
 		// -> entweder per Thread oder auf den Thread wartend.
-		if(waitForThread) {
-			success = cc.saveSync();
-		}
-		else {
-			compToWrite.getChipsController().save();
-		}
+//		if(waitForThread) {
+//			success = cc.saveSync();
+//		}
+//		else {
+//			compToWrite.getChipsController().save();
+//		}
 		
 		return success;
-	}
-
-	@Override
-	public Competition read() throws IOException {
-		// ganz normal laden
-		return read(false);
 	}
 	
 	/**
@@ -64,17 +54,17 @@ public class CompetitionRepository extends Repository implements SWriteRead<Comp
 	 * @param userRead So wird entschieden, ob der vom Benutzer eingegebene Pfad beachtet werden soll.
 	 * @throws IOException Wenn ein IO-Fehler auftritt.
 	 */
-	public Competition read(boolean userRead) throws IOException {
+	@Override
+	public Competition read() throws IOException {
 		HellwegBufferedReader hbr = new HellwegBufferedReader(new FileReader(path));   		
     	Competition comp = hbr.readCompetition();
 		hbr.close();
 		
 		// Auch den dazugehörigen ChipsController laden
-		ChipsController cc;
-		String chipsPath = path.replaceAll(".xml", ".chips.xml");
-		cc = new ChipsController(chipsPath);
-		cc.load();
-		comp.setChipsController(cc);
+//		ChipsController cc;
+//		String chipsPath = path.replaceAll(".xml", ".chips.xml");
+//		cc = new ChipsController(chipsPath);
+//		cc.load();
 		
 		return comp;
 	}

@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 
 import classes.Data;
 import classes.SetupUtils;
+import classes.controller.CompetitionController;
 import classes.model.Competition;
 import classes.repository.CompetitionRepository;
 import javafx.event.ActionEvent;
@@ -51,10 +52,9 @@ public class MainView implements Initializable {
 	// Unterpunkte des Datei-Menü
 	@FXML private MenuItem saveMenu, openMenu, printMenu;
 	
-	// Der MainView bekommt den geöffneten Wettkampf (und Repository), damit dieser
+	// Der MainView bekommt den geöffneten Wettkampf(controller), damit dieser
 	// so gespeichert werden kann vom Benutzer...
-	private Competition currentCompetition;
-	private CompetitionRepository currentCompetitionRepository;
+	private CompetitionController currentCompetitionController;
 	
 	public MainView(Stage primaryStage) throws IOException {
 		FXMLLoader templateLoader = new FXMLLoader(getClass().getResource("/templates/mainView.fxml"));
@@ -150,8 +150,8 @@ public class MainView implements Initializable {
         File file = fileChooser.showSaveDialog(root.getScene().getWindow());
         
         if(file != null){
-            currentCompetitionRepository.setPath(file.getAbsolutePath());
-            currentCompetitionRepository.write(currentCompetition, true); // true: auf Thread warten
+        	currentCompetitionController.getCompetitionRepository().setPath(file.getAbsolutePath());
+            currentCompetitionController.saveSync();
         }
 	}
 	
@@ -164,27 +164,28 @@ public class MainView implements Initializable {
         File file = fileChooser.showOpenDialog(root.getScene().getWindow());
         
         if(file != null){
-            currentCompetitionRepository = new CompetitionRepository(file.getAbsolutePath());
+            CompetitionRepository curCompRepo = new CompetitionRepository(file.getAbsolutePath());
             try {
-				currentCompetition = currentCompetitionRepository.read(true); // true: Pfad beachten
+				Competition curComp = curCompRepo.read();
 			
 				// Den Tab erstellen und hinzufügen
+				CompetitionController compCon = new CompetitionController(curComp, curCompRepo);
 				CompetitionView cv;
-				if(currentCompetition.getType() == 0) {
-					cv = new TimeCompetitionView(currentCompetition, currentCompetitionRepository);
+				if(curComp.getType() == 0) {
+					cv = new TimeCompetitionView(compCon);
 					// Hier müssen keine Vorrausetzungen geklärt werden, da der Benutzer
 					// lediglich einen vorhandenen Wettkampf lädt und keinen neuen erstellen
 					// möchte...
 					addTab(createTab("Wettkampf (Zeit)", "/templates/competition/competitionViewTime.fxml", cv));
 				}
 				else {
-					cv = new DistanceCompetitionView(currentCompetition, currentCompetitionRepository);
+					cv = new DistanceCompetitionView(compCon);
 					// s.o.
 					addTab(createTab("Wettkampf (Distanz)", "/templates/competition/competitionViewDistance.fxml", cv));
 				}
 				
 				// Ui updaten
-				setCurrentCompetitionAndRepository(cv.getCompetition(), cv.getCompetitionRepository());
+				setCurrentCompetitionController(cv.getCompetitionController());
             } catch (IOException ioe) {
             	ioe.printStackTrace();
 				new StandardAlert(StandardMessageType.ERROR).showAndWait();
@@ -199,7 +200,7 @@ public class MainView implements Initializable {
 		stage.setTitle("Drucken");
 		
 		FXMLLoader templateLoader = new FXMLLoader(getClass().getResource("/templates/print/printView.fxml"));
-		templateLoader.setController(new PrintView(currentCompetition));
+		templateLoader.setController(new PrintView(currentCompetitionController));
 			
 		stage.setScene(new Scene(templateLoader.load()));
 		stage.show();
@@ -207,9 +208,8 @@ public class MainView implements Initializable {
 	}
 	
 	// GETTER UND SETTER
-	public void setCurrentCompetitionAndRepository(Competition c, CompetitionRepository cr) {
-		currentCompetition = c;
-		currentCompetitionRepository = cr;
+	public void setCurrentCompetitionController(CompetitionController cc) {
+		currentCompetitionController = cc;
 		
 		toggleCompetitionRelevantUIComponents();
 	}
@@ -234,12 +234,13 @@ public class MainView implements Initializable {
 		});
 		// Ein Event-Handler für das Schließen eines Wettkampfes einhängen
 		tab.setOnClosed(e -> {
+			Competition currentCompetition = currentCompetitionController.getCompetition();
 			if(currentCompetition != null && currentCompetition.getTimer() != null) {
 				// Damit nicht noch unerwartet in Dateien 
 				// geschrieben wird oder ähnliches.
 				currentCompetition.getTimer().stopTimer();
 			}
-			setCurrentCompetitionAndRepository(null, null);
+			setCurrentCompetitionController(null);
 		});
 	}
 	
@@ -273,7 +274,7 @@ public class MainView implements Initializable {
 	}
 	
 	private void toggleCompetitionRelevantUIComponents() {
-		if(currentCompetition != null && currentCompetitionRepository != null) {
+		if(currentCompetitionController != null) {
 			// Nur ein Wettkampf darf geöffnet sein
 			saveMenu.setDisable(false);
 			openMenu.setDisable(true);
@@ -306,20 +307,16 @@ public class MainView implements Initializable {
 				List<String> compPath = Files.readAllLines(autoload.toPath());
 				// In der Datei steht nur eine Zeile.
 				CompetitionRepository compRepo = new CompetitionRepository(compPath.get(0));
-				setCurrentCompetitionAndRepository(compRepo.read(), compRepo);
+				setCurrentCompetitionController(new CompetitionController(compRepo.read(), compRepo));
 				
 				// Den Tab erstellen und hinzufügen
 				CompetitionView cv;
-				if(currentCompetition.getType() == 0) {
-					cv = new TimeCompetitionView(currentCompetition, currentCompetitionRepository);
-					// Hier müssen keine Vorrausetzungen geklärt werden, da der Benutzer
-					// lediglich einen vorhandenen Wettkampf lädt und keinen neuen erstellen
-					// möchte...
+				if(currentCompetitionController.getCompetition().getType() == 0) {
+					cv = new TimeCompetitionView(currentCompetitionController);
 					addTab(createTab("Wettkampf (Zeit)", "/templates/competition/competitionViewTime.fxml", cv));
 				}
 				else {
-					cv = new DistanceCompetitionView(currentCompetition, currentCompetitionRepository);
-					// s.o.
+					cv = new DistanceCompetitionView(currentCompetitionController);
 					addTab(createTab("Wettkampf (Distanz)", "/templates/competition/competitionViewDistance.fxml", cv));
 				}
 			} catch (IOException e1) {
@@ -334,10 +331,10 @@ public class MainView implements Initializable {
 			// ist gerade ein Wettkampf geöffnet so wird der Pfad zu diesem 
 			// in eine Datei geschrieben, um diesen beim nächsten Start
 			// wieder des Programms wieder zu öffnen.
-			if(currentCompetition != null && currentCompetitionRepository != null) {
+			if(currentCompetitionController != null) {
 				try {
 					PrintWriter pw = new PrintWriter(new FileWriter(path));
-					pw.print(currentCompetitionRepository.getPath());
+					pw.print(currentCompetitionController.getCompetitionRepository().getPath());
 					pw.close();
 				} catch (IOException ex) {
 					// Wenn ein Fehler auftritt ist das nicht schlimm. 

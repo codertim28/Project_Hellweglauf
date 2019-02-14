@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import classes.Data;
+import classes.controller.CompetitionController;
 import classes.model.Chip;
 import classes.model.Competition;
 import classes.model.Lap;
@@ -45,10 +46,10 @@ public class PrintView implements Initializable {
 	
 
 	private ObservableSet<Printer> allPrinter;
-	private Competition comp;
+	private CompetitionController competitionController;
 	
-	public PrintView(Competition comp) {
-		setCompetition(comp);
+	public PrintView(CompetitionController competitionController) {
+		this.competitionController = competitionController;
 	}
 	
 	@FXML
@@ -75,7 +76,7 @@ public class PrintView implements Initializable {
 	@FXML
 	private void printAllBtnClick() {
 		// Schüler filtern. Bedingung: gelaufene Runden > 0
-		List<Chip> chips = comp.getChipsController().getChips().stream()
+		List<Chip> chips = competitionController.getChipsController().getChips().stream()
 			.filter(c -> c.getLapCount() > 0)
 			.collect(Collectors.toList());
 		
@@ -126,7 +127,7 @@ public class PrintView implements Initializable {
 	        }
 		});
 		// Schüler filtern und setzen
-		comp.getChipsController().getChips().stream()
+		competitionController.getChipsController().getChips().stream()
 			.filter(c -> c.getLapCount() > 0)
 			.forEach(c -> studentListView.getItems().add(c));
 		
@@ -140,7 +141,7 @@ public class PrintView implements Initializable {
 		});
 		
 		// Die Preview setzen (den ersten Chip in der Liste rendern)
-		renderDocument(comp.getChipsController().getChips().get(0));
+		renderDocument(competitionController.getChipsController().getChips().get(0));
 		previewWebView.setZoom(0.38);
 
 	}
@@ -165,7 +166,7 @@ public class PrintView implements Initializable {
 		tableBuilder.append("</table>");
 		// final, damit die Tabelle im Lambda verfügbar ist.
 		final String table = tableBuilder.toString();
-			
+		final Competition comp = competitionController.getCompetition();
 		try {
 			// Die Vorlage auslesen
 			List<String> list = Files.readAllLines(new File(Data.DIR + "/" + Data.BASIC_DIR + "/urkunde-vorlage.html").toPath());
@@ -209,7 +210,7 @@ public class PrintView implements Initializable {
 		StringBuilder lorBuilder = new StringBuilder();
 		lorBuilder.append("<table><tr><th>Name<th><th>Runden<th></tr>");
 		
-		for(Chip chip : comp.getChipsController().getChips()) {
+		for(Chip chip : competitionController.getChipsController().getChips()) {
 			lorBuilder.append("<tr><td>" + chip.getStudentName() + "<td>"
 					+ "<td>" + chip.getLapCount() + "</td></tr>");
 		}
@@ -252,13 +253,6 @@ public class PrintView implements Initializable {
 	}
 
 	// GETTER UND SETTER
-	public Competition getCompetition() {
-		return comp;
-	}
-
-	public void setCompetition(Competition comp) {
-		this.comp = comp;
-	}
 	
 	private Printer getSelectedPrinter() {
 		// Ausgewählten Printer holen
