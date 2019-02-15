@@ -49,7 +49,7 @@ public class CompetitionRepository extends Repository implements SWriteRead<Comp
 	}
 	
 	/**
-	 * Liest alle Wettkampf- und Chipdaten ein. Diese 
+	 * Liest alle Wettkampfdaten ein. Diese 
 	 * Werden einem Wettkampfobjekt zugewiesen und zurückgegeben.
 	 * @param userRead So wird entschieden, ob der vom Benutzer eingegebene Pfad beachtet werden soll.
 	 * @throws IOException Wenn ein IO-Fehler auftritt.
@@ -59,12 +59,6 @@ public class CompetitionRepository extends Repository implements SWriteRead<Comp
 		HellwegBufferedReader hbr = new HellwegBufferedReader(new FileReader(path));   		
     	Competition comp = hbr.readCompetition();
 		hbr.close();
-		
-		// Auch den dazugehörigen ChipsController laden
-//		ChipsController cc;
-//		String chipsPath = path.replaceAll(".xml", ".chips.xml");
-//		cc = new ChipsController(chipsPath);
-//		cc.load();
 		
 		return comp;
 	}

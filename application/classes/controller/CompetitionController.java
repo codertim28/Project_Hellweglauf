@@ -26,10 +26,11 @@ public class CompetitionController {
 		setCompetition(comp);
 		
 		initChipsController();
+		chipsController.load();
 	}
 
 	public boolean save() {
-		chipsController.save();
+		chipsController.save(); // -> Thread
 		return competitionRepository.write(competition);
 	}
 	
@@ -40,7 +41,7 @@ public class CompetitionController {
 	
 	public void load() {
 		try {
-			competitionRepository.read();
+			competition = competitionRepository.read();
 			chipsController.load();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -49,6 +50,11 @@ public class CompetitionController {
 	}
 	
 	// GETTER & SETTER
+	public void setPath(String path) {
+		competitionRepository.setPath(path);
+		chipsController.getRepository().setPath(path.replaceAll(".xml", ".chips.xml"));
+	}
+	
 	public Competition getCompetition() {
 		return competition;
 	}
