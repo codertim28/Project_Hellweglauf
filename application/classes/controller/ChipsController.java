@@ -76,6 +76,11 @@ public class ChipsController {
 	 * Schreibt alle Chips in eine Datei.
 	 */
 	public void save() {
+		// Nicht speichern, wenn nichts geladen ist v keine Chips vorhanden sind
+		if(chips.isEmpty()) {
+			return;
+		}
+		
 		try {
 			repository.writeAsync(chips);
 		} catch(IOException e) {}
@@ -87,6 +92,11 @@ public class ChipsController {
 	 * welche auf den Thread wartet.
 	 */
 	public boolean saveSync() {
+		// Nicht speichern, wenn nichts geladen ist v keine Chips vorhanden sind
+		if(chips.isEmpty()) {
+			return true;
+		}
+		
 		return repository.write(chips);
 	}
 	
