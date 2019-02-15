@@ -22,34 +22,6 @@ public final class Data {
 	public final static String TRAINING_FILE = "training.xml";
 	public final static String FORMS_FILE = "forms";
 	
-	@Deprecated
-	public static void writeChips(String dir, ArrayList<Chip> chips) throws IOException {					
-		// Der PrintWriter wird hier erzeugt (wegen throws im Methodenkopf)
-		HellwegPrintWriter hpw = new HellwegPrintWriter(new FileWriter(DIR + "/" + dir + "/" + CHIPS_FILE));
-		
-		Thread writerThread = new Thread(new Runnable() {
-			@Override 
-			public void run() {
-				
-				// Dies sorgt dafür, dass der Schreibvorgang 
-				// nicht unterbrochen werden kann (z.B. von einem
-				// anderen SchreiberThread).
-				Synchronizer.sync(new Runnable() {
-					@Override
-					public void run() {
-						for(final Chip chipToWrite : chips) {
-							hpw.print(chipToWrite);
-						}
-					}
-				});
-				
-				hpw.flush();
-				hpw.close();
-			}
-		});
-		// Alle Chips schreiben
-		writerThread.start();	
-	}
 	
 	/**
 	 * Es werden alle Chips aus der Chipsdatei gelesen.
@@ -111,21 +83,5 @@ public final class Data {
 		ois.close();
 		
 		return obj;
-	}
-	
-	@Deprecated
-	public static boolean copyChips(String from, String to) {
-		try {
-			ArrayList<Chip> chips = readChips(from);
-			
-			HellwegPrintWriter hpw = new HellwegPrintWriter(new FileWriter(DIR + "/" + to + "/" + CHIPS_FILE));
-			hpw.print(chips);
-			hpw.flush();
-			hpw.close();
-			
-			return true;
-		} catch (IOException e) {
-			return false;
-		}
 	}
 }
