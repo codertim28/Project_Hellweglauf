@@ -150,8 +150,8 @@ public class MainView implements Initializable {
         File file = fileChooser.showSaveDialog(root.getScene().getWindow());
         
         if(file != null){
-        	currentCompetitionController.getCompetitionRepository().setPath(file.getAbsolutePath());
-            currentCompetitionController.saveSync();
+        	currentCompetitionController.setPath(file.getAbsolutePath());
+        	currentCompetitionController.saveSync();
         }
 	}
 	
