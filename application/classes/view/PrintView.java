@@ -50,6 +50,7 @@ public class PrintView implements Initializable {
 	
 	public PrintView(CompetitionController competitionController) {
 		this.competitionController = competitionController;
+		competitionController.load();
 	}
 	
 	@FXML
@@ -178,7 +179,6 @@ public class PrintView implements Initializable {
 			//   - <%rundenliste%>     Übersicht über die gelaufenen Runden mit Zeitstempel
 			//   - <%wettkampfdetail%> (Optional) Infos über den Wettkampf 
 			PrintWriter pw = new PrintWriter(new FileWriter(Data.DIR + "/" + Data.BASIC_DIR + "/letzterDruck.html"));
-			System.out.println(comp.getType());
 			// Hier darf nicht gefiltert werden, da sonst HTML und CSS verloren geht
 			list.stream().map(line -> { 
 				String lapCount = c.getLapCount() + " Runden in " + (comp.getTime() / 60) + " Minuten";
