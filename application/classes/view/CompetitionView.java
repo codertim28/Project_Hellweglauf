@@ -74,6 +74,8 @@ public abstract class CompetitionView implements Initializable {
 //	}
 	
 	public CompetitionView(CompetitionController compCon) {
+		SetupUtils.createCompetitionDirIfNotExists();
+		
 		competitionController = compCon;
 	}
 	
@@ -235,7 +237,8 @@ public abstract class CompetitionView implements Initializable {
 			Optional<ButtonType> result = alert.showAndWait();
 			if(result.isPresent()) {
 				if(result.get().getButtonData().equals(ButtonData.YES)) {
-					return reload();
+					reload();
+					return true;
 				} else if(result.get().getButtonData().equals(ButtonData.NO)) {
 					// vorhandenen Wettkampf anzeigen
 					return true;
@@ -245,81 +248,46 @@ public abstract class CompetitionView implements Initializable {
 			}
 		}
 		else if(comp.getState() == CompetitionState.READY) {
+			
 			// Gibt es einen bereits vorbereiteten Wettkampf, so soll der Benutzer
 			// gefragt werden, was geschen soll.
 			Alert alert = generateAlert("competitionReady");
 			Optional<ButtonType> result = alert.showAndWait();
 			
 			if(result.isPresent()) {
-				if(result.get().getButtonData().equals(ButtonData.YES)) {
+				ButtonData btnData = result.get().getButtonData();
+				
+				if(btnData.equals(ButtonData.YES)) {
 					// vorhandenen Wettkampf anzeigen
 					return true;
-				} else if(result.get().getButtonData().equals(ButtonData.NO)) {
-					return reload();
-				} else if(result.get().getButtonData().equals(ButtonData.CANCEL_CLOSE)) {
+				} else if(btnData.equals(ButtonData.NO)) {
+					reload();
+					return true;
+				} else if(btnData.equals(ButtonData.CANCEL_CLOSE)) {
 					return false;
 				}
-			}
-		} else {
-			// Falls Runden existieren, aber keine Wettkampf-Datei (oder Wettkampf
-			// im Status PREPARE).
-			// Die Runde -1 soll einfach übergangen werden, es interressiert
-			// im Endeffekt eh nicht, welcher Timestamp dort hinterlegt ist.
-			if(chipsController.getHighestLapCount() == Chip.LAPCOUNT_START + 1) {
-				// Chips neu laden -> true zurückgeben.
-				Data.copyChips(Data.BASIC_DIR, Data.COMPETITION_DIR);
-				chipsController.load();
-				return true;
-			}
-			// sonst sollte jedoch der Benutzer entscheiden
-			else if(chipsController.getHighestLapCount() != Chip.LAPCOUNT_START) {
-				// Wenn mind. ein Chip eine Runde enthählt, den Benutzer informieren.
-				Alert alert = generateAlert("lapsExist");
-				// Der traditionelle Ansatz ist an dieser Stelle schöner und 
-				// komfortabler als ein Lamda-Ausdruck
-				Optional<ButtonType> result = alert.showAndWait();
-				if(result.isPresent()) {
-					if(result.get().getButtonData().equals(ButtonData.YES)) {
-						// Chips neu laden -> true zurückgeben.
-						Data.copyChips(Data.BASIC_DIR, Data.COMPETITION_DIR);
-						chipsController.load();
-						return true;
-					}
-					else if(result.get().getButtonData().equals(ButtonData.CANCEL_CLOSE)) {
-						return false;
-					}
-				}
-			}
-			else {
-				// in jedem anderen Fall:
-				// Chips neu laden -> true zurückgeben.
-				Data.copyChips(Data.BASIC_DIR, Data.COMPETITION_DIR);
-				chipsController.load();
 			}
 		}
 		
 		return true;
 	}
 	
-	private boolean reload() {
-		// Wettkampf + Runden zurücksetzen
-		try {
-			// Einen frischen Wettkampf laden, damit eventuelle
-			// neue Einstellungen übernommen werden.
-			throw new IOException();
-			//CompetitionRepository tempRepo = new CompetitionRepository(Data.DIR + "/" + Data.BASIC_DIR + "/" + Data.COMPETITION_FILE);
-			//compRepo.write(tempRepo.read());
-			//comp = compRepo.read();
-		} catch (IOException e) {
-			return false;
-		}
-		// Chips neu laden, damit neu eingetragene oder gelöschte auch 
-		// angezeigt werden ode eben nicht.
-		//Data.copyChips(Data.BASIC_DIR, Data.COMPETITION_DIR);
-		// Referenz updaten
-		//chipsController = comp.getChipsController();
-		//chipsController.load();
-		//return true;
+	private void reload() {
+		
+		String competitionPath = competitionController.getCompetitionRepository().getPath();
+		String chipsPath = competitionController.getChipsController()
+				.getRepository().getPath();
+		
+		competitionController.getCompetitionRepository()
+			.setPath(Data.DIR + "/" + Data.BASIC_DIR + "/" + Data.COMPETITION_FILE);
+		competitionController.getChipsController()
+	 		.getRepository().setPath(Data.DIR + "/" + Data.BASIC_DIR + "/" + Data.CHIPS_FILE);
+	
+		competitionController.load();
+		
+		competitionController.getCompetitionRepository()
+			.setPath(competitionPath);
+		competitionController.getChipsController().getRepository().setPath(chipsPath);
 	}
 	
 	/**
@@ -375,14 +343,7 @@ public abstract class CompetitionView implements Initializable {
 		
 		// Je nach dem, was abgefragt werden soll, einen anderen Text, sowie 
 		// Buttons setzen.
-		if(type.equals("lapsExist")) {
-			alert.setContentText("Es gibt bereits Runden. " + 
-					"Um einen neuen Wettkampf zu starten, " +
-					"müssen die Runden der Chips zurückgesetzt werden.");
-			alert.getButtonTypes().addAll(new ButtonType("Zurücksetzen", ButtonBar.ButtonData.YES),
-					new ButtonType("Abbrechen", ButtonBar.ButtonData.CANCEL_CLOSE));
-		}
-		else if(type.equals("competitionExists")) {
+		if(type.equals("competitionExists")) {
 			alert.setContentText("Es ist bereits ein Wettkampf vorhanden. " + 
 					"Um einen neuen Wettkampf zu starten, muss ein neuer Wettkampf erstellt werden.");
 			alert.getButtonTypes().addAll(new ButtonType("Neu", ButtonBar.ButtonData.YES),
