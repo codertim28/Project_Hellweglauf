@@ -18,6 +18,7 @@ import classes.model.ChipState;
 import classes.model.Competition;
 import classes.model.CompetitionState;
 import classes.repository.CompetitionRepository;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -166,6 +167,7 @@ public abstract class CompetitionView implements Initializable {
 			}
 			
 			scanTextField.setText("");
+			Platform.runLater(() -> dataTable.scrollTo(dataTable.getItems().size() - 1));
 		}
 	}
 	
