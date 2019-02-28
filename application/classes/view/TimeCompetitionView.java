@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import classes.HellwegTimer;
+import classes.controller.CompetitionController;
 import classes.model.Competition;
 import classes.model.CompetitionState;
 import classes.repository.CompetitionRepository;
@@ -18,6 +19,8 @@ public class TimeCompetitionView extends CompetitionView {
 	@FXML private Label timeLabel;
 	@FXML private ProgressBar timeProgressBar;
 	
+	private Competition comp;
+	
 	public TimeCompetitionView() throws IOException {
 		super(0);
 		// Im Konstruktor sind die JavaFx-Komponenten scheinbar
@@ -26,13 +29,15 @@ public class TimeCompetitionView extends CompetitionView {
 		// Somit muss diese Zeile (s.o.) in die initialize-Methode.
 	}
 	
-	public TimeCompetitionView(Competition comp, CompetitionRepository compRepo) {
-		super(comp, compRepo);
+	public TimeCompetitionView(CompetitionController compCon) {
+		super(compCon);
+		
+		comp = super.competitionController.getCompetition();
 	}
 
 	
 	@FXML
-	protected void startBtnClick(Event event) {	
+	protected void startBtnClick(Event event) {
 		comp.setState(CompetitionState.READY); // NUR ZUM TEST
 		if(comp.getState() == CompetitionState.READY) {
 			setStartRounds();
