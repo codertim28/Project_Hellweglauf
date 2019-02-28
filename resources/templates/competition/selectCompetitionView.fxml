@@ -36,7 +36,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Pane>
-      <Pane minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#distancePaneClick" prefHeight="50.0" prefWidth="200.0" styleClass="start-pane" disable="false">
+      <Pane disable="false" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#distancePaneClick" prefHeight="50.0" prefWidth="200.0" styleClass="start-pane">
          <children>
             <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="3.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -52,18 +52,6 @@
          <VBox.margin>
             <Insets bottom="10.0" top="10.0" />
          </VBox.margin>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Pane>
-      <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="200.0" styleClass="start-pane" disable="true">
-         <children>
-            <Label layoutX="72.0" layoutY="13.0" text="Manuell">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
-         </children>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
