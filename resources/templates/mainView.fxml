@@ -109,7 +109,7 @@
           <Menu mnemonicParsing="false" text="Info">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#aboutMenuClick" text="Über" />
-                  <MenuItem mnemonicParsing="false" text="Version 0.2" />
+                  <MenuItem mnemonicParsing="false" text="Version 0.3" />
             </items>
           </Menu>
         </menus>
