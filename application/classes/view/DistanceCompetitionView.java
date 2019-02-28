@@ -19,8 +19,8 @@ import javafx.scene.input.KeyEvent;
 
 public class DistanceCompetitionView extends CompetitionView {
 	
-	// TODO: Der Benutzer muss im Prepare-Modus eingeben können, wann die halbe Runde
-	// statt findet (am Anfang oder am Ende).
+	// Anmerkung: Der Benutzer muss nicht angeben, wann die halbe Stunde stattfindet,
+	// da es für das Programm keine Rolle spielt.
 
 	@FXML private Label leadingStudentLabel;
 	@FXML private ProgressBar leadingStudentProgressBar;
@@ -90,7 +90,6 @@ public class DistanceCompetitionView extends CompetitionView {
 		super.initialize(arg0, arg1);
 		
 		// Schritt für die Progressbar definieren.
-		// TODO: Halbe Runde beachten (auch beim erhöhen).
 		onePercent = 1.0 / competitionController.getCompetition().getLapCount();
 		// Einen leadingLapCount setzen.
 		leadingLapCount = 0;
