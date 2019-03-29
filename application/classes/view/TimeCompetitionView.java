@@ -23,15 +23,11 @@ public class TimeCompetitionView extends CompetitionView {
 	
 	public TimeCompetitionView() throws IOException {
 		super(0);
-		// Im Konstruktor sind die JavaFx-Komponenten scheinbar
-		// noch nicht vorhanden.
-		// hellwegTimer = new HellwegTimer(timeLabel);
-		// Somit muss diese Zeile (s.o.) in die initialize-Methode.
+		comp = super.competitionController.getCompetition();
 	}
 	
 	public TimeCompetitionView(CompetitionController compCon) {
-		super(compCon);
-		
+		super(compCon);	
 		comp = super.competitionController.getCompetition();
 	}
 
