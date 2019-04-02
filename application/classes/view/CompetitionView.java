@@ -85,9 +85,7 @@ public abstract class CompetitionView implements Initializable {
 		// Noch den entsprechenden Wettkampf laden, wenn es einen gibt
 		// Schauen, ob ein Wettkampf bereits vorhanden ist.
 		competitionController = new CompetitionController(); // Kann eine Exception werfen
-		competitionController.getCompetition().setType(compType);
-
-		chipsController = competitionController.getChipsController();
+		competitionController.getCompetition().setType(compType);	
 	}
 	
 	protected void setStartRounds() {
@@ -190,6 +188,7 @@ public abstract class CompetitionView implements Initializable {
 		//       -> Die vorhandenen Wettkampfdaten anzeigen. Dabei RUNNING genau wie 
 		//          ENDED behandeln.
 		
+		chipsController = competitionController.getChipsController();
 		Competition comp = competitionController.getCompetition();
 		// Fall (1)
 		if(comp.getState() == CompetitionState.PREPARE || comp.getState() == CompetitionState.READY) {
