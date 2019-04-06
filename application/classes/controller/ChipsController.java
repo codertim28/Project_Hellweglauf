@@ -12,7 +12,7 @@ import classes.model.Chip;
 import classes.model.Lap;
 import classes.repository.ChipRepository;
 
-public class ChipsController {
+public class ChipsController extends Controller {
 	
 	private ArrayList<Chip> chips;
 	private ChipRepository repository;
@@ -75,15 +75,19 @@ public class ChipsController {
 	/**
 	 * Schreibt alle Chips in eine Datei.
 	 */
-	public void save() {
+	public boolean save() {
 		// Nicht speichern, wenn nichts geladen ist v keine Chips vorhanden sind
 		if(chips.isEmpty()) {
-			return;
+			return false;
 		}
 		
 		try {
 			repository.writeAsync(chips);
-		} catch(IOException e) {}
+			return true;
+		} catch(IOException e) {
+			log.error(e);
+			return false;
+		}
 	}
 	
 	/**
@@ -107,7 +111,9 @@ public class ChipsController {
 	public void load() {
 		try {
 			chips = (ArrayList<Chip>)repository.read();
-		} catch (IOException ioe) {}
+		} catch (IOException ioe) {
+			log.error(ioe);
+		}
 	}
 	
 	// GETTER UND SETTER

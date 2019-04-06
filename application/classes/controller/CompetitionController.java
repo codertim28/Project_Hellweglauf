@@ -7,7 +7,7 @@ import classes.Data;
 import classes.model.Competition;
 import classes.repository.CompetitionRepository;
 
-public class CompetitionController {
+public class CompetitionController extends Controller {
 	
 	private Competition competition;
 	private CompetitionRepository competitionRepository;
@@ -44,8 +44,7 @@ public class CompetitionController {
 			competition = competitionRepository.read();
 			chipsController.load();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error(e);
 		}
 	}
 	
