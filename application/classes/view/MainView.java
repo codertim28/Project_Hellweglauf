@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import classes.Constants;
 import classes.Data;
 import classes.SetupUtils;
 import classes.controller.CompetitionController;
@@ -42,6 +43,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import tp.dialog.StandardAlert;
 import tp.dialog.StandardMessageType;
+import tp.logging.ILoggingUtil;
+import tp.logging.SimpleLoggingUtil;
 
 public class MainView implements Initializable {
 
@@ -56,6 +59,8 @@ public class MainView implements Initializable {
 	// so gespeichert werden kann vom Benutzer...
 	private CompetitionController currentCompetitionController;
 	
+	private ILoggingUtil log;
+	
 	public MainView(Stage primaryStage) throws IOException {
 		FXMLLoader templateLoader = new FXMLLoader(getClass().getResource("/templates/mainView.fxml"));
 		templateLoader.setController(this);
@@ -68,6 +73,8 @@ public class MainView implements Initializable {
 		//primaryStage.setMaxWidth(800);
 		primaryStage.setTitle("Projekt Hellweglauf");
 		primaryStage.show();
+		
+		log = new SimpleLoggingUtil(new File(Constants.logFilePath()));
 	}
 	
 	// Click-Events
@@ -131,12 +138,9 @@ public class MainView implements Initializable {
 		
 		try {
 			aboutWebView.getEngine().load(f.toURI().toURL().toString());
-			// Tab wird hier hinzugefügt, damit dieser nicht angezeigt wird,
-			// wenn die Datei(about.html) nicht geladen werden konnte.
 			addTab(tab);
 		} catch(MalformedURLException e) {
-			// Dem Benutzer anzeigen, dass etwas nicht 
-			// geklappt hat.
+			log.error(e);
 			errorLabel.setText("Die \"Über\"-Seite konnte nicht geladen werden.");
 		}
 	}
@@ -173,21 +177,16 @@ public class MainView implements Initializable {
 				CompetitionView cv;
 				if(curComp.getType() == 0) {
 					cv = new TimeCompetitionView(compCon);
-					// Hier müssen keine Vorrausetzungen geklärt werden, da der Benutzer
-					// lediglich einen vorhandenen Wettkampf lädt und keinen neuen erstellen
-					// möchte...
 					addTab(createTab("Wettkampf (Zeit)", "/templates/competition/competitionViewTime.fxml", cv));
 				}
 				else {
 					cv = new DistanceCompetitionView(compCon);
-					// s.o.
 					addTab(createTab("Wettkampf (Distanz)", "/templates/competition/competitionViewDistance.fxml", cv));
 				}
 				
-				// Ui updaten
 				setCurrentCompetitionController(cv.getCompetitionController());
             } catch (IOException ioe) {
-            	ioe.printStackTrace();
+            	log.error(ioe);
 				new StandardAlert(StandardMessageType.ERROR).showAndWait();
 			} 
         }
@@ -322,8 +321,8 @@ public class MainView implements Initializable {
 					addTab(createTab("Wettkampf (Distanz)", "/templates/competition/competitionViewDistance.fxml", cv));
 				}
 			} catch (IOException e1) {
-				// Sollte es einen Fehler geben, ist das nicht schlimm. 
-				// So muss der Benutzer den Wettkampf manuell laden.
+				// Autoload konnte nicht durhgeführt werden. 
+				log.warning(e1);
 			}
 		}
 		toggleCompetitionRelevantUIComponents();
@@ -339,9 +338,7 @@ public class MainView implements Initializable {
 					pw.print(currentCompetitionController.getCompetitionRepository().getPath());
 					pw.close();
 				} catch (IOException ex) {
-					// Wenn ein Fehler auftritt ist das nicht schlimm. 
-					// Dann wird beim starten der Wettkampf eben nicht 
-					// automatisch erneut geöffnet.
+					log.warning(ex);
 				}
 			}
 			else {
@@ -349,8 +346,8 @@ public class MainView implements Initializable {
 				// beim nächsten Start des Programms.
 				try {
 					Files.delete(new File(path).toPath());
-				} catch (IOException e1) {
-					// (Begründung: siehe oben)
+				} catch (IOException ioe) {
+					log.warning(ioe);
 				}
 			}
 		});
