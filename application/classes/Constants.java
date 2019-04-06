@@ -15,11 +15,17 @@ public final class Constants {
 	public final static String TRAINING_FILE = "training.xml";
 	public final static String FORMS_FILE = "forms";
 	
+	public final static String LOG_FILE = "log.txt";
+	
 	public static String competitionFilePath() {
 		return DIR + SEPERATOR + COMPETITION_DIR + SEPERATOR + COMPETITION_FILE;
 	}
 	
 	public static String competitionChipsFilePath() {
 		return DIR + SEPERATOR + COMPETITION_DIR + SEPERATOR + COMPETITION_CHIPS_FILE;
+	}
+	
+	public static String logFilePath() {
+		return DIR + SEPERATOR + LOG_FILE;
 	}
 }
