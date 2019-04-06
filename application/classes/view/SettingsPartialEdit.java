@@ -1,5 +1,6 @@
 package classes.view;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import classes.Constants;
 import classes.Data;
 import classes.controller.ChipsController;
 import classes.model.Chip;
@@ -30,6 +32,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import tp.logging.SimpleLoggingUtil;
 
 public class SettingsPartialEdit implements Initializable {
 	
@@ -163,8 +166,7 @@ public class SettingsPartialEdit implements Initializable {
 			// Damit immer das erste Item ausgewählt ist und keine Fehler entstehen.
 			formChoiceBox.getSelectionModel().select(0); 
 		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			new SimpleLoggingUtil(new File(Constants.logFilePath())).error(e);
 		}
 		
 		// Die Chips laden und anzeigen
