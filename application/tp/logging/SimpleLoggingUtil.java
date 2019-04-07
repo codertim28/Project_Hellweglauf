@@ -20,9 +20,8 @@ public class SimpleLoggingUtil implements ILoggingUtil {
 		if(!logFile.exists()) {
 			try {
 				logFile.createNewFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (IOException e) { 
+				//e.printStackTrace();
 			}
 		}
 	}
@@ -31,24 +30,21 @@ public class SimpleLoggingUtil implements ILoggingUtil {
 	public void info(String message) {
 		try {
 		    Files.write(logFile.toPath(), buildMessage("INFO", message).getBytes(), StandardOpenOption.APPEND);
-		} catch (IOException e) {
-		}
+		} catch (IOException e) {}
 	}
 
 	@Override
 	public void warning(String message) {
 		try {
 		    Files.write(logFile.toPath(), buildMessage("WARNING", message).getBytes(), StandardOpenOption.APPEND);
-		} catch (IOException e) {
-		}
+		} catch (IOException e) {}
 	}
 	
 	@Override
 	public void warning(Exception ex) {
 		try {
 		    Files.write(logFile.toPath(), buildMessage("WARNING", ex).getBytes(), StandardOpenOption.APPEND);
-		} catch (IOException e) {
-		}
+		} catch (IOException e) {}
 	}
 
 	@Override
@@ -56,9 +52,7 @@ public class SimpleLoggingUtil implements ILoggingUtil {
 
 		try {
 		    Files.write(logFile.toPath(), buildMessage("ERROR", message).getBytes(), StandardOpenOption.APPEND);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-		}
+		} catch (IOException e) {}
 	}
 	
 	@Override

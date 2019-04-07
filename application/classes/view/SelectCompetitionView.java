@@ -1,12 +1,16 @@
 package classes.view;
 
 
+import java.io.File;
+
+import classes.Constants;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import tp.logging.SimpleLoggingUtil;
 
 interface SelectRunnable {
 	void run() throws Exception;
@@ -36,7 +40,7 @@ public class SelectCompetitionView {
 			alert.setContentText("Ein Fehler ist aufgetreten. Die Wettkampfoberfläche konnte nicht geladen werden.");
 			alert.show();
 			
-			e.printStackTrace();
+			new SimpleLoggingUtil(new File(Constants.logFilePath())).error(e);
 		}
 
 		// zuletzt das Modal (dieses Fenster) schließen
@@ -46,30 +50,25 @@ public class SelectCompetitionView {
 	// Click-Events
 	public void timePaneClick(Event event) {
 
-		runnableClick(new SelectRunnable() {
-			public void run() throws Exception {
-				// Den Tab erstellen und hinzufügen
-				TimeCompetitionView tcv = new TimeCompetitionView();
-				if (tcv.checkRequirements()) {
-					// wenn die Voraussetzungen geklärt sind, den View einbinden, sonst nicht
-					mainView.addTab(mainView.createTab("Wettkampf (Zeit)", "/templates/competition/competitionViewTime.fxml", tcv));
-					mainView.setCurrentCompetitionController(tcv.getCompetitionController());
-				}
+		runnableClick(() -> {	
+			// Den Tab erstellen und hinzufügen
+			TimeCompetitionView tcv = new TimeCompetitionView();
+			if (tcv.checkRequirements()) {
+				// wenn die Voraussetzungen geklärt sind, den View einbinden, sonst nicht
+				mainView.addTab(mainView.createTab("Wettkampf (Zeit)", "/templates/competition/competitionViewTime.fxml", tcv));
+				mainView.setCurrentCompetitionController(tcv.getCompetitionController());
 			}
 		});
 	}
 
 	public void distancePaneClick(Event event) {
 
-		runnableClick(new SelectRunnable() {
-			@Override
-			public void run() throws Exception {
-				// Den Tab erstellen und hinzufügen
-				DistanceCompetitionView dcv = new DistanceCompetitionView();
-				if (dcv.checkRequirements()) {
-					mainView.addTab(mainView.createTab("Wettkampf (Distanz)", "/templates/competition/competitionViewDistance.fxml", dcv));
-					mainView.setCurrentCompetitionController(dcv.getCompetitionController());
-				}
+		runnableClick(() -> {
+			// Den Tab erstellen und hinzufügen
+			DistanceCompetitionView dcv = new DistanceCompetitionView();
+			if (dcv.checkRequirements()) {
+				mainView.addTab(mainView.createTab("Wettkampf (Distanz)", "/templates/competition/competitionViewDistance.fxml", dcv));
+				mainView.setCurrentCompetitionController(dcv.getCompetitionController());
 			}
 		});
 	}
