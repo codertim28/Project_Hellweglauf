@@ -56,13 +56,10 @@ public class HellwegTimer extends Thread {
 		while (!this.isInterrupted() && seconds > 0) {
             setSeconds(seconds - 1);      
             // UI updaten
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    // entsprechende UI Komponenten updaten
-                	showTime();
-                	timeProgressBar.setProgress(timeProgressBar.getProgress() + onePercent);
-                }
+            Platform.runLater(() -> {
+                // entsprechende UI Komponenten updaten
+            	showTime();
+            	timeProgressBar.setProgress(timeProgressBar.getProgress() + onePercent);      
             });
             // Schlafen / Warten
             try {
