@@ -55,18 +55,8 @@ public class PrintView implements Initializable {
 	
 	@FXML
 	private void listOfResultsPrintBtnClick() {
-		// FIXMENOTNOW: Beim Drucken gehen die Styleangaben verloren
-		// Die Liste rendern
 		renderListOfResults();
-		
-        previewWebView.setZoom(1); // Damit die volle Breite des Blattes ausgenutzt wird
-		PrinterJob job = PrinterJob.createPrinterJob(getSelectedPrinter());
-		job.showPrintDialog(previewWebView.getScene().getWindow());
-	    if (job != null) {
-	    	previewWebView.getEngine().print(job);
-	        job.endJob();
-	    }
-	    previewWebView.setZoom(0.38); // Zurück setzten, damit es für den Benutzer schön ist
+        print();
 	}
 	
 	@FXML 
@@ -88,23 +78,13 @@ public class PrintView implements Initializable {
 		}
 	}
 	
-	private void print() {
-		Printer printer = getSelectedPrinter();
-		
-		Node node = this.previewWebView;
-		// Das WebView transformieren... bisschen unschön an dieser Stelle
-        PageLayout pageLayout = printer.createPageLayout(Paper.A4, PageOrientation.PORTRAIT, Printer.MarginType.DEFAULT);
-        double scaleX = pageLayout.getPrintableWidth() / node.getBoundsInParent().getWidth();
-        double scaleY = pageLayout.getPrintableHeight() / node.getBoundsInParent().getHeight();
-        node.getTransforms().add(new Scale(scaleX, scaleY));
- 
-        PrinterJob job = PrinterJob.createPrinterJob(printer);
-        if (job != null) {
-            boolean success = job.printPage(node);
-            if (success) {
-                job.endJob();
-            }
-        }
+	private void print() {		
+		PrinterJob job = PrinterJob.createPrinterJob(getSelectedPrinter());
+		//job.showPrintDialog(previewWebView.getScene().getWindow());
+	    if (job != null) {
+	    	previewWebView.getEngine().print(job);
+	        job.endJob();
+	    }
 	}
 	
 	@Override
