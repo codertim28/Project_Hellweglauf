@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+import classes.Constants;
 import classes.Data;
 import classes.controller.CompetitionController;
 import classes.model.Chip;
@@ -37,6 +38,8 @@ import javafx.scene.transform.Scale;
 import javafx.scene.web.WebView;
 import tp.dialog.StandardAlert;
 import tp.dialog.StandardMessageType;
+import tp.logging.ILoggingUtil;
+import tp.logging.SimpleLoggingUtil;
 
 public class PrintView implements Initializable {
 	
@@ -44,6 +47,7 @@ public class PrintView implements Initializable {
 	@FXML private ListView<Chip> studentListView;
 	@FXML private WebView previewWebView;
 	
+	private ILoggingUtil log = new SimpleLoggingUtil(new File(Constants.logFilePath())); 
 
 	private ObservableSet<Printer> allPrinter;
 	private CompetitionController competitionController;
@@ -76,6 +80,7 @@ public class PrintView implements Initializable {
 			renderDocument(chips.get(i));
 			print();
 		}
+	
 	}
 	
 	private void print() {		
@@ -123,7 +128,7 @@ public class PrintView implements Initializable {
 		
 		// Die Preview setzen (den ersten Chip in der Liste rendern)
 		renderDocument(competitionController.getChipsController().getChips().get(0));
-		previewWebView.setZoom(0.38);
+		//previewWebView.setZoom(0.38);
 
 	}
 	
@@ -178,8 +183,7 @@ public class PrintView implements Initializable {
 			previewWebView.getEngine().load(new File(Data.DIR + "/" + Data.BASIC_DIR + "/letzterDruck.html").toURI().toURL().toString());
 		
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error(e);
 			new StandardAlert(StandardMessageType.ERROR);
 		}
 	}
@@ -218,8 +222,7 @@ public class PrintView implements Initializable {
 			previewWebView.getEngine().load(new File(Data.DIR + "/" + Data.BASIC_DIR + "/letzterDruck.html").toURI().toURL().toString());
 		
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error(e);
 			new StandardAlert(StandardMessageType.ERROR);
 		}
 	}
