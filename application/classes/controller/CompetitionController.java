@@ -19,6 +19,7 @@ public class CompetitionController extends Controller {
 		setCompetition(competitionRepository.read());
 		
 		initChipsController();
+		chipsController.load();
 	}
 	
 	public CompetitionController(Competition comp, CompetitionRepository compRepo) {
