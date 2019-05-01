@@ -213,7 +213,16 @@ public class HellwegBufferedReader extends BufferedReader {
 		
 		int timestampPos = line.indexOf("timestamp") + "timestamp".length() + 2;
 		String timestamp = line.substring(timestampPos, line.indexOf('"', timestampPos));
-		LocalTime lt = LocalTime.parse(timestamp, DateTimeFormatter.ofPattern("HH:mm:ss.SSS"));
+		LocalTime lt;
+		try {
+			lt = LocalTime.parse(timestamp, DateTimeFormatter.ofPattern("HH:mm:ss.SSS"));
+		}
+		catch(Exception e) {
+			// Es kann den seltenen Fall geben, dass ein Timestamp wirklich 
+			// GENAU auf diese Sekunde gesetzt wird und daher keine Millisekunden
+			// beinhaltet...
+			lt = LocalTime.parse(timestamp, DateTimeFormatter.ofPattern("HH:mm:ss"));
+		}
 		
 		// TODO: parse-Exception abfangen ? 
 		return new Lap(lt, Integer.parseInt(number));
