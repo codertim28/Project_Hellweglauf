@@ -1,8 +1,10 @@
 package classes.view;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import classes.Constants;
 import classes.controller.ChipsController;
 import classes.model.Chip;
 import classes.model.ChipState;
@@ -17,6 +19,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import tp.dialog.StandardAlert;
 import tp.dialog.StandardMessageType;
+import tp.logging.SimpleLoggingUtil;
 
 public class PrepareView implements Initializable {
 	
@@ -84,7 +87,7 @@ public class PrepareView implements Initializable {
 		try {
 			competition.setTime(Integer.parseInt(timeField.getText()) * 60);
 			competition.setLapLength(Integer.parseInt(lapLengthField.getText()));
-			competition.setLapCount(Double.parseDouble(lapCountField.getText()));
+			competition.setLapCount(Double.parseDouble(lapCountField.getText().replace(',','.')));
 			// Wenn keine Exception aufgetreten ist, den Wettkampf als
 			// vorbereitet markieren und das Fenster schlieﬂen
 			competition.setState(CompetitionState.READY);
@@ -92,6 +95,7 @@ public class PrepareView implements Initializable {
 		}
 		catch(Exception e) {
 			new StandardAlert(StandardMessageType.ERROR).showAndWait();
+			new SimpleLoggingUtil(new File(Constants.logFilePath())).error(e);
 		}
 	}
 	
@@ -100,7 +104,7 @@ public class PrepareView implements Initializable {
 		// Alle Werte laden bzw. anzeigen
 		timeField.setText("" + competition.getTime() / 60);
 		lapLengthField.setText("" + competition.getLapLength());
-		lapCountField.setText("" + competition.getLapCount());		
+		lapCountField.setText((competition.getLapCount() + "").replace(".",","));		
 	}
 
 
