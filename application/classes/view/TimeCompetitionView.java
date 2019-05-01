@@ -42,6 +42,7 @@ public class TimeCompetitionView extends CompetitionView {
 			scanTextField.requestFocus();
 			super.log("Wettkampf gestartet!");
 			comp.setState(CompetitionState.RUNNING);
+			startBtn.setDisable(true);
 		}
 	}
 	
