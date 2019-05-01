@@ -62,6 +62,7 @@ public class MainView implements Initializable {
 	private ILoggingUtil log;
 	
 	public MainView(Stage primaryStage) throws IOException {
+		log = new SimpleLoggingUtil(new File(Constants.logFilePath()));
 		FXMLLoader templateLoader = new FXMLLoader(getClass().getResource("/templates/mainView.fxml"));
 		templateLoader.setController(this);
 		primaryStage.setScene(new Scene(templateLoader.load()));
@@ -73,8 +74,6 @@ public class MainView implements Initializable {
 		//primaryStage.setMaxWidth(800);
 		primaryStage.setTitle("Projekt Hellweglauf");
 		primaryStage.show();
-		
-		log = new SimpleLoggingUtil(new File(Constants.logFilePath()));
 	}
 	
 	// Click-Events

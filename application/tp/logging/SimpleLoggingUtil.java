@@ -10,6 +10,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
+// TODO User benachrichtigen, wenn hier eine Exception auftaucht 
 public class SimpleLoggingUtil implements ILoggingUtil {
 	
 	private File logFile;
@@ -60,9 +61,7 @@ public class SimpleLoggingUtil implements ILoggingUtil {
 		
 		try {
 		    Files.write(logFile.toPath(), buildMessage("ERROR", ex).getBytes(), StandardOpenOption.APPEND);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-		}
+		} catch (IOException e) {}
 	}
 	
 	private String buildMessage(String type, Exception ex) {
