@@ -325,7 +325,7 @@ public class MainView implements Initializable {
 				}
 			} catch (IOException e1) {
 				// Autoload konnte nicht durhgeführt werden. 
-				log.warning(e1);
+				log.warning(e1.getMessage());
 			}
 		}
 		toggleCompetitionRelevantUIComponents();
@@ -350,7 +350,7 @@ public class MainView implements Initializable {
 				try {
 					Files.delete(new File(path).toPath());
 				} catch (IOException ioe) {
-					log.warning(ioe);
+					log.warning(ioe.getMessage());
 				}
 			}
 		});
