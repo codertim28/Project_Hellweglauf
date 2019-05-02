@@ -97,6 +97,10 @@ public class MainView implements Initializable {
 		stage.setScene(scene);
 		stage.show();
 	}
+	
+	public void trainingPaneClick(Event e) throws IOException {
+		addTab(createTab("Training", "/templates/competition/trainingView.fxml", new TrainingView()));
+	}
 
 	public void settingsBtnClick(ActionEvent e) throws IOException {
 
@@ -244,7 +248,7 @@ public class MainView implements Initializable {
 		});
 	}
 	
-	public Tab createTab(String title, String resource, CompetitionView view) throws IOException {
+	public Tab createTab(String title, String resource, Object view) throws IOException {
 		Tab tab = new Tab(title);
 		// vorbereiten...
 		FXMLLoader templateLoader = new FXMLLoader(getClass().getResource(resource));

@@ -56,7 +56,7 @@
                                     </ImageView>
                                  </children>
                               </Pane>
-                              <Pane fx:id="trainingPane" disable="true" maxHeight="50.0" maxWidth="280.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="280.0" styleClass="start-pane">
+                              <Pane fx:id="trainingPane" maxHeight="50.0" maxWidth="280.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="280.0" styleClass="start-pane" onMouseClicked="#trainingPaneClick">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
@@ -109,7 +109,7 @@
           <Menu mnemonicParsing="false" text="Info">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#aboutMenuClick" text="Über" />
-                  <MenuItem mnemonicParsing="false" text="Version 0.3" />
+                  <MenuItem mnemonicParsing="false" text="Version 0.5" />
             </items>
           </Menu>
         </menus>
