@@ -26,11 +26,10 @@
             </Label>
          </children>
       </Pane>
-      <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+      <Pane fx:id="buttonContainer" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
          <children>
             <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#chipsBtnClick" prefWidth="100.0" text="Chips verwalten" />
             <Button layoutX="14.0" layoutY="44.0" mnemonicParsing="false" onAction="#settingsBtnClick" prefHeight="25.0" prefWidth="100.0" text="Einstellungen" />
-            <Button layoutX="14.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Exportieren" />
          </children>
       </Pane>
       <Label fx:id="settingsHeaderLabel" GridPane.columnIndex="1">

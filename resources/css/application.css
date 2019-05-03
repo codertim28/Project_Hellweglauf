@@ -11,3 +11,8 @@
 	
 	-fx-background-color: #56C1F7;
 }
+
+/* Allgemeine Button styles */
+.pressed {
+	-fx-background-color:#ccc;
+}

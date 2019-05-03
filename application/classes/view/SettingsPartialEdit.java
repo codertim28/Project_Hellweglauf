@@ -65,7 +65,8 @@ public class SettingsPartialEdit implements Initializable {
 		String name = nameField.getText().trim();
 		
 		if(!id.equals("") && !name.equals("")) {
-			Chip c = new Chip(chipField.getText().trim(), nameField.getText().trim(), formChoiceBox.getSelectionModel().getSelectedItem());
+			//Chip c = new Chip(chipField.getText().trim(), nameField.getText().trim(), formChoiceBox.getSelectionModel().getSelectedItem());
+			Chip c = new Chip(chipField.getText().trim(), nameField.getText().trim(), "None");
 			// Wenn ein Chip mit der gleichen Id bereits vorhanden ist, muss gefragt werden, ob
 			// der vorhandene Chip überschrieben werden soll.
 			// Die Entscheidung wird über writeChip gesteuert.
@@ -119,7 +120,7 @@ public class SettingsPartialEdit implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		idCol.setCellValueFactory(new PropertyValueFactory("id"));
 		nameCol.setCellValueFactory(new PropertyValueFactory("studentName"));
-		formCol.setCellValueFactory(new PropertyValueFactory("form"));
+		//formCol.setCellValueFactory(new PropertyValueFactory("form"));
 		// NameCol soll editierbar sein, damit man z.B. den Namen ändern kann, 
 		// falls man sich vertipt hat.
 		nameCol.setCellFactory(TextFieldTableCell.<Chip>forTableColumn());
@@ -161,6 +162,7 @@ public class SettingsPartialEdit implements Initializable {
 	    });
 		
 		// Die Klassen laden und in die ChoiceBox einfügen
+		/*
 		try {
 			formChoiceBox.setItems(FXCollections.observableList((ArrayList<String>)Data.readObject(Data.BASIC_DIR + "/" + Data.FORMS_FILE)));
 			// Damit immer das erste Item ausgewählt ist und keine Fehler entstehen.
@@ -168,7 +170,8 @@ public class SettingsPartialEdit implements Initializable {
 		} catch (ClassNotFoundException | IOException e) {
 			new SimpleLoggingUtil(new File(Constants.logFilePath())).error(e);
 		}
-		
+		*/
+		formChoiceBox.setDisable(true);
 		// Die Chips laden und anzeigen
 		chipsController = new ChipsController();
 		chipsController.load();
