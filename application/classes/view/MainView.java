@@ -148,6 +148,29 @@ public class MainView implements Initializable {
 		}
 	}
 	
+	@FXML
+	private void helpMenuClick() {
+		// Die HTML-Datei für den Hilfe-Tab
+		File f = new File("help.html");
+		// Den Tab erzeugen
+		Tab tab = new Tab("Hilfeseite");
+		BorderPane bp = new BorderPane();
+		bp.setPadding(new Insets(20));
+		
+		WebView helpWebView = new WebView();
+		bp.setCenter(helpWebView);
+		
+		tab.setContent(bp);
+		
+		try {
+			helpWebView.getEngine().load(f.toURI().toURL().toString());
+			addTab(tab);
+		} catch(MalformedURLException e) {
+			log.error(e);
+			errorLabel.setText("Die Hilfeseite konnte nicht geladen werden.");
+		}
+	}
+	
 	@FXML 
 	private void saveMenuClick(ActionEvent e) {
 		FileChooser fileChooser = new FileChooser();
