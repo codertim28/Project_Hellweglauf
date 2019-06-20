@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.GridPane?>
+
+<VBox fx:id="root" alignment="CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" stylesheets="@../../css/application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="prohell.prohell.classes.view.SelectCompetitionView">
+   <children>
+      <Label text="Wettkampf auf...">
+         <font>
+            <Font size="22.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="20.0" />
+         </VBox.margin>
+      </Label>
+      <Pane minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#timePaneClick" prefHeight="50.0" prefWidth="200.0" styleClass="start-pane">
+         <children>
+            <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="3.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../img/icons8-sport-stopwatch-64.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="87.0" layoutY="13.0" text="Zeit">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+         </children>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Pane>
+      <Pane disable="false" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#distancePaneClick" prefHeight="50.0" prefWidth="200.0" styleClass="start-pane">
+         <children>
+            <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="3.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../img/icons8-lineal-64.png" />
+               </image>
+            </ImageView>
+            <Label alignment="CENTER" layoutX="74.0" layoutY="13.0" text="Distanz">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+         </children>
+         <VBox.margin>
+            <Insets bottom="10.0" top="10.0" />
+         </VBox.margin>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Pane>
+   </children>
+</VBox>

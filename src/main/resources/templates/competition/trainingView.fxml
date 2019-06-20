@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.web.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.GridPane?>
+
+<GridPane prefHeight="550.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TableView id="data-table" fx:id="dataTable" prefHeight="354.0" prefWidth="800.0" GridPane.columnSpan="2" GridPane.rowIndex="1">
+         <columns>
+            <TableColumn fx:id="idCol" editable="false" prefWidth="120.0" sortable="false" text="Chip" />
+            <TableColumn fx:id="studentNameCol" editable="false" prefWidth="120.0" sortable="false" text="Name" />
+            <TableColumn fx:id="roundNumberCol" editable="false" prefWidth="100.0" sortable="false" text="Runde" />
+            <TableColumn fx:id="timestampCol" editable="false" prefWidth="100.0" sortable="false" text="Zeit" />
+         </columns>
+      </TableView>
+      <Pane GridPane.rowIndex="2">
+         <children>
+            <TextField fx:id="scanTextField" layoutX="14.0" layoutY="152.0" onKeyPressed="#scanTextFieldOnKeyPressed" />
+            <Label layoutX="14.0" layoutY="135.0" text="Neue Runde:" />
+            <TextArea fx:id="logTextArea" editable="false" layoutX="16.0" layoutY="32.0" prefHeight="98.0" prefWidth="439.0" />
+            <Label layoutX="16.0" layoutY="14.0" text="Status" />
+         </children>
+      </Pane>
+   </children>
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="470.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="310.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="330.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="190.0" vgrow="SOMETIMES" />
+   </rowConstraints>
+</GridPane>
