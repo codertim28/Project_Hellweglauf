@@ -104,7 +104,7 @@ public class MainView implements Initializable {
 	public void settingsBtnClick(ActionEvent e) throws IOException {
 
 		Stage stage = new Stage();
-		stage.setResizable(false);
+		//stage.setResizable(false);
 		stage.initOwner(((Button) e.getSource()).getScene().getWindow());
 		stage.initModality(Modality.WINDOW_MODAL);
 		
@@ -116,10 +116,14 @@ public class MainView implements Initializable {
 		});
 
 		Parent parent = FXMLLoader.load(getClass().getResource("/templates/settings/settingsView.fxml"));
-		Scene scene = new Scene(parent, 540, 400);
+		Scene scene = new Scene(parent);
 		scene.getStylesheets().add(getClass().getResource("/css/application.css").toExternalForm());
 			
 		stage.setScene(scene);
+		stage.setWidth(620);
+		stage.setHeight(580);
+		stage.setMinWidth(620);
+		stage.setMinHeight(580);
 		stage.show();
 	}
 	
