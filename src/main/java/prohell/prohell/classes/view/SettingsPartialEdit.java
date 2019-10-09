@@ -23,6 +23,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import prohell.prohell.classes.controller.ChipsController;
@@ -138,7 +139,7 @@ public class SettingsPartialEdit implements Initializable {
 		dataTable.getColumns().add(btnColumn);
 		btnColumn.setCellFactory(column -> {
 		    return new TableCell<Chip, String>() {
-		    	private Button btn = new Button("Löschen");		
+		    	private Button btn = new Button("Löschen");	
 		        @Override
 		        protected void updateItem(String item, boolean empty) {
 		        	super.updateItem(item, empty);
@@ -146,6 +147,7 @@ public class SettingsPartialEdit implements Initializable {
 		        		setGraphic(null);
 		        	}
 		        	else {
+		        		btn.setTooltip(new Tooltip("Löscht einen Chip unwiderruflich!"));
 		        		btn.setOnAction(e -> {
 		        			removeChip(item);
 		        		});
