@@ -36,7 +36,7 @@ public class SettingsView implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {		
 		try {
 			manageChipsTab.setContent(FXMLLoader.load(getClass().getResource("/templates/settings/settingsPartialEdit.fxml")));
-			// TODO: import-Funktionalität
+			importTab.setContent(FXMLLoader.load(getClass().getResource("/templates/settings/settingsViewPartialImport.fxml")));
 			settingsTab.setContent(FXMLLoader.load(getClass().getResource("/templates/settings/settingsViewPartialCompetition.fxml")));
 		} catch (Exception ex) {
 			new SimpleLoggingUtil(new File(Constants.logFilePath())).error(ex);
