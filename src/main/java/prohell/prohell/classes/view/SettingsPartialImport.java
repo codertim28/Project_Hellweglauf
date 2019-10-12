@@ -1,19 +1,29 @@
 package prohell.prohell.classes.view;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import com.opencsv.CSVParser;
+import com.opencsv.CSVParserBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.stage.FileChooser.ExtensionFilter;
 import prohell.prohell.classes.io.IOFacade;
 
 public class SettingsPartialImport implements Initializable {
 	
-	@FXML private Label fileNameLabel;
+	@FXML private Label fileNameLabel, statusLabel;
+	@FXML private ListView<String> columnPreview;
 	
 	private File selectedFile;
 	
@@ -28,12 +38,46 @@ public class SettingsPartialImport implements Initializable {
 	private void onSelectFileBtnClick(ActionEvent ev) {
 		File selectedFile = IOFacade.chooseFile("CSV-Datei wählen", new ExtensionFilter("CSV-Dateien", "*.csv"));
 		this.selectedFile = selectedFile;
+		columnPreview.getItems().clear();
 		
 		if(selectedFile != null) {
 			fileNameLabel.setText(selectedFile.getAbsolutePath());
+			showColumns();
+			checkFile();
 		}
 		else {
 			fileNameLabel.setText(NO_FILE_SELECTED);
+		}
+	}
+	
+	private void showColumns() {
+		final CSVParser parser = new CSVParserBuilder().withIgnoreQuotations(true).withSeparator(';').build();
+		
+		try {
+			CSVReader reader = new CSVReaderBuilder(new FileReader(selectedFile)).withCSVParser(parser).build();
+			String[] tableHead = reader.readNext();
+			reader.close();
+			
+			columnPreview.getItems().addAll(tableHead);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void checkFile() {
+		// Hier wird eine Exception geworfen, wenn nicht 
+		// alle der erforderlichen Spalten vorhanden sind.
+		try {
+			columnPreview.getItems().stream().filter(c -> c.toLowerCase().equals("chip")).findFirst().orElseThrow(Exception::new);
+			columnPreview.getItems().stream().filter(c -> c.toLowerCase().equals("nachname")).findFirst().orElseThrow(Exception::new);
+			columnPreview.getItems().stream().filter(c -> c.toLowerCase().equals("vorname")).findFirst().orElseThrow(Exception::new);
+		
+			statusLabel.setText("Daten können importiert werden.");
+			statusLabel.setStyle("-fx-text-fill: green;");
+		} catch (Exception e) {
+			statusLabel.setText("Datei entspricht nicht der erforderlichen Struktur!");
+			statusLabel.setStyle("-fx-text-fill: red;");
 		}
 	}
 }

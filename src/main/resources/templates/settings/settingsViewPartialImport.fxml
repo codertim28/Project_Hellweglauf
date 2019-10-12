@@ -16,7 +16,7 @@
       <VBox prefHeight="200.0" prefWidth="100.0">
          <children>
             <Label text="Spalten in der Datei:" />
-            <ListView fx:id="columnPreview" maxWidth="300.0" mouseTransparent="true" prefHeight="200.0" />
+            <ListView fx:id="columnPreview" maxWidth="200.0" mouseTransparent="true" prefHeight="200.0" />
          </children>
       </VBox>
       <Label fx:id="statusLabel" />
