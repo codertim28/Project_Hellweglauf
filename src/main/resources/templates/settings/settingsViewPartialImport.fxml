@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.web.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -16,7 +18,12 @@
       <VBox prefHeight="200.0" prefWidth="100.0">
          <children>
             <Label text="Spalten in der Datei:" />
-            <ListView fx:id="columnPreview" maxWidth="200.0" mouseTransparent="true" prefHeight="200.0" />
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <ListView fx:id="columnPreview" maxWidth="200.0" mouseTransparent="true" prefHeight="200.0" />
+                  <WebView fx:id="informationWebView" prefHeight="200.0" prefWidth="300.0" />
+               </children>
+            </HBox>
          </children>
       </VBox>
       <Label fx:id="statusLabel" />

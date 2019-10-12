@@ -1,7 +1,6 @@
 package prohell.prohell.classes.view;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
@@ -17,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.web.WebView;
 import javafx.stage.FileChooser.ExtensionFilter;
 import prohell.prohell.classes.io.IOFacade;
 
@@ -24,6 +24,7 @@ public class SettingsPartialImport implements Initializable {
 	
 	@FXML private Label fileNameLabel, statusLabel;
 	@FXML private ListView<String> columnPreview;
+	@FXML private WebView informationWebView;
 	
 	private File selectedFile;
 	
@@ -32,6 +33,7 @@ public class SettingsPartialImport implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle rBundle) {
 		fileNameLabel.setText(NO_FILE_SELECTED);
+		informationWebView.getEngine().load(getClass().getResource("/html/importText.html").toExternalForm());
 	}
 
 	@FXML
