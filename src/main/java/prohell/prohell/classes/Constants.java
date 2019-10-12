@@ -17,6 +17,9 @@ public final class Constants {
 	
 	public final static String LOG_FILE = "log.txt";
 	
+	public static final String BASIC_CHIPS_FILE_PATH = 
+			DIR + SEPERATOR + BASIC_DIR + SEPERATOR + CHIPS_FILE;
+	
 	public static String competitionFilePath() {
 		return DIR + SEPERATOR + COMPETITION_DIR + SEPERATOR + COMPETITION_FILE;
 	}
