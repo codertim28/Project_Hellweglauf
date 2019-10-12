@@ -19,17 +19,15 @@ public class IOFacade {
 	
 	public static void importChipsFromCSV(File csvFile) {
 		try {
+			final CSVParser parser = new CSVParserBuilder().withIgnoreQuotations(true).withSeparator(';').build();
 			// Kopfinformationen holen, um die Indize zu ermitteln
-			CSVReader reader = new CSVReader(new FileReader(csvFile));
+			CSVReader reader = new CSVReaderBuilder(new FileReader(csvFile)).withCSVParser(parser).build();
 			String[] tableHead = reader.readNext();
 			reader.close();
 			
 			// Inhalte der Tabelle lesen
-			final CSVParser parser = new CSVParserBuilder().withIgnoreQuotations(true).build();
-			final CSVReader mainContentReader = new CSVReaderBuilder(new FileReader(csvFile)).withCSVParser(parser).withSkipLines(1).build();
-		
-			List<String[]> tableContent = mainContentReader.readAll();
-			
+			final CSVReader mainContentReader = new CSVReaderBuilder(new FileReader(csvFile)).withCSVParser(parser).withSkipLines(1).build();	
+			List<String[]> tableContent = mainContentReader.readAll();		
 			mainContentReader.close();
 			
 			int chip = 0, vorname = 0, nachname = 0, form = 0;
@@ -46,7 +44,7 @@ public class IOFacade {
 				case "nachname":
 					nachname = i;
 					break;
-				case "form":
+				case "klasse":
 					form = i;
 					break;
 				default:
@@ -57,7 +55,7 @@ public class IOFacade {
 			List<Chip> chipList = new LinkedList<>();
 			// Chips erstellen
 			for(String[] row : tableContent) {
-				chipList.add(new Chip(row[chip], row[vorname] + row[nachname], row[form]));
+				chipList.add(new Chip(row[chip], row[vorname] + " " + row[nachname], row[form]));
 			}
 			
 			ChipRepository chipRepo = new ChipRepository(Constants.BASIC_CHIPS_FILE_PATH);
