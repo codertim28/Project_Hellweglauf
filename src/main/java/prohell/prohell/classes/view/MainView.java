@@ -46,6 +46,8 @@ import prohell.prohell.tp.logging.ILoggingUtil;
 import prohell.prohell.tp.logging.SimpleLoggingUtil;
 
 public class MainView implements Initializable {
+	
+	public static Stage mainStage;
 
 	@FXML private GridPane root;
 	@FXML private TabPane tabPane;
@@ -73,6 +75,7 @@ public class MainView implements Initializable {
 		//primaryStage.setMaxWidth(800);
 		primaryStage.setTitle("Projekt Hellweglauf");
 		primaryStage.show();
+		mainStage = primaryStage;
 	}
 	
 	// Click-Events

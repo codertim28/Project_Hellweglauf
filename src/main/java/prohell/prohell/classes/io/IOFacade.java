@@ -11,11 +11,23 @@ import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import prohell.prohell.classes.Constants;
 import prohell.prohell.classes.model.Chip;
 import prohell.prohell.classes.repository.ChipRepository;
+import prohell.prohell.classes.view.MainView;
 
 public class IOFacade {
+	
+	public static File chooseFile(String title, ExtensionFilter extFilter) {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle(title);
+		//fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
+		fileChooser.getExtensionFilters().addAll(extFilter);
+		File selectedFile = fileChooser.showOpenDialog(MainView.mainStage);
+		return selectedFile;
+	}
 	
 	public static void importChipsFromCSV(File csvFile) {
 		try {
