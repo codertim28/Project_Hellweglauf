@@ -14,6 +14,7 @@ import com.opencsv.CSVReaderBuilder;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.web.WebView;
@@ -25,6 +26,7 @@ public class SettingsPartialImport implements Initializable {
 	@FXML private Label fileNameLabel, statusLabel;
 	@FXML private ListView<String> columnPreview;
 	@FXML private WebView informationWebView;
+	@FXML private Button importBtn;
 	
 	private File selectedFile;
 	
@@ -34,6 +36,9 @@ public class SettingsPartialImport implements Initializable {
 	public void initialize(URL url, ResourceBundle rBundle) {
 		fileNameLabel.setText(NO_FILE_SELECTED);
 		informationWebView.getEngine().load(getClass().getResource("/html/importText.html").toExternalForm());
+		
+		// wird erst aktiviert, wenn eine gültige Datei ausgewählt wurde
+		importBtn.setDisable(true);
 	}
 
 	@FXML
@@ -49,7 +54,14 @@ public class SettingsPartialImport implements Initializable {
 		}
 		else {
 			fileNameLabel.setText(NO_FILE_SELECTED);
+			statusLabel.setText("");
+			importBtn.setDisable(true);
 		}
+	}
+	
+	@FXML
+	private void onImportBtnClick(ActionEvent ev) {
+		IOFacade.importChipsFromCSV(selectedFile);
 	}
 	
 	private void showColumns() {
@@ -77,9 +89,11 @@ public class SettingsPartialImport implements Initializable {
 		
 			statusLabel.setText("Daten können importiert werden.");
 			statusLabel.setStyle("-fx-text-fill: green;");
+			importBtn.setDisable(false);
 		} catch (Exception e) {
 			statusLabel.setText("Datei entspricht nicht der erforderlichen Struktur!");
 			statusLabel.setStyle("-fx-text-fill: red;");
+			importBtn.setDisable(true);
 		}
 	}
 }

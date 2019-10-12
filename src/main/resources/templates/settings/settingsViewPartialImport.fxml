@@ -20,14 +20,14 @@
             <Label text="Spalten in der Datei:" />
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
                <children>
-                  <ListView fx:id="columnPreview" maxWidth="200.0" mouseTransparent="true" prefHeight="200.0" />
+                  <ListView fx:id="columnPreview" maxWidth="200.0" minHeight="-Infinity" mouseTransparent="true" prefHeight="220.0" />
                   <WebView fx:id="informationWebView" prefHeight="200.0" prefWidth="300.0" />
                </children>
             </HBox>
          </children>
       </VBox>
       <Label fx:id="statusLabel" />
-      <Button fx:id="startBtn" mnemonicParsing="false" text="Importieren" />
+      <Button fx:id="importBtn" mnemonicParsing="false" onAction="#onImportBtnClick" text="Importieren" />
    </children>
    <opaqueInsets>
       <Insets />
