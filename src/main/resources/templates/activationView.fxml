@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="190.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <VBox alignment="TOP_CENTER">
+         <children>
+            <Label alignment="TOP_LEFT" text="Geben Sie ihren Lizenzschlüssel ein:" />
+            <HBox alignment="TOP_CENTER" spacing="5.0" BorderPane.alignment="CENTER">
+               <children>
+                  <TextField maxWidth="-Infinity" minWidth="-Infinity" prefWidth="55.0" />
+                  <Label text="-">
+                     <padding>
+                        <Insets top="4.0" />
+                     </padding></Label>
+                  <TextField maxWidth="-Infinity" minWidth="-Infinity" prefWidth="55.0" />
+                  <Label text="-">
+                     <padding>
+                        <Insets top="4.0" />
+                     </padding>
+                  </Label>
+                  <TextField maxWidth="-Infinity" minWidth="-Infinity" prefWidth="55.0" />
+               </children>
+               <BorderPane.margin>
+                  <Insets top="10.0" />
+               </BorderPane.margin>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+         <BorderPane.margin>
+            <Insets top="20.0" />
+         </BorderPane.margin>
+      </VBox>
+   </center>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+   <top>
+      <Label text="Projekt Hellweglauf" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="22.0" />
+         </font>
+         <BorderPane.margin>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </BorderPane.margin>
+      </Label>
+   </top>
+</BorderPane>
