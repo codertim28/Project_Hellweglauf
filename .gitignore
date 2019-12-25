@@ -4,3 +4,4 @@
 /data/*
 /target/
 /.settings/
+/src/main/resources/keys/*
