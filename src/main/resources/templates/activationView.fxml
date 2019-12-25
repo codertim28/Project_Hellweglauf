@@ -1,30 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="190.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="prohell.prohell.classes.view.ActivationView">
    <center>
       <VBox alignment="TOP_CENTER">
          <children>
             <Label alignment="TOP_LEFT" text="Geben Sie ihren Lizenzschlüssel ein:" />
             <HBox alignment="TOP_CENTER" spacing="5.0" BorderPane.alignment="CENTER">
                <children>
-                  <TextField maxWidth="-Infinity" minWidth="-Infinity" prefWidth="55.0" />
-                  <Label text="-">
-                     <padding>
-                        <Insets top="4.0" />
-                     </padding></Label>
-                  <TextField maxWidth="-Infinity" minWidth="-Infinity" prefWidth="55.0" />
+                  <TextField fx:id="keyField1" maxWidth="-Infinity" minWidth="-Infinity" onKeyReleased="#keyFieldOnKeyReleased" prefWidth="55.0" />
                   <Label text="-">
                      <padding>
                         <Insets top="4.0" />
                      </padding>
                   </Label>
-                  <TextField maxWidth="-Infinity" minWidth="-Infinity" prefWidth="55.0" />
+                  <TextField fx:id="keyField2" maxWidth="-Infinity" minWidth="-Infinity" onKeyReleased="#keyFieldOnKeyReleased" prefWidth="55.0" />
+                  <Label text="-">
+                     <padding>
+                        <Insets top="4.0" />
+                     </padding>
+                  </Label>
+                  <TextField fx:id="keyField3" maxWidth="-Infinity" minWidth="-Infinity" onKeyReleased="#keyFieldOnKeyReleased" prefWidth="55.0" />
                </children>
                <BorderPane.margin>
                   <Insets top="10.0" />
@@ -52,4 +55,12 @@
          </BorderPane.margin>
       </Label>
    </top>
+   <bottom>
+      <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+         <children>
+            <Hyperlink text="Testversion ausprobieren" />
+            <Label contentDisplay="CENTER" text="Copyright Tim Poerschke" />
+         </children>
+      </VBox>
+   </bottom>
 </BorderPane>
