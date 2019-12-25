@@ -52,7 +52,7 @@ public class ActivationService {
 			
 			// Fall (2) zuerst, dann kann man sich ggf. das Suchen ersparen
 			Date activatitionUntil = FORMATTER.parse(lines.get(1));
-			if(activatitionUntil.after(new Date())) {
+			if(activatitionUntil.before(new Date())) {
 				return false;
 			}
 			
