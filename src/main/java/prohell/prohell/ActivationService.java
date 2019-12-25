@@ -19,6 +19,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import lombok.Getter;
+
 // Überprüft, ob die Software aktiviert ist
 public class ActivationService {
 	
@@ -26,6 +28,9 @@ public class ActivationService {
 	
 	public static final int ACTIVATION_DURATION = 365; // in Tagen
 	public static final SimpleDateFormat FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
+	
+	@Getter
+	private Date activationUntil;
 	
 	private ActivationService() { }
 	
@@ -51,8 +56,8 @@ public class ActivationService {
 			// dem generierten Hash gleichen und (2) das Datum nicht überschritten wurde
 			
 			// Fall (2) zuerst, dann kann man sich ggf. das Suchen ersparen
-			Date activatitionUntil = FORMATTER.parse(lines.get(1));
-			if(activatitionUntil.before(new Date())) {
+			activationUntil = FORMATTER.parse(lines.get(1));
+			if(activationUntil.before(new Date())) {
 				return false;
 			}
 			

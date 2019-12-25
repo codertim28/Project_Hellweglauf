@@ -7,8 +7,11 @@ import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -34,6 +37,7 @@ import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import prohell.prohell.ActivationService;
 import prohell.prohell.classes.Constants;
 import prohell.prohell.classes.Data;
 import prohell.prohell.classes.SetupUtils;
@@ -52,7 +56,7 @@ public class MainView implements Initializable {
 	@FXML private GridPane root;
 	@FXML private TabPane tabPane;
 	@FXML private Pane competitionPane, trainingPane;
-	@FXML private Label errorLabel;
+	@FXML private Label errorLabel, activationLabel;
 	// Unterpunkte des Datei-Menü
 	@FXML private MenuItem saveMenu, openMenu, printMenu;
 	
@@ -326,6 +330,22 @@ public class MainView implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
+		// Aktivierungsstatus anzeigen
+		ActivationService as = ActivationService.get();
+		if(as.isSoftwareActivated()) {
+			Date dateUntil = as.getActivationUntil();
+		    Date currentDate = new Date();
+			long diff = dateUntil.getTime() - currentDate.getTime();
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+			String dateUntilStr = formatter.format(dateUntil);
+			
+		    activationLabel.setText("Software ist noch " 
+		    		+ TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) 
+		    		+ " aktiviert (bis " + dateUntilStr + ").");
+		}
+		
 		check();	
 		toggleCompetitionRelevantUIComponents();
 	}
