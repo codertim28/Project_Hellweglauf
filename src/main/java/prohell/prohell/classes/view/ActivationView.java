@@ -1,29 +1,22 @@
 package prohell.prohell.classes.view;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.URI;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
+import prohell.prohell.ActivationService;
 import prohell.prohell.classes.Constants;
 import prohell.prohell.utils.logging.SimpleLoggingUtil;
 
@@ -33,6 +26,18 @@ public class ActivationView {
 	@FXML private TextField keyField1, keyField2, keyField3;
 	
 	private boolean isActivating = false;
+	private boolean softwareActivated = false;
+	
+	private ActivationService activationService = ActivationService.get();
+	
+	public ActivationView() throws IOException {
+		Stage stage = new Stage();
+		FXMLLoader templateLoader = new FXMLLoader(getClass().getResource("/templates/activationView.fxml"));
+		templateLoader.setController(this);
+		stage.setScene(new Scene(templateLoader.load()));
+		stage.setResizable(false);
+		stage.show();
+	}
 	
 	@FXML
 	private void keyFieldOnKeyReleased(KeyEvent ev) {
@@ -56,32 +61,29 @@ public class ActivationView {
 	}
 	
 	private void doActivation() { 
-		if(isActivating) return;
+		if(isActivating || softwareActivated) return;
 		isActivating = true;
 		
 		String key = getKey();
 		
 		try {
-            String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
 			// Key hashen
-			final String hashedKey = getAsHash(key);
+			final String hashedKey = activationService.getAsHash(key);
             
-            // Hash in der Datei des aktuellen Jahres suchen
-            URI uri = getClass().getResource("/keys/hashes" + year).toURI();
-            List<String> lines = Files.readAllLines(Paths.get(uri), Charset.defaultCharset());
-			
-            boolean keyFound = lines.stream().anyMatch(hash -> hash.equals(hashedKey));
+            // Hash in der Datei des aktuellen Jahres suchen		
+            boolean keyFound = activationService.getKeyHashesOfCurrentYear().stream().anyMatch(hash -> hash.equals(hashedKey));
             
             if(!keyFound) return;
             
-            String processorId = getCPUProcessorId();
+            String processorId = activationService.getProcessorId();
             
             if(processorId == null) throw new Exception("ProcessorId invalid");
             
             // Aktivierungsdatei generieren
-            String activationHash = getAsHash(hashedKey + processorId);
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
-            String currentDate = formatter.format(new Date());
+            String activationHash = activationService.getAsHash(hashedKey + processorId);
+            SimpleDateFormat formatter = ActivationService.FORMATTER;
+            String currentDate = formatter.format(Date.from(
+            		LocalDateTime.now().plusDays(ActivationService.ACTIVATION_DURATION).toInstant(ZoneOffset.ofHours(2))));
             
             // in der Aktivierungsdatei steht:
             // hash(hashedKey + processorId) 
@@ -91,10 +93,12 @@ public class ActivationView {
             writer.write(fileContent);  
             writer.close();
             
+            softwareActivated = true;
 		} catch (Exception e) {
 			// Wird/Sollte niemals vorkommen, da es den gewählten
 			// Algoritmus gibt und dieser weit verbreitet ist...
 			new SimpleLoggingUtil(new File(Constants.logFilePath())).error(e);
+			e.printStackTrace();
 		}
 		
 		isActivating = false;
@@ -105,35 +109,5 @@ public class ActivationView {
 				+ "-" + keyField2.getText()
 				+ "-" + keyField3.getText();
 	}
-	
-	private String getAsHash(String str) throws NoSuchAlgorithmException {
-		// Hash erstellen
-		MessageDigest md = MessageDigest.getInstance("SHA-512");
-		byte[] bytes = md.digest(str.getBytes(StandardCharsets.UTF_8));
-		
-		StringBuilder sb = new StringBuilder();
-        for(int i = 0; i< bytes.length; i++) {
-            sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-        }
-        return sb.toString();
-	}
-	
-	private String getCPUProcessorId() {
 
-		try {
-			InputStream stream = Runtime.getRuntime().exec("wmic cpu get ProcessorId").getInputStream();
-		
-			try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
-				return reader.lines().collect(Collectors.toList()).stream()
-	        			.filter(s -> !s.contains("ProcessorId")).reduce((s1, s2) -> {
-	        		return s1 + s2;
-	        	}).get();
-	        }
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
-	}
 }
