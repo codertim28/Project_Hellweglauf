@@ -7,8 +7,8 @@ import java.io.IOException;
 import prohell.prohell.classes.io.HellwegBufferedReader;
 import prohell.prohell.classes.io.HellwegPrintWriter;
 import prohell.prohell.classes.model.Competition;
-import prohell.prohell.tp.repository.Repository;
-import prohell.prohell.tp.repository.SWriteRead;
+import prohell.prohell.utils.repository.Repository;
+import prohell.prohell.utils.repository.SWriteRead;
 
 public class CompetitionRepository extends Repository implements SWriteRead<Competition> {
 

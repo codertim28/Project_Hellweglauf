@@ -1,4 +1,4 @@
-package prohell.prohell.tp;
+package prohell.prohell.utils;
 
 public final class Synchronizer {
 

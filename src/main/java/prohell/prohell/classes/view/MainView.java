@@ -40,10 +40,10 @@ import prohell.prohell.classes.SetupUtils;
 import prohell.prohell.classes.controller.CompetitionController;
 import prohell.prohell.classes.model.Competition;
 import prohell.prohell.classes.repository.CompetitionRepository;
-import prohell.prohell.tp.dialog.StandardAlert;
-import prohell.prohell.tp.dialog.StandardMessageType;
-import prohell.prohell.tp.logging.ILoggingUtil;
-import prohell.prohell.tp.logging.SimpleLoggingUtil;
+import prohell.prohell.utils.dialog.StandardAlert;
+import prohell.prohell.utils.dialog.StandardMessageType;
+import prohell.prohell.utils.logging.ILoggingUtil;
+import prohell.prohell.utils.logging.SimpleLoggingUtil;
 
 public class MainView implements Initializable {
 	

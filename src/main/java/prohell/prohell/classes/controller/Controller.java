@@ -3,8 +3,8 @@ package prohell.prohell.classes.controller;
 import java.io.File;
 
 import prohell.prohell.classes.Constants;
-import prohell.prohell.tp.logging.ILoggingUtil;
-import prohell.prohell.tp.logging.SimpleLoggingUtil;
+import prohell.prohell.utils.logging.ILoggingUtil;
+import prohell.prohell.utils.logging.SimpleLoggingUtil;
 
 public abstract class Controller {
 	

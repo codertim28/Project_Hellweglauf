@@ -1,4 +1,4 @@
-package prohell.prohell.tp.dialog;
+package prohell.prohell.utils.dialog;
 
 import javafx.scene.control.Alert;
 

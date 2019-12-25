@@ -23,7 +23,7 @@ import prohell.prohell.classes.Data;
 import prohell.prohell.classes.controller.ChipsController;
 import prohell.prohell.classes.model.Chip;
 import prohell.prohell.classes.model.Competition;
-import prohell.prohell.tp.logging.SimpleLoggingUtil;
+import prohell.prohell.utils.logging.SimpleLoggingUtil;
 
 // Quasi ein Mini-CompetitionView
 public class TrainingView implements Initializable {

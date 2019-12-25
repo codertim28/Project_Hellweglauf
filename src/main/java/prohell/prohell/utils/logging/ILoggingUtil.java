@@ -1,4 +1,4 @@
-package prohell.prohell.tp.logging;
+package prohell.prohell.utils.logging;
 
 public interface ILoggingUtil {
 	void info(String message);

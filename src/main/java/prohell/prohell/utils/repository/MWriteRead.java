@@ -1,4 +1,4 @@
-package prohell.prohell.tp.repository;
+package prohell.prohell.utils.repository;
 
 import java.io.IOException;
 import java.util.List;

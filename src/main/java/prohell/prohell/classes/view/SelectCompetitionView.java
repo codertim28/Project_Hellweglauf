@@ -10,7 +10,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import prohell.prohell.classes.Constants;
-import prohell.prohell.tp.logging.SimpleLoggingUtil;
+import prohell.prohell.utils.logging.SimpleLoggingUtil;
 
 interface SelectRunnable {
 	void run() throws Exception;

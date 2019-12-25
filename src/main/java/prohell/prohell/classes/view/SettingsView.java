@@ -4,17 +4,13 @@ import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import prohell.prohell.classes.Constants;
-import prohell.prohell.tp.logging.SimpleLoggingUtil;
+import prohell.prohell.utils.logging.SimpleLoggingUtil;
 
 public class SettingsView implements Initializable {
 

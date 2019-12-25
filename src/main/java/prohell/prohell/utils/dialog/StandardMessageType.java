@@ -1,4 +1,4 @@
-package prohell.prohell.tp.dialog;
+package prohell.prohell.utils.dialog;
 
 public enum StandardMessageType {
 	ERROR, SUCCESS

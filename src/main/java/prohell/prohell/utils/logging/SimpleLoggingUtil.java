@@ -1,4 +1,4 @@
-package prohell.prohell.tp.logging;
+package prohell.prohell.utils.logging;
 
 import java.io.File;
 import java.io.IOException;

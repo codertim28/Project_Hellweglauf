@@ -11,8 +11,8 @@ import javafx.scene.control.TextField;
 import prohell.prohell.classes.Data;
 import prohell.prohell.classes.model.Competition;
 import prohell.prohell.classes.repository.CompetitionRepository;
-import prohell.prohell.tp.dialog.StandardAlert;
-import prohell.prohell.tp.dialog.StandardMessageType;
+import prohell.prohell.utils.dialog.StandardAlert;
+import prohell.prohell.utils.dialog.StandardMessageType;
 
 
 public class SettingsPartialCompetition implements Initializable {

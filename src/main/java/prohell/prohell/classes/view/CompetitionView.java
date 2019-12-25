@@ -40,8 +40,8 @@ import prohell.prohell.classes.model.Chip;
 import prohell.prohell.classes.model.ChipState;
 import prohell.prohell.classes.model.Competition;
 import prohell.prohell.classes.model.CompetitionState;
-import prohell.prohell.tp.dialog.StandardAlert;
-import prohell.prohell.tp.dialog.StandardMessageType;
+import prohell.prohell.utils.dialog.StandardAlert;
+import prohell.prohell.utils.dialog.StandardMessageType;
 
 
 public abstract class CompetitionView implements Initializable {

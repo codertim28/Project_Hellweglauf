@@ -9,9 +9,9 @@ import java.util.List;
 import prohell.prohell.classes.io.HellwegBufferedReader;
 import prohell.prohell.classes.io.HellwegPrintWriter;
 import prohell.prohell.classes.model.Chip;
-import prohell.prohell.tp.Synchronizer;
-import prohell.prohell.tp.repository.MWriteRead;
-import prohell.prohell.tp.repository.Repository;
+import prohell.prohell.utils.Synchronizer;
+import prohell.prohell.utils.repository.MWriteRead;
+import prohell.prohell.utils.repository.Repository;
 
 public class ChipRepository extends Repository implements MWriteRead<Chip> {
 
