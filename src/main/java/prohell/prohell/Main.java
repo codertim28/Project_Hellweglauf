@@ -23,12 +23,22 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			boolean shouldStart = false;
+			
 			if(ActivationService.get().isSoftwareActivated()) {
-				new MainView(primaryStage);
+				shouldStart = true;
 			}
 			else {
-				new ActivationView();
+				ActivationView av = new ActivationView();
+				av.getStage().showAndWait();
+				
+				shouldStart = av.isSoftwareActivated();
 			}
+			
+			if(shouldStart) {
+				new MainView(primaryStage);
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

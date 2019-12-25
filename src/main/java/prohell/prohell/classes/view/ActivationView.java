@@ -16,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import lombok.Getter;
 import prohell.prohell.ActivationService;
 import prohell.prohell.classes.Constants;
 import prohell.prohell.utils.logging.SimpleLoggingUtil;
@@ -26,17 +27,20 @@ public class ActivationView {
 	@FXML private TextField keyField1, keyField2, keyField3;
 	
 	private boolean isActivating = false;
+	@Getter
 	private boolean softwareActivated = false;
 	
 	private ActivationService activationService = ActivationService.get();
 	
+	@Getter
+	private Stage stage;
+	
 	public ActivationView() throws IOException {
-		Stage stage = new Stage();
+		stage = new Stage();
 		FXMLLoader templateLoader = new FXMLLoader(getClass().getResource("/templates/activationView.fxml"));
 		templateLoader.setController(this);
 		stage.setScene(new Scene(templateLoader.load()));
 		stage.setResizable(false);
-		stage.show();
 	}
 	
 	@FXML
@@ -94,6 +98,8 @@ public class ActivationView {
             writer.close();
             
             softwareActivated = true;
+            // TODO: Benutzer benarichtigen
+            stage.close();
 		} catch (Exception e) {
 			// Wird/Sollte niemals vorkommen, da es den gewählten
 			// Algoritmus gibt und dieser weit verbreitet ist...
