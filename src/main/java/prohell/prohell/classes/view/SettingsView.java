@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.GridPane;
+import prohell.prohell.ActivationService;
 import prohell.prohell.classes.Constants;
 import prohell.prohell.utils.logging.SimpleLoggingUtil;
 
@@ -32,7 +33,14 @@ public class SettingsView implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {		
 		try {
 			manageChipsTab.setContent(FXMLLoader.load(getClass().getResource("/templates/settings/settingsPartialEdit.fxml")));
-			importTab.setContent(FXMLLoader.load(getClass().getResource("/templates/settings/settingsViewPartialImport.fxml")));
+			
+			if(ActivationService.get().isSoftwareActivated()) {
+				importTab.setContent(FXMLLoader.load(getClass().getResource("/templates/settings/settingsViewPartialImport.fxml")));
+			}
+			else {
+				importTab.setContent(FXMLLoader.load(getClass().getResource("/templates/notAvailableView.fxml")));
+			}
+			
 			settingsTab.setContent(FXMLLoader.load(getClass().getResource("/templates/settings/settingsViewPartialCompetition.fxml")));
 		} catch (Exception ex) {
 			new SimpleLoggingUtil(new File(Constants.logFilePath())).error(ex);

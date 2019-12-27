@@ -11,7 +11,7 @@
    <children>
       <HBox alignment="CENTER_LEFT" spacing="10.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#onSelectFileBtnClick" text="Datei auswählen" />
+            <Button fx:id="selectFileBtn" mnemonicParsing="false" onAction="#onSelectFileBtnClick" text="Datei auswählen" />
             <Label fx:id="fileNameLabel" text="Keine Datei ausgewählt!" />
          </children>
       </HBox>
