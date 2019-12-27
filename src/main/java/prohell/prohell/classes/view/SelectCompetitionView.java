@@ -2,9 +2,12 @@ package prohell.prohell.classes.view;
 
 
 import java.io.File;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
@@ -16,16 +19,12 @@ interface SelectRunnable {
 	void run() throws Exception;
 }
 
-public class SelectCompetitionView {
+public class SelectCompetitionView implements Initializable {
 
 	@FXML
 	private VBox root;
 
 	private MainView mainView;
-
-	public SelectCompetitionView() {
-		mainView = MainView.get();
-	}
 	
 	// Dies ist ein experimenteller Ansatz. Der eigentliche Klick wird in einem
 	// Runnableübergeben. Somit kann alles in eine Methode ausgelagert werden und der
@@ -44,6 +43,7 @@ public class SelectCompetitionView {
 			alert.setContentText("Ein Fehler ist aufgetreten. Die Wettkampfoberfläche konnte nicht geladen werden.");
 			alert.show();
 			
+			e.printStackTrace();
 			new SimpleLoggingUtil(new File(Constants.logFilePath())).error(e);
 		}
 
@@ -80,5 +80,10 @@ public class SelectCompetitionView {
 	private void close() {
 		Stage stage = (Stage) root.getScene().getWindow();
 		stage.close();
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		mainView = MainView.get();
 	}
 }

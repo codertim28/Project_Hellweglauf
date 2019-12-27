@@ -80,6 +80,7 @@ public class MainView implements Initializable {
 		if(INSTANCE != null) {
 			throw new InstantiationException("MainView already initialized!");
 		}
+		INSTANCE = this;
 		
 		log = new SimpleLoggingUtil(new File(Constants.logFilePath()));
 		FXMLLoader templateLoader = new FXMLLoader(getClass().getResource("/templates/mainView.fxml"));
