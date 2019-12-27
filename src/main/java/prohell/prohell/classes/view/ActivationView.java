@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -41,6 +42,15 @@ public class ActivationView {
 		templateLoader.setController(this);
 		stage.setScene(new Scene(templateLoader.load()));
 		stage.setResizable(false);
+	}
+	
+	@FXML
+	private void testversionLinkOnClick(ActionEvent ev) {
+		// Hier true zurück geben, damit MainView geöffnet wird,
+		// eine Abfrage auf dem ActivationService wird jedoch weiterhin 
+		// false ergeben...
+		softwareActivated = true;
+        stage.close();
 	}
 	
 	@FXML

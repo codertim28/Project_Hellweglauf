@@ -7,7 +7,6 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <VBox alignment="TOP_CENTER">
@@ -58,7 +57,7 @@
    <bottom>
       <VBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Hyperlink text="Testversion ausprobieren" />
+            <Hyperlink onAction="#testversionLinkOnClick" text="Testversion ausprobieren" />
             <Label contentDisplay="CENTER" text="Copyright Tim Poerschke" />
          </children>
       </VBox>
