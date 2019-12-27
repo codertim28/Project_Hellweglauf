@@ -23,6 +23,10 @@ public class SelectCompetitionView {
 
 	private MainView mainView;
 
+	public SelectCompetitionView() {
+		mainView = MainView.get();
+	}
+	
 	// Dies ist ein experimenteller Ansatz. Der eigentliche Klick wird in einem
 	// Runnableübergeben. Somit kann alles in eine Methode ausgelagert werden und der
 	// "Inhalt" des Klicks wird an der entsprechenden Stelle ausgeführt. Somit spart man sich
@@ -76,11 +80,5 @@ public class SelectCompetitionView {
 	private void close() {
 		Stage stage = (Stage) root.getScene().getWindow();
 		stage.close();
-	}
-
-	// Setzt den MainView, damit diese Klasse
-	// bei einem Klick, einen Tab setzen kann.
-	void setMainViewController(MainView mvc) {
-		mainView = mvc;
 	}
 }

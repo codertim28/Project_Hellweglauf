@@ -97,7 +97,7 @@ public class MainView implements Initializable {
 		stage = primaryStage;
 	}
 	
-	public MainView get() {
+	public static MainView get() {
 		return INSTANCE;
 	}
 	
@@ -109,13 +109,9 @@ public class MainView implements Initializable {
 		stage.initOwner(((Parent) e.getSource()).getScene().getWindow());
 		stage.initModality(Modality.WINDOW_MODAL);
 
-		// Das Template laden und dem Controller diesen Controller
-		// übergeben, damit ein neuer Tab hinzugefügt werden kann.
-		// (schön ist das nicht, aber selten)
+		// Das Template laden
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/templates/competition/selectCompetitionView.fxml"));
 		Parent parent = (Parent)loader.load();
-		SelectCompetitionView scvc = (SelectCompetitionView)loader.getController();
-		scvc.setMainViewController(this); 
 		
 		Scene scene = new Scene(parent, 300, 400);
 		//scene.getStylesheets().add(getClass().getResource("/css/application.css").toExternalForm());
