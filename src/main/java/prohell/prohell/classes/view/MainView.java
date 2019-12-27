@@ -358,7 +358,7 @@ public class MainView implements Initializable {
 			
 		    activationLabel.setText("Software ist noch " 
 		    		+ TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) 
-		    		+ " aktiviert (bis " + dateUntilStr + ").");
+		    		+ " Tage aktiviert (bis " + dateUntilStr + ").");
 		}
 		
 		check();	
