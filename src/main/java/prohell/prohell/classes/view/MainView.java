@@ -37,6 +37,7 @@ import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import lombok.Getter;
 import prohell.prohell.ActivationService;
 import prohell.prohell.classes.Constants;
 import prohell.prohell.classes.Data;
@@ -51,7 +52,10 @@ import prohell.prohell.utils.logging.SimpleLoggingUtil;
 
 public class MainView implements Initializable {
 	
+	@Deprecated
 	public static Stage mainStage;
+	@Getter
+	private Stage stage;
 
 	@FXML private GridPane root;
 	@FXML private TabPane tabPane;
@@ -66,7 +70,17 @@ public class MainView implements Initializable {
 	
 	private ILoggingUtil log;
 	
-	public MainView(Stage primaryStage) throws IOException {
+	// Singelton
+	private static MainView INSTANCE; 
+	
+	public MainView(Stage primaryStage) throws IOException, InstantiationException {
+		// Das MainView ist sowas wie ein Singleton, es benötigt aber einen
+		// öffentlichen Konstruktor, da die Main-Klasse diese zu Beginn einmalig
+		// instanziiert und die primäre Stage übergibt.
+		if(INSTANCE != null) {
+			throw new InstantiationException("MainView already initialized!");
+		}
+		
 		log = new SimpleLoggingUtil(new File(Constants.logFilePath()));
 		FXMLLoader templateLoader = new FXMLLoader(getClass().getResource("/templates/mainView.fxml"));
 		templateLoader.setController(this);
@@ -80,6 +94,11 @@ public class MainView implements Initializable {
 		primaryStage.setTitle("Projekt Hellweglauf");
 		primaryStage.show();
 		mainStage = primaryStage;
+		stage = primaryStage;
+	}
+	
+	public MainView get() {
+		return INSTANCE;
 	}
 	
 	// Click-Events
