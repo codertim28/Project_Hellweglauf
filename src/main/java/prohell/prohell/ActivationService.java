@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 import lombok.Getter;
 
-// Überprüft, ob die Software aktiviert ist
+// ÃœberprÃ¼ft, ob die Software aktiviert ist
 public class ActivationService {
 	
 	private static ActivationService INSTANCE;
@@ -53,7 +53,7 @@ public class ActivationService {
 			if(lines == null || lines.size() == 0) return false;
 			
 			// Software ist aktiviert, wenn (1)  1 Hash + ProcessorId
-			// dem generierten Hash gleichen und (2) das Datum nicht überschritten wurde
+			// dem generierten Hash gleichen und (2) das Datum nicht Ã¼berschritten wurde
 			
 			// Fall (2) zuerst, dann kann man sich ggf. das Suchen ersparen
 			activationUntil = FORMATTER.parse(lines.get(1));

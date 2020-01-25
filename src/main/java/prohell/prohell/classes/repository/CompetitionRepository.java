@@ -48,7 +48,7 @@ public class CompetitionRepository extends Repository implements SWriteRead<Comp
 	
 	/**
 	 * Liest alle Wettkampfdaten ein. Diese 
-	 * Werden einem Wettkampfobjekt zugewiesen und zurückgegeben.
+	 * Werden einem Wettkampfobjekt zugewiesen und zurÃ¼ckgegeben.
 	 * @param userRead So wird entschieden, ob der vom Benutzer eingegebene Pfad beachtet werden soll.
 	 * @throws IOException Wenn ein IO-Fehler auftritt.
 	 */

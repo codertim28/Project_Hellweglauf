@@ -46,7 +46,7 @@ public class ChipRepository extends Repository implements MWriteRead<Chip> {
 		HellwegPrintWriter hpw = new HellwegPrintWriter(new FileWriter(path));
 		
 		return new Thread(() -> {
-			// Dies sorgt daf¸r, dass der Schreibvorgang 
+			// Dies sorgt daf√ºr, dass der Schreibvorgang 
 			// nicht unterbrochen werden kann (z.B. von einem
 			// anderen SchreiberThread).
 			Synchronizer.sync(() -> {
@@ -62,7 +62,7 @@ public class ChipRepository extends Repository implements MWriteRead<Chip> {
 	
 	/**
 	 * Es werden alle Chips aus der Chipsdatei gelesen.
-	 * Anschlieﬂend werden die so erzeugten Chips in eine Liste geschrieben.
+	 * Anschlie√üend werden die so erzeugten Chips in eine Liste geschrieben.
 	 * @return Eine Liste aller Chips.
 	 * @throws IOException - Falls ein IOError auftritt.
 	 */

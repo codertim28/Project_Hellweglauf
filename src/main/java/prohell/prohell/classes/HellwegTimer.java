@@ -65,13 +65,13 @@ public class HellwegTimer extends Thread {
             try {
 				sleep(1000);
 			} catch (InterruptedException e) {
-				// Wenn der Thread schläft, soll der Interrupt
+				// Wenn der Thread schlÃ¤ft, soll der Interrupt
 				// trotzdem bearbeitet werden.
 				this.interrupt();
 			}
 		}
-		// Wenn die Zeit abgelaufen ist, muss dennoch überprüft 
-		// werden, da ein Interrupt auch hinter die Schleife führt
+		// Wenn die Zeit abgelaufen ist, muss dennoch Ã¼berprÃ¼ft 
+		// werden, da ein Interrupt auch hinter die Schleife fÃ¼hrt
 		if(seconds == 0) {
 			stopCompetitionCallback.run();
 		}

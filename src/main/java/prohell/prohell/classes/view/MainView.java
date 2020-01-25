@@ -61,10 +61,10 @@ public class MainView implements Initializable {
 	@FXML private TabPane tabPane;
 	@FXML private Pane competitionPane, trainingPane;
 	@FXML private Label errorLabel, activationLabel;
-	// Unterpunkte des Datei-Menü
+	// Unterpunkte des Datei-MenÃ¼
 	@FXML private MenuItem saveMenu, openMenu, printMenu;
 	
-	// Der MainView bekommt den geöffneten Wettkampf(controller), damit dieser
+	// Der MainView bekommt den geÃ¶ffneten Wettkampf(controller), damit dieser
 	// so gespeichert werden kann vom Benutzer...
 	private CompetitionController currentCompetitionController;
 	
@@ -74,9 +74,9 @@ public class MainView implements Initializable {
 	private static MainView INSTANCE; 
 	
 	public MainView(Stage primaryStage) throws IOException, InstantiationException {
-		// Das MainView ist sowas wie ein Singleton, es benötigt aber einen
-		// öffentlichen Konstruktor, da die Main-Klasse diese zu Beginn einmalig
-		// instanziiert und die primäre Stage übergibt.
+		// Das MainView ist sowas wie ein Singleton, es benÃ¶tigt aber einen
+		// Ã–ffentlichen Konstruktor, da die Main-Klasse diese zu Beginn einmalig
+		// instanziiert und die primï¿½re Stage ï¿½bergibt.
 		if(INSTANCE != null) {
 			throw new InstantiationException("MainView already initialized!");
 		}
@@ -133,7 +133,7 @@ public class MainView implements Initializable {
 		
 		// Wenn das Einstellungsfenster geschlossen wird, 
 		// updaten, damit die Fehlernachrichten neu geschrieben
-		// werden können...
+		// werden kÃ¶nnen...
 		stage.setOnCloseRequest(EventHandler -> {
 			check();
 		});
@@ -153,10 +153,10 @@ public class MainView implements Initializable {
 	@FXML 
 	private void aboutMenuClick() {
 		
-		// Die HTML-Datei für den Über-Tab
+		// Die HTML-Datei fÃ¼r den Ãœber-Tab
 		File f = new File("about.html");
 		// Den Tab erzeugen
-		Tab tab = new Tab("Über die Software");
+		Tab tab = new Tab("Ãœber die Software");
 		BorderPane bp = new BorderPane();
 		bp.setPadding(new Insets(20));
 		
@@ -170,13 +170,13 @@ public class MainView implements Initializable {
 			addTab(tab);
 		} catch(MalformedURLException e) {
 			log.error(e);
-			errorLabel.setText("Die \"Über\"-Seite konnte nicht geladen werden.");
+			errorLabel.setText("Die \"Ãœber\"-Seite konnte nicht geladen werden.");
 		}
 	}
 	
 	@FXML
 	private void helpMenuClick() {
-		// Die HTML-Datei für den Hilfe-Tab
+		// Die HTML-Datei fÃ¼r den Hilfe-Tab
 		File f = new File("help.html");
 		// Den Tab erzeugen
 		Tab tab = new Tab("Hilfeseite");
@@ -224,7 +224,7 @@ public class MainView implements Initializable {
             try {
 				Competition curComp = curCompRepo.read();
 			
-				// Den Tab erstellen und hinzufügen
+				// Den Tab erstellen und hinzufÃ¼gen
 				CompetitionController compCon = new CompetitionController(curComp, curCompRepo);
 				CompetitionView cv;
 				if(curComp.getType() == 0) {
@@ -266,7 +266,7 @@ public class MainView implements Initializable {
 	}
 	
 	// So muss es keinen Getter geben, der das 
-	// ganze TabPane nach außen gibt.
+	// ganze TabPane nach auÃŸen gibt.
 	public void addTab(Tab tab) {
 		tabPane.getTabs().add(tab);
 		tabPane.getSelectionModel().select(tab);	
@@ -277,19 +277,19 @@ public class MainView implements Initializable {
 			alert.setContentText("Soll der Tab wirklich geschlossen werden?");
 			alert.showAndWait().ifPresent(c -> {
 				if(c.getButtonData().equals(ButtonBar.ButtonData.CANCEL_CLOSE)) {
-					// Das Event konsumieren, um das Schließen des Tabs
+					// Das Event konsumieren, um das SchlieÃŸen des Tabs
 					// zu verhindern.
 					e.consume();
 				}
 			});
 		});
-		// Ein Event-Handler für das Schließen eines Wettkampfes einhängen
+		// Ein Event-Handler fÃ¼r das SchlieÃŸen eines Wettkampfes einhï¿½ngen
 		tab.setOnClosed(e -> {
 			if(currentCompetitionController != null) {
 				Competition currentCompetition = currentCompetitionController.getCompetition();
 				if(currentCompetition != null && currentCompetition.getTimer() != null) {
 					// Damit nicht noch unerwartet in Dateien 
-					// geschrieben wird oder ähnliches.
+					// geschrieben wird oder Ã¤hnliches.
 					currentCompetition.getTimer().stopTimer();
 				}
 				setCurrentCompetitionController(null);
@@ -310,7 +310,7 @@ public class MainView implements Initializable {
 	
 	private void check() {
 		errorLabel.setText(new String());
-		// Testen, ob es Chips gibt. Falls es keine Chips gibt, müssen der Wettkampf- und 
+		// Testen, ob es Chips gibt. Falls es keine Chips gibt, mÃ¼ssen der Wettkampf- und 
 		// Trainingsbutton deaktiviert werden. 
 		int basicChipsFile = SetupUtils.testForFile(Data.BASIC_DIR + "/" + Data.CHIPS_FILE);
 		
@@ -328,7 +328,7 @@ public class MainView implements Initializable {
 	
 	private void toggleCompetitionRelevantUIComponents() {
 		if(currentCompetitionController != null) {
-			// Nur ein Wettkampf darf geöffnet sein
+			// Nur ein Wettkampf darf geÃ¶ffnet sein
 			saveMenu.setDisable(false);
 			openMenu.setDisable(true);
 			printMenu.setDisable(false);
@@ -366,7 +366,7 @@ public class MainView implements Initializable {
 		toggleCompetitionRelevantUIComponents();
 	}
 	
-	// Eingeführt, da in der initialize noch keine Scene vorhanden ist.
+	// EingefÃ¼hrt, da in der initialize noch keine Scene vorhanden ist.
 	private void afterInitialize() {
 		// Autoload-Funktion
 		String path = Data.DIR + "/" + Data.BASIC_DIR + "/autoOpen";
@@ -378,7 +378,7 @@ public class MainView implements Initializable {
 				CompetitionRepository compRepo = new CompetitionRepository(compPath.get(0));
 				setCurrentCompetitionController(new CompetitionController(compRepo.read(), compRepo));
 				
-				// Den Tab erstellen und hinzufügen
+				// Den Tab erstellen und hinzufÃ¼gen
 				CompetitionView cv;
 				if(currentCompetitionController.getCompetition().getType() == 0) {
 					cv = new TimeCompetitionView(currentCompetitionController);
@@ -389,17 +389,17 @@ public class MainView implements Initializable {
 					addTab(createTab("Wettkampf (Distanz)", "/templates/competition/competitionViewDistance.fxml", cv));
 				}
 			} catch (IOException e1) {
-				// Autoload konnte nicht durhgeführt werden. 
+				// Autoload konnte nicht durhgefÃ¼hrt werden. 
 				log.warning(e1.getMessage());
 			}
 		}
 		toggleCompetitionRelevantUIComponents();
 		
-		// Beim Schließen einen eventuell geöffneten Wettkampf abspeichern
+		// Beim Schlieï¿½en einen eventuell geÃ¶ffneten Wettkampf abspeichern
 		root.getScene().getWindow().setOnCloseRequest(e -> {	
-			// ist gerade ein Wettkampf geöffnet so wird der Pfad zu diesem 
-			// in eine Datei geschrieben, um diesen beim nächsten Start
-			// wieder des Programms wieder zu öffnen.
+			// ist gerade ein Wettkampf geÃ¶ffnet so wird der Pfad zu diesem 
+			// in eine Datei geschrieben, um diesen beim nï¿½chsten Start
+			// wieder des Programms wieder zu Ã¶ffnen.
 			if(currentCompetitionController != null) {
 				try {
 					PrintWriter pw = new PrintWriter(new FileWriter(path));
@@ -410,8 +410,8 @@ public class MainView implements Initializable {
 				}
 			}
 			else {
-				// Ist kein Wettkampf geöffnet, so soll auch nichts geöffnet werden
-				// beim nächsten Start des Programms.
+				// Ist kein Wettkampf geÃ¶ffnet, so soll auch nichts geÃ¶ffnet werden
+				// beim nÃ¤chsten Start des Programms.
 				try {
 					Files.delete(new File(path).toPath());
 				} catch (IOException ioe) {

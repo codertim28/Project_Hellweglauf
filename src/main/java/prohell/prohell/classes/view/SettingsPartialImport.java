@@ -30,20 +30,20 @@ public class SettingsPartialImport implements Initializable {
 	
 	private File selectedFile;
 	
-	private String NO_FILE_SELECTED = "Keine Datei ausgewählt!";
+	private String NO_FILE_SELECTED = "Keine Datei ausgewï¿½hlt!";
 	
 	@Override
 	public void initialize(URL url, ResourceBundle rBundle) {
 		fileNameLabel.setText(NO_FILE_SELECTED);
 		informationWebView.getEngine().load(getClass().getResource("/html/importText.html").toExternalForm());
 		
-		// wird erst aktiviert, wenn eine gültige Datei ausgewählt wurde
+		// wird erst aktiviert, wenn eine gÃ¼ltige Datei ausgewï¿½hlt wurde
 		importBtn.setDisable(true);
 	}
 
 	@FXML
 	private void onSelectFileBtnClick(ActionEvent ev) {
-		File selectedFile = IOFacade.chooseFile("CSV-Datei wählen", new ExtensionFilter("CSV-Dateien", "*.csv"));
+		File selectedFile = IOFacade.chooseFile("CSV-Datei wï¿½hlen", new ExtensionFilter("CSV-Dateien", "*.csv"));
 		this.selectedFile = selectedFile;
 		columnPreview.getItems().clear();
 		
@@ -87,7 +87,7 @@ public class SettingsPartialImport implements Initializable {
 			columnPreview.getItems().stream().filter(c -> c.toLowerCase().equals("nachname")).findFirst().orElseThrow(Exception::new);
 			columnPreview.getItems().stream().filter(c -> c.toLowerCase().equals("vorname")).findFirst().orElseThrow(Exception::new);
 		
-			statusLabel.setText("Daten können importiert werden.");
+			statusLabel.setText("Daten kï¿½nnen importiert werden.");
 			statusLabel.setStyle("-fx-text-fill: green;");
 			importBtn.setDisable(false);
 		} catch (Exception e) {

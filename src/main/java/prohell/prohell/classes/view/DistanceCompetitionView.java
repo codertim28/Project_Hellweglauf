@@ -19,7 +19,7 @@ import prohell.prohell.classes.model.CompetitionState;
 public class DistanceCompetitionView extends CompetitionView {
 	
 	// Anmerkung: Der Benutzer muss nicht angeben, wann die halbe Stunde stattfindet,
-	// da es für das Programm keine Rolle spielt.
+	// da es fÃ¼r das Programm keine Rolle spielt.
 
 	@FXML private Label leadingStudentLabel;
 	@FXML private ProgressBar leadingStudentProgressBar;
@@ -35,7 +35,7 @@ public class DistanceCompetitionView extends CompetitionView {
 	}
 	
 	// TODO: DRY Code erzeugen, indem diese Methode aufgesplittet wird, damit
-	// diese besser überschrieben werden kann.
+	// diese besser Ã¼berschrieben werden kann.
 	@Override 
 	protected void scanTextFieldOnKeyPressed(KeyEvent ke) {
 		Competition comp = competitionController.getCompetition();
@@ -46,7 +46,7 @@ public class DistanceCompetitionView extends CompetitionView {
 				if(c.getLapCount() <= comp.getLapCount()) {
 					super.scanTextFieldOnKeyPressed(ke);
 					
-					// Den Führenden anzeigen und den Fortschritt anzeigen
+					// Den FÃ¼hrenden anzeigen und den Fortschritt anzeigen
 					if(c.getLapCount() > leadingLapCount) {
 						leadingStudentLabel.setText(c.getStudentName());
 						leadingStudentProgressBar.setProgress(leadingStudentProgressBar.getProgress() + onePercent);
@@ -55,7 +55,7 @@ public class DistanceCompetitionView extends CompetitionView {
 					}
 				}
 				if(c.getLapCount() >= comp.getLapCount()) {
-					// In diesem Fall ist der Schüler im Ziel. (>= wegen halben Runden)
+					// In diesem Fall ist der SchÃ¼ler im Ziel. (>= wegen halben Runden)
 					log("Wettkampf beendet (id: " + c.getId() + ")");
 				}
 			}
@@ -88,7 +88,7 @@ public class DistanceCompetitionView extends CompetitionView {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		super.initialize(arg0, arg1);
 		
-		// Schritt für die Progressbar definieren.
+		// Schritt fÃ¼r die Progressbar definieren.
 		onePercent = 1.0 / competitionController.getCompetition().getLapCount();
 		// Einen leadingLapCount setzen.
 		leadingLapCount = 0;

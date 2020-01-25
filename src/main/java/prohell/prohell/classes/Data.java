@@ -34,7 +34,7 @@ public final class Data {
 	
 	/**
 	 * Es werden alle Chips aus der Chipsdatei gelesen.
-	 * Anschlieﬂend werden die so erzeugten Chips in eine Liste geschrieben.
+	 * Anschlie√üend werden die so erzeugten Chips in eine Liste geschrieben.
 	 * @return Eine Liste aller Chips.
 	 * @throws IOException - Falls ein IOError auftritt.
 	 */

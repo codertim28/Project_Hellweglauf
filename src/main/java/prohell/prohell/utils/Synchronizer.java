@@ -5,7 +5,7 @@ public final class Synchronizer {
 	/*
 	 * Diese Klasse dient als Monitor Objekt. 
 	 * Dabei wird die sync()-Methode verwendet,
-	 * um den kritischen Abschnitt auszuführen 
+	 * um den kritischen Abschnitt auszufÃ¼hren 
 	 * (per Runnabel).
 	 */
 	

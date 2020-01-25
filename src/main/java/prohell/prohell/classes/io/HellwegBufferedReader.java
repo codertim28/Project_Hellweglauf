@@ -41,11 +41,11 @@ public class HellwegBufferedReader extends BufferedReader {
 		String line;
 		while((line = readLine()) != null) {
 
-			// Prüfen, wo sich der Reader befindet. 
+			// PrÃ¼fen, wo sich der Reader befindet. 
 			// - innerhalb eines Wettkampfes
 			// - in der Rowliste (<rows> ... </rows)
 			if(line.indexOf("<competition>") != -1) {
-				// true setzen, damit im nächsten Durchlauf in die
+				// true setzen, damit im nÃ¤chsten Durchlauf in die
 				// die entsprechende Abfrage gesprungen wird.
 				inCompTag = true;
 			}
@@ -104,7 +104,7 @@ public class HellwegBufferedReader extends BufferedReader {
 				}
 				
 				// Wird ein Wettkampf geschlossen, so soll das Objekt
-				// zurückgegeben werden.
+				// zurï¿½ckgegeben werden.
 				if(line.indexOf("</competition>") != -1) {
 					inCompTag = false;
 					return comp;
@@ -150,11 +150,11 @@ public class HellwegBufferedReader extends BufferedReader {
 		String line;
 		while((line = readLine()) != null) {
 			
-			// Prüfen, wo sich der Reader befindet. 
+			// Prï¿½fen, wo sich der Reader befindet. 
 			// - innerhalb eines Chips
 			// - in der Rundenliste (<laps> ... </laps)
 			if(line.indexOf("<chip>") != -1) {
-				// true setzen, damit im nächsten Durchlauf in die
+				// true setzen, damit im nï¿½chsten Durchlauf in die
 				// die entsprechende Abfrage gesprungen wird.
 				inChipTag = true;
 			}
@@ -178,11 +178,11 @@ public class HellwegBufferedReader extends BufferedReader {
 					chip.setForm(getContent(line, "form"));
 				}
 				
-				// Diese (und die nächste) Abfrage ist an dieser Stelle nicht nötig.
-				// Der Quelltext wird auch ohne diese Abfrage ordnungsgemäß arbeiten.
+				// Diese (und die nï¿½chste) Abfrage ist an dieser Stelle nicht nï¿½tig.
+				// Der Quelltext wird auch ohne diese Abfrage ordnungsgemï¿½ï¿½ arbeiten.
 				// Der Grund weshalb diese Abfragen ihre Berechtigung haben: Ich kann
 				// mir vorstellen, dass das Programm hier erweitert wird in Zukunft.
-			    // Dann könnte sich diese Abrage als hilfreich erweisen.
+			    // Dann kï¿½nnte sich diese Abrage als hilfreich erweisen.
 				if(inLapsTag) {
 					
 					if(line.indexOf("<lap ") != -1) {
@@ -195,7 +195,7 @@ public class HellwegBufferedReader extends BufferedReader {
 				}
 				
 				// Wird ein Chip geschlossen, so soll das Objekt
-				// zurückgegeben werden.
+				// zurï¿½ckgegeben werden.
 				if(line.indexOf("</chip>") != -1) {
 					inChipTag = false;
 					return chip;

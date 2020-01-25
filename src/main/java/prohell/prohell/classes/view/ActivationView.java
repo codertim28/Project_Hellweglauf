@@ -46,7 +46,7 @@ public class ActivationView {
 	
 	@FXML
 	private void testversionLinkOnClick(ActionEvent ev) {
-		// Hier true zurück geben, damit MainView geöffnet wird,
+		// Hier true zurÃ¼ck geben, damit MainView geÃ¶ffnet wird,
 		// eine Abfrage auf dem ActivationService wird jedoch weiterhin 
 		// false ergeben...
 		softwareActivated = true;
@@ -57,7 +57,7 @@ public class ActivationView {
 	private void keyFieldOnKeyReleased(KeyEvent ev) {
 		TextField target = (TextField)ev.getTarget();
 		
-		// Für Übergang bei Tab
+		// Fï¿½r ï¿½bergang bei Tab
 		if(target.getText().length() == 4) {
 			if(target.equals(keyField1)) {
 				keyField2.requestFocus();
@@ -67,8 +67,8 @@ public class ActivationView {
 			}
 		}
 		
-		// Prüfen, ob Key vollständig eingegeben ist
-		// Länge eines Schlüssels ist 3 * 4 + 2 = 14
+		// PrÃ¼fen, ob Key vollstÃ¤ndig eingegeben ist
+		// LÃ¤nge eines SchlÃ¼ssels ist 3 * 4 + 2 = 14
 		if(getKey().length() == 14) {
 			doActivation();
 		}
@@ -111,7 +111,7 @@ public class ActivationView {
             // TODO: Benutzer benarichtigen
             stage.close();
 		} catch (Exception e) {
-			// Wird/Sollte niemals vorkommen, da es den gewählten
+			// Wird/Sollte niemals vorkommen, da es den gewÃ¤hlten
 			// Algoritmus gibt und dieser weit verbreitet ist...
 			new SimpleLoggingUtil(new File(Constants.logFilePath())).error(e);
 			e.printStackTrace();

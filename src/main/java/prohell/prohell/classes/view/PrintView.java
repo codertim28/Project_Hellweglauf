@@ -64,7 +64,7 @@ public class PrintView implements Initializable {
 	
 	@FXML
 	private void printAllBtnClick() {
-		// Schüler filtern. Bedingung: gelaufene Runden > 0
+		// SchÃ¼ler filtern. Bedingung: gelaufene Runden > 0
 		List<Chip> chips = competitionController.getChipsController().getChips().stream()
 			.filter(c -> c.getLapCount() > 0)
 			.collect(Collectors.toList());
@@ -89,11 +89,11 @@ public class PrintView implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		allPrinter = Printer.getAllPrinters();
-		// die verfügbaren Printer setzen
+		// die verfÃ¼gbaren Printer setzen
 		allPrinter.stream().forEach(ps -> printerChoiceBox.getItems().add(ps.getName()));
-		printerChoiceBox.getSelectionModel().select(0); // 1. Item wählen, um Exc zu verhindern
+		printerChoiceBox.getSelectionModel().select(0); // 1. Item wÃ¤hlen, um Exc zu verhindern
 		
-		// Alle Schüler anzeigen, die mind. eine Runde gelaufen sind
+		// Alle SchÃ¼ler anzeigen, die mind. eine Runde gelaufen sind
 		// zuerst cellfactory setzen
 		studentListView.setCellFactory(l -> new ListCell<Chip>() {
 	        @Override
@@ -106,16 +106,16 @@ public class PrintView implements Initializable {
 	            }
 	        }
 		});
-		// Schüler filtern und setzen
+		// SchÃ¼ler filtern und setzen
 		competitionController.getChipsController().getChips().stream()
 			.filter(c -> c.getLapCount() > 0)
 			.forEach(c -> studentListView.getItems().add(c));
 		
-		// Wenn ein neues Item ausgewählt wurde: Die WebView rendern
+		// Wenn ein neues Item ausgewÃ¤hlt wurde: Die WebView rendern
 		studentListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Chip>() {
 		    @Override
 		    public void changed(ObservableValue<? extends Chip> observable, Chip oldValue, Chip newValue) {
-		        // Rendern mit dem ausgewählen Chip, welcher in newValue steht
+		        // Rendern mit dem ausgewÃ¤hlen Chip, welcher in newValue steht
 		        renderDocument(newValue);
 		    }
 		});
@@ -144,19 +144,19 @@ public class PrintView implements Initializable {
 			tableBuilder.append("<tr><td class=\"lapCol\">Runde " + lap.getNumber() + "</td><td> +" + diff + "</td></tr>");
 		}	
 		tableBuilder.append("</table>");
-		// final, damit die Tabelle im Lambda verfügbar ist.
+		// final, damit die Tabelle im Lambda verfÃ¼gbar ist.
 		final String table = tableBuilder.toString();
 		final Competition comp = competitionController.getCompetition();
 		try {
 			// Die Vorlage auslesen
 			List<String> list = Files.readAllLines(new File(Data.DIR + "/" + Data.BASIC_DIR + "/urkunde-vorlage.html").toPath());
 		
-			// Zeile für Zeile in die Datei "letzterDruck.html" schreiben.
+			// Zeile fÃ¼r Zeile in die Datei "letzterDruck.html" schreiben.
 			// Dabei werden die entsprechenden Templatevariablen ersetzt:
-			//   - <%name%>            Name des Schülers
+			//   - <%name%>            Name des SchÃ¼lers
 			//   - <%runden%>          Anzahl der gelaufenden Runden
-			//   - <%rundenliste%>     Übersicht über die gelaufenen Runden mit Zeitstempel
-			//   - <%wettkampfdetail%> (Optional) Infos über den Wettkampf 
+			//   - <%rundenliste%>     Ãœbersicht Ã¼ber die gelaufenen Runden mit Zeitstempel
+			//   - <%wettkampfdetail%> (Optional) Infos ï¿½Ã¼er den Wettkampf 
 			PrintWriter pw = new PrintWriter(new FileWriter(Data.DIR + "/" + Data.BASIC_DIR + "/letzterDruck.html"));
 			// Hier darf nicht gefiltert werden, da sonst HTML und CSS verloren geht
 			list.stream().map(line -> { 
@@ -200,7 +200,7 @@ public class PrintView implements Initializable {
 			// Die Vorlage auslesen
 			List<String> list = Files.readAllLines(new File(Data.DIR + "/" + Data.BASIC_DIR + "/ergebnisliste-vorlage.html").toPath());
 		
-			// Zeile für Zeile in die Datei "letzterDruck.html" schreiben.
+			// Zeile fÃ¼r Zeile in die Datei "letzterDruck.html" schreiben.
 			// Dabei werden die entsprechenden Templatevariablen ersetzt:
 			//   - <%list%>            Dort wird die Tabelle reingeschrieben
 			PrintWriter pw = new PrintWriter(new FileWriter(Data.DIR + "/" + Data.BASIC_DIR + "/letzterDruck.html"));
@@ -232,7 +232,7 @@ public class PrintView implements Initializable {
 	// GETTER UND SETTER
 	
 	private Printer getSelectedPrinter() {
-		// Ausgewählten Printer holen
+		// AusgewÃ¤hlten Printer holen
 		// (muss leider so kompliziert sein, anders kann man auf die
 		//  Elemente des ObservableSet nicht zugreifen...)
 		return allPrinter.stream().filter(p -> {

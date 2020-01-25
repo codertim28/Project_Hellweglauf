@@ -27,7 +27,7 @@ public final class SetupUtils {
 			file.mkdir();
 		}
 		
-		// und das Unterverzeichnis für die Basisdaten
+		// und das Unterverzeichnis fÃ¼r die Basisdaten
 		file = new File(Data.DIR + "/" + Data.BASIC_DIR);
 		if (!file.exists()) {
 			file.mkdir();
@@ -76,7 +76,7 @@ public final class SetupUtils {
 	 */
 	public static boolean createCompetitionDirIfNotExists() {
 		boolean returnValue = false;
-		// Das Verzeichnis für den Wettkampf anlegen
+		// Das Verzeichnis fÃ¼r den Wettkampf anlegen
 		File file = new File(Data.DIR + "/" + Data.COMPETITION_DIR);
 		if (!file.exists()) {
 			returnValue = file.mkdir();
@@ -103,7 +103,7 @@ public final class SetupUtils {
 	/**
 	 * Diese Methode testet, ob eine Datei existiert.
 	 * @param file : String, der Pfad zur Datei.
-	 * @return Größe der Datei, -1 wenn Datei nicht existiert, -2 wenn eine andere IOException auftritt.
+	 * @return GrÃ¶ÃŸe der Datei, -1 wenn Datei nicht existiert, -2 wenn eine andere IOException auftritt.
 	 */
 	public static int testForFile(String file) {
 		try {

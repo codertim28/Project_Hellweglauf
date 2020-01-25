@@ -8,7 +8,7 @@ import prohell.prohell.classes.model.Chip;
 import prohell.prohell.classes.model.Lap;
 
 /**
- * Diese Klasse ist das DataModel für das TableView
+ * Diese Klasse ist das DataModel fÃ¼r das TableView
  * in dem CompetitionView.
  *
  */
@@ -36,12 +36,12 @@ public class CompetitionViewRowData {
     }
     
     /**
-     * Erstellt eine DataRow auch wenn kein vollständige(r) Runde oder Chip
-     * zur Verfügung steht (z.B. beim Laden eines Wettkampfes). 
-     * @param id ID des (unvollständigen) Chips
-     * @param studentName Schüler (Name) des (unvollständigen) Chips
-     * @param timestamp Zeitstempel der Runde für die DataRow (Format: HH:mm:ss)
-     * @param lapNumber Nummer der Runde für die DataRow
+     * Erstellt eine DataRow auch wenn kein vollstÃ¤ndige(r) Runde oder Chip
+     * zur VerfÃ¼gung steht (z.B. beim Laden eines Wettkampfes). 
+     * @param id ID des (unvollstÃ¤ndigen) Chips
+     * @param studentName SchÃ¼ler (Name) des (unvollstÃ¤ndigen) Chips
+     * @param timestamp Zeitstempel der Runde fÃ¼r die DataRow (Format: HH:mm:ss)
+     * @param lapNumber Nummer der Runde fÃ¼r die DataRow
      */
     public CompetitionViewRowData(String id, String studentName, String timestamp, int lapNumber) {
         init();

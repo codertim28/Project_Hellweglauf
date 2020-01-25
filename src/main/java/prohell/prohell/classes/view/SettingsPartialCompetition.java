@@ -27,20 +27,20 @@ public class SettingsPartialCompetition implements Initializable {
 	
 	@FXML
 	private void saveBtnClick() {
-		// errorLabel vorher löschen, um den Benutzer nicht zu verwirren.
+		// errorLabel vorher lÃ¶schen, um den Benutzer nicht zu verwirren.
 		errorLabel.setText(new String());
 		
 		// Alles auslesen und speichern oder einen Fehler anzeigen
 		Competition comp = new Competition();
-		//comp.getChipsController().load(); // laden, damit die Chips nicht überschrieben werden
+		//comp.getChipsController().load(); // laden, damit die Chips nicht Ã¼berschrieben werden
 		comp.setName("Wettkampf"); // Attribut wird derzeit nicht verwendet
-		// TODO: Parse-Fehler abfangen während der Benutzer die Daten einträgt
+		// TODO: Parse-Fehler abfangen wÃ¤hrend der Benutzer die Daten eintrÃ¤gt
 		try {
 			comp.setLapLength(Integer.parseInt(lapLengthField.getText().replace(',', '.')));
 			comp.setLapCount(Double.parseDouble(lapCountField.getText().replace(',', '.')));
 			comp.setTime(Integer.parseInt(timeField.getText()) * 60);
 		} catch(NumberFormatException nfe) {
-			errorLabel.setText("Bitte beachte die korrekte Formatierung (Rundenlänge, Rundenanzahl & Zeit).");
+			errorLabel.setText("Bitte beachte die korrekte Formatierung (Rundenlï¿½nge, Rundenanzahl & Zeit).");
 			// Aussteigen, damit fehlerhafte Werte nicht geschrieben werden.
 			return;
 		}
@@ -60,7 +60,7 @@ public class SettingsPartialCompetition implements Initializable {
 	
 	@FXML
 	private void resetBtnClick() {
-		// errorLabel vorher löschen, um den Benutzer nicht zu verwirren.
+		// errorLabel vorher lÃ¶schen, um den Benutzer nicht zu verwirren.
 		errorLabel.setText(new String());
 		
 		// Die Standardwerte wiederherstellen
@@ -88,7 +88,7 @@ public class SettingsPartialCompetition implements Initializable {
 			// Das Wettkampfobjekt aus dem basic_dir lesen
 			Competition comp = repository.read();
 			// Die Attribute in Textfelder schreiben, damit diese vom Benutzer
-			// bearbeitet werden können.
+			// bearbeitet werden kï¿½nnen.
 			lapLengthField.setText("" + comp.getLapLength());
 			lapCountField.setText("" + comp.getLapCount());
 			timeField.setText("" + (comp.getTime() / 60));

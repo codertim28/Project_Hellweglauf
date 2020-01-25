@@ -33,8 +33,8 @@ public class ChipsController extends Controller {
 	}
 	
 	/**
-	 * Fügt eine Runde hinzu (z.B. in einem Wettkampf)
-	 * @param chipId Der Chip, dem die Runde hinzugefügt werden soll
+	 * FÃ¼gt eine Runde hinzu (z.B. in einem Wettkampf)
+	 * @param chipId Der Chip, dem die Runde hinzugefÃ¼gt werden soll
 	 * @return 0: Erfolgreich, -1: Doppelscan (Fehler), -2: allg. Fehler
 	 */
 	public int addLap(String chipId) {
@@ -42,12 +42,12 @@ public class ChipsController extends Controller {
 			Chip c = getChipById(chipId);
 			
 			// Diese Abfrage verhindert einen "Doppelscan".
-			// Zwischen jedem Scan müssen 10 Sekunden vergangen sein.
+			// Zwischen jedem Scan mï¿½ssen 10 Sekunden vergangen sein.
 			// ODER Nicht "Doppelscan" werfen, wenn noch keine Runde 
-			// vorhanden ist oder nur Runde -1. Die Abfrage oben tut dies nämlich.
+			// vorhanden ist oder nur Runde -1. Die Abfrage oben tut dies nï¿½mlich.
 			if(c.getLapCount() <= (Chip.LAPCOUNT_START + 1) ||
 					SECONDS.between(c.getLaps().getLast().getTimestamp(), LocalTime.now()) >= 10) {
-				// Runde einhängen
+				// Runde einhï¿½ngen
 				c.getLaps().add(new Lap(LocalTime.now(), c.getLapCount() + 1));
 			}
 			else {
@@ -64,7 +64,7 @@ public class ChipsController extends Controller {
 	}
 	
 	/**
-	 * Setzt die Runden jedes Chips zurück.
+	 * Setzt die Runden jedes Chips zurÃ¼ck.
 	 */
 	public void resetLaps() {
 		for(int i = 0; i < chips.size(); i++) {
@@ -105,8 +105,8 @@ public class ChipsController extends Controller {
 	}
 	
 	/**
-	 * Das Laden aller Chips wird angestoßen.
-	 * Das Resultat wird dem Controller hinzugefügt.
+	 * Das Laden aller Chips wird angestoÃŸen.
+	 * Das Resultat wird dem Controller hinzugefÃ¼gt.
 	 */
 	public void load() {
 		try {

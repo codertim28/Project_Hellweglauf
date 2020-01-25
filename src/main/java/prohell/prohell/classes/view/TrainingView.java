@@ -88,7 +88,7 @@ public class TrainingView implements Initializable {
 			chipsController = new ChipsController();
 			chipsController.setChips(Data.readChips(Data.BASIC_DIR));
 			
-			// Runde -1 einfügen
+			// Runde -1 einfï¿½gen
 			for(final Chip c : chipsController.getChips()) {
 				chipsController.addLap(c.getId());
 				competition.getData().add(new CompetitionViewRowData(c));
@@ -97,7 +97,7 @@ public class TrainingView implements Initializable {
 			log("Trainingsdaten konnten nicht geladen werden!");
 			new SimpleLoggingUtil(new File(Constants.logFilePath())).error(e);
 		}
-		// Die Daten aus dem Wettkampf mit der Tabelle verknüpfen.
+		// Die Daten aus dem Wettkampf mit der Tabelle verknÃ¼pfen.
 		dataTable.setItems(competition.getData());	
 		scanTextField.requestFocus();
 	}

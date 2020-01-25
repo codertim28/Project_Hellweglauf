@@ -6,7 +6,7 @@ public class StandardAlert extends Alert {
 	
 	public StandardAlert(StandardMessageType smt) {
 		// Type wird in der init() gesetzt. 
-		// Abh‰ngig vom StandardMessageType
+		// Abh√§ngig vom StandardMessageType
 		super(AlertType.INFORMATION); 
 		init(smt);
 	}

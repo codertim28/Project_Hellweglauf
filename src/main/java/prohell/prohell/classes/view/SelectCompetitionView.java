@@ -27,27 +27,27 @@ public class SelectCompetitionView implements Initializable {
 	private MainView mainView;
 	
 	// Dies ist ein experimenteller Ansatz. Der eigentliche Klick wird in einem
-	// Runnableübergeben. Somit kann alles in eine Methode ausgelagert werden und der
-	// "Inhalt" des Klicks wird an der entsprechenden Stelle ausgeführt. Somit spart man sich
+	// Runnable Ã¼bergeben. Somit kann alles in eine Methode ausgelagert werden und der
+	// "Inhalt" des Klicks wird an der entsprechenden Stelle ausgefÃ¼hrt. Somit spart man sich
 	// doppelten Quelltext und wiederholt sich nicht selbst.
-	// -> Fazit: Ein Versuch war es wert. Dieses Prinzip lässt sich bei größeren Auswahlverfahren
+	// -> Fazit: Ein Versuch war es wert. Dieses Prinzip lÃ¤sst sich bei grÃ¶ÃŸeren Auswahlverfahren
 	// eventuell ganz gut anwenden. Bei denen die einzelnen Klicks unterschiedlicher sind als
 	// in diesem Fall.
 	private void runnableClick(SelectRunnable sr) {
 
 		try {
-			// Den "Inhalt" des Klicks ausführen
+			// Den "Inhalt" des Klicks ausfÃ¼hren
 			sr.run();
 		} catch (Exception e) {
 			Alert alert = new Alert(AlertType.ERROR);
-			alert.setContentText("Ein Fehler ist aufgetreten. Die Wettkampfoberfläche konnte nicht geladen werden.");
+			alert.setContentText("Ein Fehler ist aufgetreten. Die Wettkampfoberflï¿½che konnte nicht geladen werden.");
 			alert.show();
 			
 			e.printStackTrace();
 			new SimpleLoggingUtil(new File(Constants.logFilePath())).error(e);
 		}
 
-		// zuletzt das Modal (dieses Fenster) schließen
+		// zuletzt das Modal (dieses Fenster) schlieï¿½en
 		this.close();
 	}
 
@@ -55,10 +55,10 @@ public class SelectCompetitionView implements Initializable {
 	public void timePaneClick(Event event) {
 
 		runnableClick(() -> {	
-			// Den Tab erstellen und hinzufügen
+			// Den Tab erstellen und hinzufï¿½gen
 			TimeCompetitionView tcv = new TimeCompetitionView();
 			if (tcv.checkRequirements()) {
-				// wenn die Voraussetzungen geklärt sind, den View einbinden, sonst nicht
+				// wenn die Voraussetzungen geklÃ¤rt sind, den View einbinden, sonst nicht
 				mainView.addTab(mainView.createTab("Wettkampf (Zeit)", "/templates/competition/competitionViewTime.fxml", tcv));
 				mainView.setCurrentCompetitionController(tcv.getCompetitionController());
 			}
@@ -68,7 +68,7 @@ public class SelectCompetitionView implements Initializable {
 	public void distancePaneClick(Event event) {
 
 		runnableClick(() -> {
-			// Den Tab erstellen und hinzufügen
+			// Den Tab erstellen und hinzufÃ¼gen
 			DistanceCompetitionView dcv = new DistanceCompetitionView();
 			if (dcv.checkRequirements()) {
 				mainView.addTab(mainView.createTab("Wettkampf (Distanz)", "/templates/competition/competitionViewDistance.fxml", dcv));

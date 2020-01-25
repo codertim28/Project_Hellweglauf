@@ -42,7 +42,7 @@ public class SettingsPartialEdit implements Initializable {
 	
 	// Der ChipsController verwaltet die Chips. 
 	// Die Chips werden von der Tablle in diesen geschrieben und 
-	// anschließend weiterverarbeitet (z.B. gespeichert)
+	// anschlieÃŸend weiterverarbeitet (z.B. gespeichert)
 	private ChipsController chipsController;
 
 	// Zur Pflege der Chips
@@ -63,31 +63,31 @@ public class SettingsPartialEdit implements Initializable {
 			//Chip c = new Chip(chipField.getText().trim(), nameField.getText().trim(), formChoiceBox.getSelectionModel().getSelectedItem());
 			Chip c = new Chip(chipField.getText().trim(), nameField.getText().trim(), "None");
 			// Wenn ein Chip mit der gleichen Id bereits vorhanden ist, muss gefragt werden, ob
-			// der vorhandene Chip überschrieben werden soll.
-			// Die Entscheidung wird über writeChip gesteuert.
+			// der vorhandene Chip Ã¼berschrieben werden soll.
+			// Die Entscheidung wird Ã¼ber writeChip gesteuert.
 			boolean writeChip = true;
 			if(chipsController.getChipById(c.getId()) != null) {
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setContentText("Ein Chip mit der ID " + c.getId() + " ist bereits im System vorhanden. " +
-						"Soll dieser Überschrieben werden ?");
+						"Soll dieser ï¿½berschrieben werden ?");
 				Optional<ButtonType> result = alert.showAndWait();
 				if(result.isPresent()) {
-					// Wenn CANCEL_CLOSE gewählt wird, soll der Chip nicht 
-					// überschrieben werden
+					// Wenn CANCEL_CLOSE gewÃ¤hlt wird, soll der Chip nicht 
+					// ï¿½berschrieben werden
 					if(result.get().getButtonData().equals(ButtonData.CANCEL_CLOSE)) {
 						writeChip = false;
 					}
 					else if(result.get().getButtonData().equals(ButtonData.OK_DONE)) {
-						// Falls gewüscht, löschen. Erzielt das überschreiben.
+						// Falls gewÃ¼nscht, lÃ¶schen. Erzielt das Ã¼berschreiben.
 						chipsController.getChips().remove(chipsController.getChipById(c.getId()));
 					}
 				}
 			}
-			// Den Chip hinzufügen, wenn writeChip true ist.
+			// Den Chip hinzufÃ¼gen, wenn writeChip true ist.
 			// Dies ist der Fall wenn...
 			// - der Chip noch nicht vorhanden ist.
 			// - der Benutzer zugestimmt hat, einen bestehenden 
-			//   Chip zu überschreiben
+			//   Chip zu Ã¼berschreiben
 			if(writeChip) {
 				chipsController.getChips().add(c);
 			}
@@ -116,8 +116,8 @@ public class SettingsPartialEdit implements Initializable {
 		idCol.setCellValueFactory(new PropertyValueFactory("id"));
 		nameCol.setCellValueFactory(new PropertyValueFactory("studentName"));
 		//formCol.setCellValueFactory(new PropertyValueFactory("form"));
-		// NameCol soll editierbar sein, damit man z.B. den Namen ändern kann, 
-		// falls man sich vertipt hat.
+		// NameCol soll editierbar sein, damit man z.B. den Namen Ã¤ndern kann, 
+		// falls man sich vertippt hat.
 		nameCol.setCellFactory(TextFieldTableCell.<Chip>forTableColumn());
 		nameCol.setOnEditCommit(
             new EventHandler<CellEditEvent<Chip, String>>() {
@@ -133,13 +133,13 @@ public class SettingsPartialEdit implements Initializable {
             }
 	    );
 		
-		// Eine Button-Spalte hinzufügen, worüber die Chips gelöscht werden können
+		// Eine Button-Spalte hinzufÃ¼gen, worÃ¼ber die Chips gelÃ¶scht werden kÃ¶nnen
 		TableColumn<Chip, String> btnColumn = new TableColumn<Chip, String>();
 		btnColumn.setCellValueFactory(new PropertyValueFactory("id"));
 		dataTable.getColumns().add(btnColumn);
 		btnColumn.setCellFactory(column -> {
 		    return new TableCell<Chip, String>() {
-		    	private Button btn = new Button("Löschen");	
+		    	private Button btn = new Button("LÃ¶schen");	
 		        @Override
 		        protected void updateItem(String item, boolean empty) {
 		        	super.updateItem(item, empty);
@@ -147,7 +147,7 @@ public class SettingsPartialEdit implements Initializable {
 		        		setGraphic(null);
 		        	}
 		        	else {
-		        		btn.setTooltip(new Tooltip("Löscht einen Chip unwiderruflich!"));
+		        		btn.setTooltip(new Tooltip("LÃ¶scht einen Chip unwiderruflich!"));
 		        		btn.setOnAction(e -> {
 		        			removeChip(item);
 		        		});
@@ -157,11 +157,11 @@ public class SettingsPartialEdit implements Initializable {
 		    };
 	    });
 		
-		// Die Klassen laden und in die ChoiceBox einfügen
+		// Die Klassen laden und in die ChoiceBox einfï¿½gen
 		/*
 		try {
 			formChoiceBox.setItems(FXCollections.observableList((ArrayList<String>)Data.readObject(Data.BASIC_DIR + "/" + Data.FORMS_FILE)));
-			// Damit immer das erste Item ausgewählt ist und keine Fehler entstehen.
+			// Damit immer das erste Item ausgewï¿½hlt ist und keine Fehler entstehen.
 			formChoiceBox.getSelectionModel().select(0); 
 		} catch (ClassNotFoundException | IOException e) {
 			new SimpleLoggingUtil(new File(Constants.logFilePath())).error(e);

@@ -56,7 +56,7 @@ public class PrepareView implements Initializable {
 	}
 	
 	private void clearChipIdField() {
-		// Das Feld leeren, um einen erneuten Scan zu ermöglichen.
+		// Das Feld leeren, um einen erneuten Scan zu ermÃ¶glichen.
 		chipIdField.setText(new String());
 
 		scannedChip = null;
@@ -71,7 +71,7 @@ public class PrepareView implements Initializable {
 	
 	@FXML 
 	private void noBtnClick() {
-		// Anmerken, dass dieser Chip / Schüler nicht starten wird.
+		// Anmerken, dass dieser Chip / SchÃ¼ler nicht starten wird.
 		if(scannedChip != null) {
 			scannedChip.setState(ChipState.DNS);
 		}
@@ -82,14 +82,14 @@ public class PrepareView implements Initializable {
 	@FXML
 	private void readyBtnClick() {
 		// Aktualisierung des Wettkampf-Interfaces wird im entsprechenden
-		// View durchgeführt...
-		// Den Wettkampf als "vorbereitet" vermerken und schließen 
+		// View durchgefÃ¼hrt...
+		// Den Wettkampf als "vorbereitet" vermerken und schlieï¿½en 
 		try {
 			competition.setTime(Integer.parseInt(timeField.getText()) * 60);
 			competition.setLapLength(Integer.parseInt(lapLengthField.getText()));
 			competition.setLapCount(Double.parseDouble(lapCountField.getText().replace(',','.')));
 			// Wenn keine Exception aufgetreten ist, den Wettkampf als
-			// vorbereitet markieren und das Fenster schließen
+			// vorbereitet markieren und das Fenster schlieÃŸen
 			competition.setState(CompetitionState.READY);
 			readyBtn.getScene().getWindow().hide();
 		}

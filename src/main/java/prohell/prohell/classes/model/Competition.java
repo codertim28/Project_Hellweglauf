@@ -25,10 +25,10 @@ public class Competition {
 	private int type; // 0: Auf Zeit, 1: Auf Distanz
 	
 	// Die Daten (gelistet nach Runden; wie in der 
-	// ursprünglichen Software)
+	// ursprÃ¼nglichen Software)
 	private ObservableList<CompetitionViewRowData> data;
 	
-	// Muss hier (leider) liegen, denn der Timer muss zerstört werden,
+	// Muss hier (leider) liegen, denn der Timer muss zerstÃ¶rt werden,
 	// wenn ein Tab geschlossen wird (anders ist der Thread nicht durch
 	// den MainView erreichbar...)
 	private HellwegTimer timer;

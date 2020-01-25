@@ -63,11 +63,11 @@ public abstract class CompetitionView implements Initializable {
 	protected CompetitionController competitionController;
 	protected ChipsController chipsController;
 	
-	// Zählt die gescannten Runden. Alle 20 Runden wird gespeichert
+	// ZÃ¤hlt die gescannten Runden. Alle 20 Runden wird gespeichert
 	private int lapCounter = 0;
 	
 	// Wird verwendet vom MainView. Also wenn der Benutzer einen Wettkampf 
-	// direkt ins Programm lädt.
+	// direkt ins Programm lÃ¤dt.
 //	public CompetitionView(Competition comp, CompetitionRepository compRepo) {
 //		competitionController = new CompetitionController(comp, compRepo);
 //		chipsController = competitionController.getChipsController();
@@ -99,7 +99,7 @@ public abstract class CompetitionView implements Initializable {
 		for(int i = 0; i < size; i++) {
 			String curId = dataList.get(i).chipIdProperty().get();
 			Chip curChip = chipsController.getChipById(curId);
-			// Die Startrunde soll nur eingefügt werden, wenn der Schüler
+			// Die Startrunde soll nur eingefï¿½gt werden, wenn der Schï¿½ler
 			// auch startet. Ist der Status eines Chips == DNS wird dieser nicht 
 			// starten.
 			if(curChip.getState() != ChipState.DNS) {
@@ -146,8 +146,8 @@ public abstract class CompetitionView implements Initializable {
 			
 			if(addLapResult == 0) {
 				// Eine Null-Pointer-exception muss hier nicht mehr abgefangen werden,
-				// da diese bei einem Rückgabewert von -2 auftritt. Somit ist der Chip 
-				// bei einem Rückgabewert von 0 vorhanden.
+				// da diese bei einem RÃ¼ckgabewert von -2 auftritt. Somit ist der Chip 
+				// bei einem RÃ¼ckgabewert von 0 vorhanden.
 				competitionController.getCompetition().getData().add(new CompetitionViewRowData(chipsController.getChipById(scannedId)));
 				log("Runde (id: " + scannedId + ")");
 				
@@ -176,13 +176,13 @@ public abstract class CompetitionView implements Initializable {
 		timestampCol.setCellValueFactory(cellData -> cellData.getValue().timestampProperty());
 		
 		// Hier muss aufgrund der checkRequirements() nicht auf die Anzahl 
-		// an vorhandenen Runden überprüft werden. 
+		// an vorhandenen Runden Ã¼berprÃ¼ft werden. 
 		
 		
 		// Je nach dem in welchem Zustand sich der Wettkampf befindet, muss anders 
 		// verfahren werden: 
 		// (1) - State == PREPARE || READY
-		//       -> Alle Runden löschen und neu eintragen (es ist nur Runde -1 vorhanden)
+		//       -> Alle Runden lï¿½schen und neu eintragen (es ist nur Runde -1 vorhanden)
 		// (2) - State == RUNNUNG || ENDED
 		//       -> Die vorhandenen Wettkampfdaten anzeigen. Dabei RUNNING genau wie 
 		//          ENDED behandeln.
@@ -191,13 +191,13 @@ public abstract class CompetitionView implements Initializable {
 		Competition comp = competitionController.getCompetition();
 		// Fall (1)
 		if(comp.getState() == CompetitionState.PREPARE || comp.getState() == CompetitionState.READY) {
-			// Bevor die Runde -1 eingefügt werden kann, müssen vorhandene Runden entfernt werden.
-			// Dies ist nur ein Schönheitsaspekt, denn der Zeitstempel in Runde -1 ist irrelevant.
+			// Bevor die Runde -1 eingefÃ¼gt werden kann, mÃ¼ssen vorhandene Runden entfernt werden.
+			// Dies ist nur ein SchÃ¶nheitsaspekt, denn der Zeitstempel in Runde -1 ist irrelevant.
 			chipsController.resetLaps();
 			comp.getData().clear();
-			// Jetzt in Ruhe zurücksetzen
+			// Jetzt in Ruhe zurï¿½cksetzen
 			for(final Chip c : chipsController.getChips()) {
-				// Dies fügt Runde -1 ein.
+				// Dies fï¿½gt Runde -1 ein.
 				chipsController.addLap(c.getId());
 				comp.getData().add(new CompetitionViewRowData(c));
 			}
@@ -211,7 +211,7 @@ public abstract class CompetitionView implements Initializable {
 			logTextArea.appendText("Wettkampf im \"Anzeigemodus\". ");
 		}
 		
-		// Die Daten aus dem Wettkampf mit der Tabelle verknüpfen.
+		// Die Daten aus dem Wettkampf mit der Tabelle verknï¿½pfen.
 		dataTable.setItems(comp.getData());
 		
 		
@@ -223,7 +223,7 @@ public abstract class CompetitionView implements Initializable {
 	}
 	
 	/**
-	 * Prüft die Bedingung und verändert diese, wenn der Benutzer dies fordert 
+	 * Prï¿½ft die Bedingung und verÃ¤ndert diese, wenn der Benutzer dies fordert 
 	 * (per Buttons im Dialog)
 	 * @return false, wenn View nicht eingebunden werden kann. true, wenn View 
 	 * eingebunden werden kann, z.B. weil der Benutzer einen Wettkampf resetet hat.
@@ -291,7 +291,7 @@ public abstract class CompetitionView implements Initializable {
 	}
 	
 	/**
-	 * Sorgt dafür, das der "Vorbereitungsdialog" geöffnet wird.
+	 * Sorgt dafÃ¼r, das der "Vorbereitungsdialog" geÃ¶ffnet wird.
 	 */
 	@FXML
 	private void prepareBtnClick(Event e) {
@@ -301,7 +301,7 @@ public abstract class CompetitionView implements Initializable {
 		stage.initOwner(((ImageView) e.getSource()).getScene().getWindow());
 		stage.initModality(Modality.WINDOW_MODAL);
 		// Um das CompetitionView zu aktualisieren, wenn 
-		// der Benutzer das PrepareView schließt.
+		// der Benutzer das PrepareView schlieÃŸt.
 		stage.setOnHiding(v -> {
 			updateUI();
 		});
@@ -336,7 +336,7 @@ public abstract class CompetitionView implements Initializable {
 		alert.setTitle("");
 		alert.getButtonTypes().clear();
 		
-		// Noch ein bisschen schön machen mit css
+		// Noch ein bisschen schÃ¶n machen mit css
 		DialogPane dialogPane = alert.getDialogPane();
 		dialogPane.getStylesheets().add(getClass().getResource("/css/dialog.css").toExternalForm());
 		dialogPane.getStyleClass().add("hellwegDialog");

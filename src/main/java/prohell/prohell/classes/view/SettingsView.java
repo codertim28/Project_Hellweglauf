@@ -20,7 +20,7 @@ public class SettingsView implements Initializable {
 	
 	@FXML private Tab manageChipsTab, importTab, settingsTab;
 	
-	// Das MainView wird hier benötigt, damit es 
+	// Das MainView wird hier benÃ¶tigt, damit es 
 	// ggf. geupdatet werden kann (z.B. wenn keine Chips
 	// vorhanden sind, werden die Wettkampfbuttons gesperrt usw.)
 	@FXML private MainView mainView;

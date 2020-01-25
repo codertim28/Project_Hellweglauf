@@ -9,14 +9,14 @@ import javafx.beans.property.StringProperty;
 public class Chip {
 	
 	/**
-	 * Gibt an, wo mit dem "Rundenzählen" begonnen wird.
+	 * Gibt an, wo mit dem "RundenzÃ¤hlen" begonnen wird.
 	 * -2, weil -1 die "Registrierungsrunde" ist.
 	 */
 	public final static int LAPCOUNT_START = -2;
 	
 	private StringProperty id;
 	private StringProperty studentName;
-	private StringProperty form; // Die Klasse des Schülers
+	private StringProperty form; // Die Klasse des SchÃ¼lers
 	private LinkedList<Lap> laps;
 	private ChipState state;
 	
@@ -97,11 +97,11 @@ public class Chip {
 	public int getLapCount() {
 		// Hier kann nicht mit rounds.size()
 		// gearbeitet werden, da jeder Chip
-		// die Runde -1 bekommt, um für einen 
+		// die Runde -1 bekommt, um fÃ¼r einen 
 		// Wettkampf "registeriert zu werden.
 		if(laps.size() == 0) {
 			// Die erste Runde ist die "Registrierungsrunde"
-			// Bei hinzufügen einer Runde wird +1 gerechnet.
+			// Bei hinzufÃ¼gen einer Runde wird +1 gerechnet.
 			return LAPCOUNT_START;
 		}
 		return laps.getLast().getNumber();
