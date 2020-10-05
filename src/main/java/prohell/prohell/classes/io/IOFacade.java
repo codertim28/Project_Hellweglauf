@@ -25,7 +25,7 @@ public class IOFacade {
 		fileChooser.setTitle(title);
 		//fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
 		fileChooser.getExtensionFilters().addAll(extFilter);
-		File selectedFile = fileChooser.showOpenDialog(MainView.mainStage);
+		File selectedFile = fileChooser.showOpenDialog(MainView.get().getStage());
 		return selectedFile;
 	}
 	

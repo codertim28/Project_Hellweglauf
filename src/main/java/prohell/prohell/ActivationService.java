@@ -1,19 +1,16 @@
 package prohell.prohell;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -47,8 +44,11 @@ public class ActivationService {
 		try {
 
 			// in der 1. Zeile steht der Hash in der zweiten Zeile das Datum
-			URI uri = getClass().getResource("/keys/activation").toURI();
-			List<String> lines = Files.readAllLines(Paths.get(uri), Charset.defaultCharset());
+			final List<String> lines = new ArrayList<>(); 
+			try (InputStream resource = new FileInputStream("data/activation")) {
+				lines.addAll(new BufferedReader(new InputStreamReader(resource, StandardCharsets.UTF_8))
+					.lines().collect(Collectors.toList()));
+			}
 				
 			if(lines == null || lines.size() == 0) return false;
 			
@@ -66,7 +66,7 @@ public class ActivationService {
 				return lines.get(0).equals(getAsHash(hash + processorId));
 			});
 			
-		} catch (URISyntaxException | IOException | ParseException e) {
+		} catch (IOException | ParseException e) {
 			// todo
 			e.printStackTrace();
 		}
@@ -77,9 +77,10 @@ public class ActivationService {
 	public List<String> getKeyHashesOfCurrentYear() {
 		try {
 			String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
-			URI uri = getClass().getResource("/keys/hashes" + year).toURI();
-			return Files.readAllLines(Paths.get(uri), Charset.defaultCharset());
-		} catch (URISyntaxException | IOException e) {
+			try (InputStream resource = getClass().getResourceAsStream("/keys/hashes" + year)) {
+				return new BufferedReader(new InputStreamReader(resource, StandardCharsets.UTF_8)).lines().collect(Collectors.toList());
+			}
+		} catch (IOException ioe) {
 			return null;
 		}
 	}
@@ -103,7 +104,9 @@ public class ActivationService {
 	public String getProcessorId() {
 
 		try {
-			InputStream stream = Runtime.getRuntime().exec("wmic cpu get ProcessorId").getInputStream();
+			// todo: OS unterscheiden
+			//InputStream stream = Runtime.getRuntime().exec("wmic cpu get ProcessorId").getInputStream();
+			InputStream stream = Runtime.getRuntime().exec("sysctl -n machdep.cpu.signature").getInputStream();
 		
 			try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
 				return reader.lines().collect(Collectors.toList()).stream()

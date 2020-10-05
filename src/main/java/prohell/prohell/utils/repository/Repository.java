@@ -1,8 +1,5 @@
 package prohell.prohell.utils.repository;
 
-import java.io.IOException;
-import java.util.List;
-
 public abstract class Repository {
 	
 	protected String path;

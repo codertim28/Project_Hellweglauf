@@ -2,9 +2,8 @@ package prohell.prohell.classes.view;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -103,10 +102,11 @@ public class ActivationView {
             // hash(hashedKey + processorId) 
             // Datum der Aktivierung
             String fileContent = activationHash + "\n" + currentDate;
-            BufferedWriter writer = Files.newBufferedWriter(Paths.get(getClass().getResource("/keys/activation").toURI()));
-            writer.write(fileContent);  
-            writer.close();
-            
+			try(BufferedWriter writer = new BufferedWriter(new FileWriter("data/activation"))) {
+				writer.write(fileContent);  
+            	writer.close();
+			}
+    
             softwareActivated = true;
             // TODO: Benutzer benarichtigen
             stage.close();
