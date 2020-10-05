@@ -12,6 +12,7 @@ import java.util.Arrays;
 import prohell.prohell.classes.io.HellwegPrintWriter;
 import prohell.prohell.classes.model.Chip;
 import prohell.prohell.classes.model.Competition;
+import prohell.prohell.classes.repository.ChipsRepository;
 
 public final class SetupUtils {
 
@@ -34,7 +35,7 @@ public final class SetupUtils {
 		}
 		
 		// und eine leere Chipsdatei
-		file = new File(Data.DIR + "/" + Data.BASIC_DIR  + "/" + Data.CHIPS_FILE);
+		file = new File(Constants.CHIPS_FILE_PATH);
 		if (!file.exists()) {
 			file.createNewFile();
 		}
@@ -83,7 +84,7 @@ public final class SetupUtils {
 		}
 		
 		// Kopieren
-		returnValue = copyChips();
+		//returnValue = copyChips();
 		
 		// Es kann auch sein, dass das Verzeichnis vorhanden ist, die Wettkampf
 		// Datei aber nicht.
@@ -107,7 +108,7 @@ public final class SetupUtils {
 	 */
 	public static int testForFile(String file) {
 		try {
-			BufferedInputStream bis = new BufferedInputStream(new FileInputStream(Data.DIR + "/" + file));
+			BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
 			int size = bis.available();
 			bis.close();
 			return size;
@@ -119,17 +120,14 @@ public final class SetupUtils {
 		}
 	}
 	
+	@Deprecated
 	private static boolean copyChips() {
 		try {
-			ArrayList<Chip> chips = Data.readChips(Data.BASIC_DIR);
-			
-			HellwegPrintWriter hpw = new HellwegPrintWriter(new FileWriter(Constants.competitionChipsFilePath()));
-			hpw.print(chips);
-			hpw.flush();
-			hpw.close();
+			new ChipsRepository(Constants.competitionChipsFilePath()).write(
+				new ChipsRepository(Constants.BASIC_CHIPS_FILE_PATH).read());
 			
 			return true;
-		} catch (IOException e) {
+		} catch (IOException | IllegalStateException e) {
 			return false;
 		}
 	}

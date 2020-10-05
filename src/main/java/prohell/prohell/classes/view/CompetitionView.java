@@ -32,6 +32,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import prohell.prohell.classes.CompetitionViewRowData;
+import prohell.prohell.classes.Constants;
 import prohell.prohell.classes.Data;
 import prohell.prohell.classes.SetupUtils;
 import prohell.prohell.classes.controller.ChipsController;
@@ -275,19 +276,14 @@ public abstract class CompetitionView implements Initializable {
 	private void reload() {
 		
 		String competitionPath = competitionController.getCompetitionRepository().getPath();
-		String chipsPath = competitionController.getChipsController()
-				.getRepository().getPath();
 		
 		competitionController.getCompetitionRepository()
 			.setPath(Data.DIR + "/" + Data.BASIC_DIR + "/" + Data.COMPETITION_FILE);
-		competitionController.getChipsController()
-	 		.getRepository().setPath(Data.DIR + "/" + Data.BASIC_DIR + "/" + Data.CHIPS_FILE);
+		competitionController.getChipsController().resetLaps();
 	
 		competitionController.load();
 		
-		competitionController.getCompetitionRepository()
-			.setPath(competitionPath);
-		competitionController.getChipsController().getRepository().setPath(chipsPath);
+		competitionController.getCompetitionRepository().setPath(competitionPath);
 	}
 	
 	/**

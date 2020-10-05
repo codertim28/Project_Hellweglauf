@@ -7,27 +7,28 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import prohell.prohell.classes.Constants;
 import prohell.prohell.classes.Data;
 import prohell.prohell.classes.model.Chip;
 import prohell.prohell.classes.model.Lap;
-import prohell.prohell.classes.repository.ChipRepository;
+import prohell.prohell.classes.repository.ChipsRepository;
 
 public class ChipsController extends Controller {
 	
 	private ArrayList<Chip> chips;
-	private ChipRepository repository;
+	private ChipsRepository repository;
 	
 	// Dieser Konstruktor wird in den Einstellungen verwendet,
 	// um neue Chips einzutragen.
 	public ChipsController() {
-		this(Data.DIR + "/" + Data.BASIC_DIR + "/" + Data.CHIPS_FILE);
+		this(Constants.CHIPS_FILE_PATH);
 	}
 	
 	public ChipsController(String path) {
-		this(new ChipRepository(path));
+		this(new ChipsRepository(path));
 	}
 	
-	public ChipsController(ChipRepository repository) {
+	public ChipsController(ChipsRepository repository) {
 		setChips(new ArrayList<Chip>());
 		setRepository(repository);
 	}
@@ -81,13 +82,7 @@ public class ChipsController extends Controller {
 			return false;
 		}
 		
-		try {
-			repository.writeAsync(chips);
-			return true;
-		} catch(IOException e) {
-			log.error(e);
-			return false;
-		}
+		return repository.write(chips);
 	}
 	
 	/**
@@ -110,9 +105,9 @@ public class ChipsController extends Controller {
 	 */
 	public void load() {
 		try {
-			chips = (ArrayList<Chip>)repository.read();
-		} catch (IOException ioe) {
-			log.error(ioe);
+			chips = new ArrayList<Chip>(repository.read());
+		} catch (Exception e) {
+			log.error(e);
 		}
 	}
 	
@@ -144,11 +139,11 @@ public class ChipsController extends Controller {
 		return highest;
 	}
 
-	public ChipRepository getRepository() {
+	public ChipsRepository getRepository() {
 		return repository;
 	}
 
-	public void setRepository(ChipRepository repository) {
+	public void setRepository(ChipsRepository repository) {
 		this.repository = repository;
 	}
 }

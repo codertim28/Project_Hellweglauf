@@ -10,6 +10,7 @@ import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvValidationException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,21 +23,25 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import prohell.prohell.classes.io.IOFacade;
 
 public class SettingsPartialImport implements Initializable {
-	
-	@FXML private Label fileNameLabel, statusLabel;
-	@FXML private ListView<String> columnPreview;
-	@FXML private WebView informationWebView;
-	@FXML private Button importBtn;
-	
+
+	@FXML
+	private Label fileNameLabel, statusLabel;
+	@FXML
+	private ListView<String> columnPreview;
+	@FXML
+	private WebView informationWebView;
+	@FXML
+	private Button importBtn;
+
 	private File selectedFile;
-	
+
 	private String NO_FILE_SELECTED = "Keine Datei ausgew�hlt!";
-	
+
 	@Override
 	public void initialize(URL url, ResourceBundle rBundle) {
 		fileNameLabel.setText(NO_FILE_SELECTED);
 		informationWebView.getEngine().load(getClass().getResource("/html/importText.html").toExternalForm());
-		
+
 		// wird erst aktiviert, wenn eine gültige Datei ausgew�hlt wurde
 		importBtn.setDisable(true);
 	}
@@ -46,34 +51,33 @@ public class SettingsPartialImport implements Initializable {
 		File selectedFile = IOFacade.chooseFile("CSV-Datei w�hlen", new ExtensionFilter("CSV-Dateien", "*.csv"));
 		this.selectedFile = selectedFile;
 		columnPreview.getItems().clear();
-		
-		if(selectedFile != null) {
+
+		if (selectedFile != null) {
 			fileNameLabel.setText(selectedFile.getAbsolutePath());
 			showColumns();
 			checkFile();
-		}
-		else {
+		} else {
 			fileNameLabel.setText(NO_FILE_SELECTED);
 			statusLabel.setText("");
 			importBtn.setDisable(true);
 		}
 	}
-	
+
 	@FXML
 	private void onImportBtnClick(ActionEvent ev) {
 		IOFacade.importChipsFromCSV(selectedFile);
 	}
-	
+
 	private void showColumns() {
 		final CSVParser parser = new CSVParserBuilder().withIgnoreQuotations(true).withSeparator(';').build();
-		
+
 		try {
 			CSVReader reader = new CSVReaderBuilder(new FileReader(selectedFile)).withCSVParser(parser).build();
 			String[] tableHead = reader.readNext();
 			reader.close();
-			
+
 			columnPreview.getItems().addAll(tableHead);
-		} catch (IOException e) {
+		} catch (IOException | CsvValidationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

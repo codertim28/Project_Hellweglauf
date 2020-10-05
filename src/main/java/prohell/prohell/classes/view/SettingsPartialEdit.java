@@ -51,7 +51,7 @@ public class SettingsPartialEdit implements Initializable {
 		
 		if(nameField.getText().equals("createTestChips")) {
 			List<Chip> testChips = IntStream.range(1000, 1050)
-					.mapToObj(i -> new Chip("" + i, "Testperson " + (i + 1), "None"))
+					.mapToObj(i -> new Chip("" + i, "Testperson " + (i + 1)))
 					.collect(Collectors.toList());
 			chipsController.getChips().addAll(testChips);
 		}
@@ -61,7 +61,7 @@ public class SettingsPartialEdit implements Initializable {
 		
 		if(!id.equals("") && !name.equals("")) {
 			//Chip c = new Chip(chipField.getText().trim(), nameField.getText().trim(), formChoiceBox.getSelectionModel().getSelectedItem());
-			Chip c = new Chip(chipField.getText().trim(), nameField.getText().trim(), "None");
+			Chip c = new Chip(chipField.getText().trim(), nameField.getText().trim());
 			// Wenn ein Chip mit der gleichen Id bereits vorhanden ist, muss gefragt werden, ob
 			// der vorhandene Chip überschrieben werden soll.
 			// Die Entscheidung wird über writeChip gesteuert.

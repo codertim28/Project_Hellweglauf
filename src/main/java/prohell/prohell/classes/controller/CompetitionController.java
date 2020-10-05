@@ -51,7 +51,7 @@ public class CompetitionController extends Controller {
 	// GETTER & SETTER
 	public void setPath(String path) {
 		competitionRepository.setPath(path);
-		chipsController.getRepository().setPath(path.replaceAll(".xml", ".chips.xml"));
+		//chipsController.getRepository().setPath(path.replaceAll(".csv", ".chips.csv"));
 	}
 	
 	public Competition getCompetition() {
@@ -80,6 +80,6 @@ public class CompetitionController extends Controller {
 	
 	private void initChipsController() {
 		String path = competitionRepository.getPath();
-		chipsController = new ChipsController(path.replaceAll(".xml", ".chips.xml"));
+		chipsController = new ChipsController(Constants.CHIPS_FILE_PATH);
 	}
 }

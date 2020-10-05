@@ -2,8 +2,13 @@ package prohell.prohell.classes.model;
 
 import java.util.LinkedList;
 
+import com.opencsv.bean.CsvBindAndSplitByName;
+import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvRecurse;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import prohell.prohell.classes.io.TextToLap;
 
 
 public class Chip {
@@ -14,10 +19,15 @@ public class Chip {
 	 */
 	public final static int LAPCOUNT_START = -2;
 	
-	private StringProperty id;
-	private StringProperty studentName;
-	private StringProperty form; // Die Klasse des Schülers
+	@CsvBindByName
+	private String id;
+	private StringProperty idProp;
+	@CsvBindByName
+	private String studentName;
+	private StringProperty studentNameProp;
+	@CsvBindAndSplitByName(elementType=Lap.class, splitOn = "|", converter=TextToLap.class)
 	private LinkedList<Lap> laps;
+	@CsvBindByName
 	private ChipState state;
 	
 	/**
@@ -25,32 +35,26 @@ public class Chip {
 	 * Sollte sonst nicht (!) verwendet werden.
 	 */
 	public Chip() {
-		this("default1234", "Daniel Jackson", "SG-1");
+		this("SG-1", "Daniel Jackson");
 	}
 	
-	public Chip(String id, String studentName, String form) {	
-		this.id = new SimpleStringProperty(this, "id");
-		this.studentName = new SimpleStringProperty(this, "studentName");
-		this.form = new SimpleStringProperty(this, "form");
+	public Chip(String id, String studentName) {
+		this.idProp = new SimpleStringProperty(this, "id");
+		this.studentNameProp = new SimpleStringProperty(this, "studentName");
 		
 		setId(id);
 		setStudentName(studentName);
-		setForm(form);
 		setLaps(new LinkedList<Lap>());
 		setState(ChipState.OK);
 	}
 	
 	// PROPERTIES
 	public StringProperty idProperty() {
-		return id;
+		return idProp;
 	}
 	
 	public StringProperty studentNameProperty() {
-		return studentName;
-	}
-	
-	public StringProperty formProperty() {
-		return form;
+		return studentNameProp;
 	}
 	
 	// GETTER AND SETTER
@@ -59,6 +63,7 @@ public class Chip {
 	}
 	
 	public void setId(String id) {
+		this.id = id;
 		idProperty().set(id);
 	}
 	
@@ -67,15 +72,8 @@ public class Chip {
 	}
 	
 	public void setStudentName(String studentName) {
+		this.studentName = studentName;
 		studentNameProperty().set(studentName);
-	}
-	
-	public String getForm() {
-		return formProperty().get();
-	}
-	
-	public void setForm(String form) {
-		formProperty().set(form);
 	}
 	
 	public LinkedList<Lap> getLaps() {

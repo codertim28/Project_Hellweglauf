@@ -51,28 +51,33 @@ import prohell.prohell.utils.logging.ILoggingUtil;
 import prohell.prohell.utils.logging.SimpleLoggingUtil;
 
 public class MainView implements Initializable {
-	
-	@Deprecated
-	public static Stage mainStage;
+
+	//@Deprecated
+	//public static Stage mainStage;
 	@Getter
 	private Stage stage;
 
-	@FXML private GridPane root;
-	@FXML private TabPane tabPane;
-	@FXML private Pane competitionPane, trainingPane;
-	@FXML private Label errorLabel, activationLabel;
+	@FXML
+	private GridPane root;
+	@FXML
+	private TabPane tabPane;
+	@FXML
+	private Pane competitionPane, trainingPane;
+	@FXML
+	private Label errorLabel, activationLabel;
 	// Unterpunkte des Datei-Menü
-	@FXML private MenuItem saveMenu, openMenu, printMenu;
-	
+	@FXML
+	private MenuItem saveMenu, openMenu, printMenu;
+
 	// Der MainView bekommt den geöffneten Wettkampf(controller), damit dieser
 	// so gespeichert werden kann vom Benutzer...
 	private CompetitionController currentCompetitionController;
-	
+
 	private ILoggingUtil log;
-	
+
 	// Singelton
-	private static MainView INSTANCE; 
-	
+	private static MainView INSTANCE;
+
 	public MainView(Stage primaryStage) throws IOException, InstantiationException {
 		// Das MainView ist sowas wie ein Singleton, es benötigt aber einen
 		// Öffentlichen Konstruktor, da die Main-Klasse diese zu Beginn einmalig
@@ -83,7 +88,9 @@ public class MainView implements Initializable {
 		INSTANCE = this;
 		
 		log = new SimpleLoggingUtil(new File(Constants.logFilePath()));
-		FXMLLoader templateLoader = new FXMLLoader(getClass().getResource("/templates/mainView.fxml"));
+
+		FXMLLoader templateLoader = new FXMLLoader();
+		templateLoader.setLocation(getClass().getResource("/templates/mainView.fxml"));
 		templateLoader.setController(this);
 		primaryStage.setScene(new Scene(templateLoader.load()));
 		this.afterInitialize(); // weil in der initialize die Scene noch nicht vorhanden ist 
@@ -94,7 +101,7 @@ public class MainView implements Initializable {
 		//primaryStage.setMaxWidth(800);
 		primaryStage.setTitle("Projekt Hellweglauf");
 		primaryStage.show();
-		mainStage = primaryStage;
+		//mainStage = primaryStage;
 		stage = primaryStage;
 	}
 	
@@ -312,7 +319,7 @@ public class MainView implements Initializable {
 		errorLabel.setText(new String());
 		// Testen, ob es Chips gibt. Falls es keine Chips gibt, müssen der Wettkampf- und 
 		// Trainingsbutton deaktiviert werden. 
-		int basicChipsFile = SetupUtils.testForFile(Data.BASIC_DIR + "/" + Data.CHIPS_FILE);
+		int basicChipsFile = SetupUtils.testForFile(Constants.CHIPS_FILE_PATH);
 		
 		// Die Chipsdatei im BASIC_DIR ist die Wichtigste. Ohne diese kann das Programm kaum richtig arbeiten,
 		// da bei jedem neuen Wettkampf (und auch Training) die Chips von dort aus kopiert werden.
@@ -320,7 +327,7 @@ public class MainView implements Initializable {
 			errorLabel.setText("Anmerkung: Es sind keine Chips vorhanden. (Einstellungen -> Chips verwalten)");
 		}
 		else if(basicChipsFile < 0) {
-			errorLabel.setText("Fehler: Die Datei \"data/basic/chips.xml\" ist nicht vorhanden.");
+			errorLabel.setText("Fehler: Die Datei \"data/chips.csv\" ist nicht vorhanden.");
 			errorLabel.setTooltip(new Tooltip("Dieser Fehler kann behoben werden, indem Chips eingetragen werden. "
 					+ "(Einstellungen -> Chips verwalten)"));
 		}

@@ -29,9 +29,9 @@ class ChipsControllerTest {
 		cc = new ChipsController("data/test/chips.xml");
 		cc.getChips().addAll(IntStream.range(1000, 1050)
 				.mapToObj(i -> {
-					Chip c = new Chip("" + i, "Testperson " + (i + 1), "None");
-					// es muss noch die Runde -1 hinzugefügt werden, da sonst 
-					// zunächst keine Doppelscan-Abfrage stattfindet 
+					Chip c = new Chip("" + i, "Testperson " + (i + 1));
+					// es muss noch die Runde -1 hinzugefï¿½gt werden, da sonst 
+					// zunï¿½chst keine Doppelscan-Abfrage stattfindet 
 					c.getLaps().add(new Lap(LocalTime.now(), c.getLapCount() + 1));
 					return c;
 				}).collect(Collectors.toList()));
@@ -55,24 +55,24 @@ class ChipsControllerTest {
 		// Chip nicht vorhanden
 		assertTrue(cc.addLap("blabla") == -2, "Nicht vorhandener Chip wird nicht erkannt.");
 		
-		// 10 Sekunden warten, dann Chip einfügen
+		// 10 Sekunden warten, dann Chip einfï¿½gen
 		Thread t = new Thread(() -> {
 			try {
 				Thread.sleep(10000);
 			} catch (InterruptedException e) {
-				fail("Thread wurde gestört.");
+				fail("Thread wurde gestï¿½rt.");
 			}
 		});
 		t.start(); 
 		try {
 			t.join();
 		} catch (InterruptedException e) {
-			fail("join wurde gestört.");
+			fail("join wurde gestï¿½rt.");
 		}
 		
 		assertTrue(cc.addLap("1000") == 0);
 		// lapCount muss jetzt 1 sein
-		assertTrue(cc.getChipById("1000").getLapCount() == 1, "Runden werden falsch gezählt.");
+		assertTrue(cc.getChipById("1000").getLapCount() == 1, "Runden werden falsch gezï¿½hlt.");
 	}
 
 }
