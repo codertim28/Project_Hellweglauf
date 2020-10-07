@@ -4,13 +4,12 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Properties;
 
-import prohell.prohell.classes.io.HellwegPrintWriter;
-import prohell.prohell.classes.model.Chip;
+import prohell.prohell.classes.io.IOFacade;
 import prohell.prohell.classes.model.Competition;
 import prohell.prohell.classes.repository.ChipsRepository;
 
@@ -22,14 +21,8 @@ public final class SetupUtils {
 	 * @throws IOException 
 	 */
 	public static void createDataDirIfNotExists() throws IOException {
-		File file = new File(Data.DIR);
+		File file = new File(Constants.DIR);
 		// Verzeichnis erstellen
-		if (!file.exists()) {
-			file.mkdir();
-		}
-		
-		// und das Unterverzeichnis für die Basisdaten
-		file = new File(Data.DIR + "/" + Data.BASIC_DIR);
 		if (!file.exists()) {
 			file.mkdir();
 		}
@@ -40,34 +33,11 @@ public final class SetupUtils {
 			file.createNewFile();
 		}
 		
-		// und alle Klassen speichern
-		file = new File(Data.DIR + "/" + Data.BASIC_DIR  + "/" + Data.FORMS_FILE);
+		// und Properties-Datei erstellen
+		file = new File(Constants.PROPERTIES_FILE);
 		if (!file.exists()) {
-			file.createNewFile();
-			Data.writeObject(Data.BASIC_DIR + "/" + Data.FORMS_FILE, 
-				new ArrayList<String>(Arrays.asList(new String[] {
-					"5a", "5b", "5c", "5d", "6a", "6b", "6c", "6d",
-					"7a", "7b", "7c", "7d", "8a", "8b", "8c", "8d",
-					"9a", "9b", "9c", "9d",
-				}))
-			);
+			IOFacade.storeProperties(Constants.defaultProperties());
 		}
-		
-		// und einen StandardWettkampf erzeugen
-		file = new File(Data.DIR + "/" + Data.BASIC_DIR  + "/" + Data.COMPETITION_FILE);
-		if (!file.exists()) {
-			file.createNewFile();
-			Competition defaultComp = new Competition();
-			defaultComp.setName("Wettkampf");
-			defaultComp.setLapCount(2.5);
-			defaultComp.setLapLength(400);
-			defaultComp.setTime(30 * 60);
-			Data.writeComp(Data.BASIC_DIR, defaultComp);
-		}
-		
-		// Auch das Wettkampfverzeichnis erstellen ?
-		// Wird momentan nur im CompetitionView erstellt
-		// createCompetitionDirIfNotExists();
 	}
 	
 	/**

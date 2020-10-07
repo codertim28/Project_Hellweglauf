@@ -376,7 +376,7 @@ public class MainView implements Initializable {
 	// Eingeführt, da in der initialize noch keine Scene vorhanden ist.
 	private void afterInitialize() {
 		// Autoload-Funktion
-		String path = Data.DIR + "/" + Data.BASIC_DIR + "/autoOpen";
+		String path = Constants.DIR+ "/autoOpen";
 		File autoload = new File(path);
 		if(autoload.exists()) {
 			try {

@@ -1,5 +1,7 @@
 package prohell.prohell.classes;
 
+import java.util.Properties;
+
 public final class Constants {
 	public final static String SEPERATOR = "/";
 	public final static String DIR = "data";
@@ -26,7 +28,16 @@ public final class Constants {
 
 	public static final String CHIPS_FILE_PATH = DIR + SEPERATOR + CHIPS_FILE;
 
+	// Properties
 	public static final String PROPERTIES_FILE_PATH = DIR + SEPERATOR +  PROPERTIES_FILE;
+
+	public static Properties defaultProperties() {
+		Properties props = new Properties();
+		props.setProperty("competition.lapLength", "400");
+		props.setProperty("competition.lapCount", "2.5");
+		props.setProperty("competition.time", String.valueOf(30 * 60));
+		return props;
+	}
 	
 	public static String competitionFilePath() {
 		return DIR + SEPERATOR + COMPETITION_DIR + SEPERATOR + COMPETITION_FILE;

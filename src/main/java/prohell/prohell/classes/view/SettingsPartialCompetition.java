@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import prohell.prohell.classes.Constants;
 import prohell.prohell.classes.io.IOFacade;
 import prohell.prohell.utils.dialog.StandardAlert;
 import prohell.prohell.utils.dialog.StandardMessageType;
@@ -60,9 +61,7 @@ public class SettingsPartialCompetition implements Initializable {
 		errorLabel.setText(new String());
 		
 		// Die Standardwerte wiederherstellen
-		properties.setProperty("competition.lapLength", String.valueOf(400));
-		properties.setProperty("competition.lapCount", "" + 2.5);
-		properties.setProperty("competition.time", String.valueOf(30 * 60));
+		properties = Constants.defaultProperties();
 		
 		boolean success = IOFacade.storeProperties(properties);
 		if(success) {
