@@ -1,17 +1,23 @@
 package prohell.prohell.classes.io;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.OpenOption;
+import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Properties;
 
 import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
-import com.opencsv.exceptions.CsvValidationException;
+
+import org.apache.commons.lang3.concurrent.ConstantInitializer;
 
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -31,6 +37,27 @@ public class IOFacade {
 		return selectedFile;
 	}
 
+	public static Properties loadProperties() {
+		Properties props = new Properties();
+		try {
+			props.load(Files.newBufferedReader(Path.of(Constants.PROPERTIES_FILE_PATH)));
+		} catch (IOException e) {
+			//e.printStackTrace();
+		}
+		return props;
+	}
+
+	public static boolean storeProperties(Properties props) {
+		
+		try {
+			props.store(Files.newBufferedWriter(Path.of(Constants.PROPERTIES_FILE_PATH)), "Projekt Hellweglauf Properties");
+		} catch (IOException e) {
+			//e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
 	public static void importChipsFromCSV(File csvFile) {
 		try {
 			final CSVParser parser = new CSVParserBuilder().withIgnoreQuotations(true).withSeparator(';').build();
@@ -45,7 +72,7 @@ public class IOFacade {
 			List<String[]> tableContent = mainContentReader.readAll();
 			mainContentReader.close();
 
-			int chip = 0, vorname = 0, nachname = 0, form = 0;
+			int chip = 0, vorname = 0, nachname = 0;
 			// Indize ermitteln, da der Benutzer die
 			// Tabelle nicht sortieren muss
 			for (int i = 0; i < tableHead.length; i++) {
@@ -58,9 +85,6 @@ public class IOFacade {
 						break;
 					case "nachname":
 						nachname = i;
-						break;
-					case "klasse":
-						form = i;
 						break;
 					default:
 						break;

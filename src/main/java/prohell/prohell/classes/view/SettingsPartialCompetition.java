@@ -1,16 +1,14 @@
 package prohell.prohell.classes.view;
 
-import java.io.IOException;
 import java.net.URL;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import prohell.prohell.classes.Data;
-import prohell.prohell.classes.model.Competition;
-import prohell.prohell.classes.repository.CompetitionRepository;
+import prohell.prohell.classes.io.IOFacade;
 import prohell.prohell.utils.dialog.StandardAlert;
 import prohell.prohell.utils.dialog.StandardMessageType;
 
@@ -23,29 +21,27 @@ public class SettingsPartialCompetition implements Initializable {
 	
 	@FXML private Label errorLabel;
 	
-	private CompetitionRepository repository;
+	private Properties properties;
 	
 	@FXML
 	private void saveBtnClick() {
 		// errorLabel vorher löschen, um den Benutzer nicht zu verwirren.
 		errorLabel.setText(new String());
 		
-		// Alles auslesen und speichern oder einen Fehler anzeigen
-		Competition comp = new Competition();
-		//comp.getChipsController().load(); // laden, damit die Chips nicht überschrieben werden
-		comp.setName("Wettkampf"); // Attribut wird derzeit nicht verwendet
-		// TODO: Parse-Fehler abfangen während der Benutzer die Daten einträgt
 		try {
-			comp.setLapLength(Integer.parseInt(lapLengthField.getText().replace(',', '.')));
-			comp.setLapCount(Double.parseDouble(lapCountField.getText().replace(',', '.')));
-			comp.setTime(Integer.parseInt(timeField.getText()) * 60);
+			int lapLength = Integer.parseInt(lapLengthField.getText().replace(',', '.'));
+			double lapCount = Double.parseDouble(lapCountField.getText().replace(',', '.'));
+			int time = Integer.parseInt(timeField.getText()) * 60;
+			properties.setProperty("competition.lapLength", String.valueOf(lapLength));
+			properties.setProperty("competition.lapCount", "" + lapCount);
+			properties.setProperty("competition.time", String.valueOf(time));
 		} catch(NumberFormatException nfe) {
-			errorLabel.setText("Bitte beachte die korrekte Formatierung (Rundenl�nge, Rundenanzahl & Zeit).");
+			errorLabel.setText("Bitte beachte die korrekte Formatierung (Rundenlänge, Rundenanzahl & Zeit).");
 			// Aussteigen, damit fehlerhafte Werte nicht geschrieben werden.
 			return;
 		}
 		
-		boolean success = repository.write(comp);
+		boolean success = IOFacade.storeProperties(properties);
 		if(success) {
 			// Allgemeine Erfolgsnachricht
 			StandardAlert standardAlert = new StandardAlert(StandardMessageType.SUCCESS);
@@ -64,13 +60,11 @@ public class SettingsPartialCompetition implements Initializable {
 		errorLabel.setText(new String());
 		
 		// Die Standardwerte wiederherstellen
-		Competition defaultComp = new Competition();
-		defaultComp.setName("Wettkampf");
-		defaultComp.setLapCount(2.5);
-		defaultComp.setLapLength(400);
-		defaultComp.setTime(30 * 60);
+		properties.setProperty("competition.lapLength", String.valueOf(400));
+		properties.setProperty("competition.lapCount", "" + 2.5);
+		properties.setProperty("competition.time", String.valueOf(30 * 60));
 		
-		boolean success = repository.write(defaultComp);
+		boolean success = IOFacade.storeProperties(properties);
 		if(success) {
 			// Allgemeine Erfolgsnachricht
 			new StandardAlert(StandardMessageType.SUCCESS).showAndWait();
@@ -82,17 +76,16 @@ public class SettingsPartialCompetition implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		repository = new CompetitionRepository(Data.DIR + "/" + Data.BASIC_DIR + "/" + Data.COMPETITION_FILE);
+		
+		properties = IOFacade.loadProperties();
 		
 		try {
-			// Das Wettkampfobjekt aus dem basic_dir lesen
-			Competition comp = repository.read();
 			// Die Attribute in Textfelder schreiben, damit diese vom Benutzer
-			// bearbeitet werden k�nnen.
-			lapLengthField.setText("" + comp.getLapLength());
-			lapCountField.setText("" + comp.getLapCount());
-			timeField.setText("" + (comp.getTime() / 60));
-		} catch (IOException e) {
+			// bearbeitet werden können.
+			lapLengthField.setText(properties.getProperty("competition.lapLength", String.valueOf(400)));
+			lapCountField.setText(properties.getProperty("competition.lapCount", "" + 2.5));
+			timeField.setText("" + (Integer.parseInt(properties.getProperty("competition.time", String.valueOf(30 * 60))) / 60));
+		} catch (Exception e) {
 			// Allgemeine Fehlernachricht
 			new StandardAlert(StandardMessageType.ERROR).showAndWait();
 		}
