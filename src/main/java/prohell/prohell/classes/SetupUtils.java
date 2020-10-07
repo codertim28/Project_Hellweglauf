@@ -5,13 +5,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Properties;
 
 import prohell.prohell.classes.io.IOFacade;
-import prohell.prohell.classes.model.Competition;
-import prohell.prohell.classes.repository.ChipsRepository;
 
 public final class SetupUtils {
 
@@ -41,37 +36,6 @@ public final class SetupUtils {
 	}
 	
 	/**
-	 * Diese Methode erstellt das competition-Verzeichnis. 
-	 * Dort wird ein Wettkampf verwaltet. 
-	 * @return boolean - false, wenn ein Fehlerauftritt; sonst true
-	 */
-	public static boolean createCompetitionDirIfNotExists() {
-		boolean returnValue = false;
-		// Das Verzeichnis für den Wettkampf anlegen
-		File file = new File(Data.DIR + "/" + Data.COMPETITION_DIR);
-		if (!file.exists()) {
-			returnValue = file.mkdir();
-		}
-		
-		// Kopieren
-		//returnValue = copyChips();
-		
-		// Es kann auch sein, dass das Verzeichnis vorhanden ist, die Wettkampf
-		// Datei aber nicht.
-		if(!new File(Data.DIR + "/" + Data.COMPETITION_DIR + "/" + Data.COMPETITION_FILE).exists()) {
-			// Kopieren. Einen Standard-Wettkampf
-			try {
-				Competition comp = Data.readComp(Data.BASIC_DIR);
-				Data.writeComp(Data.COMPETITION_DIR, comp);
-			} catch (IOException e) {
-				return false;
-			}
-		}
-			
-		return returnValue;
-	}
-	
-	/**
 	 * Diese Methode testet, ob eine Datei existiert.
 	 * @param file : String, der Pfad zur Datei.
 	 * @return Größe der Datei, -1 wenn Datei nicht existiert, -2 wenn eine andere IOException auftritt.
@@ -87,18 +51,6 @@ public final class SetupUtils {
 			return -1;
 		} catch (IOException e) {
 			return -2;
-		}
-	}
-	
-	@Deprecated
-	private static boolean copyChips() {
-		try {
-			new ChipsRepository(Constants.competitionChipsFilePath()).write(
-				new ChipsRepository(Constants.BASIC_CHIPS_FILE_PATH).read());
-			
-			return true;
-		} catch (IOException | IllegalStateException e) {
-			return false;
 		}
 	}
 }

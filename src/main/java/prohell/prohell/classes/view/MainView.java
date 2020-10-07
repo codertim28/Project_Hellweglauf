@@ -40,7 +40,6 @@ import javafx.stage.Stage;
 import lombok.Getter;
 import prohell.prohell.ActivationService;
 import prohell.prohell.classes.Constants;
-import prohell.prohell.classes.Data;
 import prohell.prohell.classes.SetupUtils;
 import prohell.prohell.classes.controller.CompetitionController;
 import prohell.prohell.classes.model.Competition;

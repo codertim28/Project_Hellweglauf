@@ -17,7 +17,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
@@ -34,11 +33,9 @@ public class SettingsPartialEdit implements Initializable {
 	@FXML private TableView<Chip> dataTable;
 	@FXML private TableColumn<Chip,String> idCol;
 	@FXML private TableColumn<Chip,String> nameCol;
-	@FXML private TableColumn<Chip,String> formCol;
 	
 	@FXML private TextField chipField;
 	@FXML private TextField nameField;
-	@FXML private ChoiceBox<String> formChoiceBox;
 	
 	// Der ChipsController verwaltet die Chips. 
 	// Die Chips werden von der Tablle in diesen geschrieben und 
@@ -156,18 +153,7 @@ public class SettingsPartialEdit implements Initializable {
 		        }
 		    };
 	    });
-		
-		// Die Klassen laden und in die ChoiceBox einf�gen
-		/*
-		try {
-			formChoiceBox.setItems(FXCollections.observableList((ArrayList<String>)Data.readObject(Data.BASIC_DIR + "/" + Data.FORMS_FILE)));
-			// Damit immer das erste Item ausgew�hlt ist und keine Fehler entstehen.
-			formChoiceBox.getSelectionModel().select(0); 
-		} catch (ClassNotFoundException | IOException e) {
-			new SimpleLoggingUtil(new File(Constants.logFilePath())).error(e);
-		}
-		*/
-		formChoiceBox.setDisable(true);
+
 		// Die Chips laden und anzeigen
 		chipsController = new ChipsController();
 		chipsController.load();

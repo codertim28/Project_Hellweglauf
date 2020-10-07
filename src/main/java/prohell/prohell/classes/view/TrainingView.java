@@ -1,7 +1,5 @@
 package prohell.prohell.classes.view;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -18,12 +16,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import prohell.prohell.classes.CompetitionViewRowData;
-import prohell.prohell.classes.Constants;
-import prohell.prohell.classes.Data;
 import prohell.prohell.classes.controller.ChipsController;
 import prohell.prohell.classes.model.Chip;
 import prohell.prohell.classes.model.Competition;
-import prohell.prohell.utils.logging.SimpleLoggingUtil;
 
 // Quasi ein Mini-CompetitionView
 public class TrainingView implements Initializable {
@@ -83,20 +78,17 @@ public class TrainingView implements Initializable {
 		
 		logTextArea.appendText("Training");
 		
-		try {
-			competition = Data.readComp(Data.BASIC_DIR);
-			chipsController = new ChipsController();
-			chipsController.setChips(Data.readChips(Data.BASIC_DIR));
-			
-			// Runde -1 einf�gen
-			for(final Chip c : chipsController.getChips()) {
-				chipsController.addLap(c.getId());
-				competition.getData().add(new CompetitionViewRowData(c));
-			}
-		} catch (IOException e) {
-			log("Trainingsdaten konnten nicht geladen werden!");
-			new SimpleLoggingUtil(new File(Constants.logFilePath())).error(e);
+		competition = Competition.fromProperties();
+		chipsController = new ChipsController();
+		chipsController.load();
+		chipsController.resetLaps();
+
+		// Runde -1 einfügen
+		for(final Chip c : chipsController.getChips()) {
+			chipsController.addLap(c.getId());
+			competition.getData().add(new CompetitionViewRowData(c));
 		}
+
 		// Die Daten aus dem Wettkampf mit der Tabelle verknüpfen.
 		dataTable.setItems(competition.getData());	
 		scanTextField.requestFocus();

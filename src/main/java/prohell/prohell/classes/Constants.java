@@ -14,17 +14,11 @@ public final class Constants {
 	public final static String PROPERTIES_FILE = "competition.properties";
 	public final static String CHIPS_FILE = "chips.csv";
 	public final static String COMPETITION_FILE = "competition.xml";
-	@Deprecated
-	public final static String COMPETITION_CHIPS_FILE = "competition.chips.csv";
 	
 	public final static String TRAINING_FILE = "training.xml";
 	public final static String FORMS_FILE = "forms";
 	
 	public final static String LOG_FILE = "log.txt";
-	
-	@Deprecated
-	public static final String BASIC_CHIPS_FILE_PATH = 
-			DIR + SEPERATOR + BASIC_DIR + SEPERATOR + CHIPS_FILE;
 
 	public static final String CHIPS_FILE_PATH = DIR + SEPERATOR + CHIPS_FILE;
 	public static final String COMPETITION_FILE_PATH = DIR + SEPERATOR + COMPETITION_FILE;
@@ -38,16 +32,6 @@ public final class Constants {
 		props.setProperty("competition.lapCount", "2.5");
 		props.setProperty("competition.time", String.valueOf(30 * 60));
 		return props;
-	}
-	
-	@Deprecated
-	public static String competitionFilePath() {
-		return DIR + SEPERATOR + COMPETITION_DIR + SEPERATOR + COMPETITION_FILE;
-	}
-	
-	@Deprecated
-	public static String competitionChipsFilePath() {
-		return DIR + SEPERATOR + COMPETITION_DIR + SEPERATOR + COMPETITION_CHIPS_FILE;
 	}
 	
 	public static String logFilePath() {

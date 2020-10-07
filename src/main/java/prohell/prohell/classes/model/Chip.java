@@ -4,7 +4,6 @@ import java.util.LinkedList;
 
 import com.opencsv.bean.CsvBindAndSplitByName;
 import com.opencsv.bean.CsvBindByName;
-import com.opencsv.bean.CsvRecurse;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -25,7 +24,7 @@ public class Chip {
 	@CsvBindByName
 	private String studentName;
 	private StringProperty studentNameProp;
-	@CsvBindAndSplitByName(elementType=Lap.class, splitOn = "|", converter=TextToLap.class)
+	@CsvBindAndSplitByName(elementType=Lap.class, splitOn = "\\|", converter=TextToLap.class)
 	private LinkedList<Lap> laps;
 	@CsvBindByName
 	private ChipState state;

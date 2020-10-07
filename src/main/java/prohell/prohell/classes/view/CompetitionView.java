@@ -32,8 +32,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import prohell.prohell.classes.CompetitionViewRowData;
-import prohell.prohell.classes.Data;
-import prohell.prohell.classes.SetupUtils;
 import prohell.prohell.classes.controller.ChipsController;
 import prohell.prohell.classes.controller.CompetitionController;
 import prohell.prohell.classes.model.Chip;
@@ -73,16 +71,11 @@ public abstract class CompetitionView implements Initializable {
 //		chipsController = competitionController.getChipsController();
 //	}
 	
-	public CompetitionView(CompetitionController compCon) {
-		SetupUtils.createCompetitionDirIfNotExists();
-		
+	public CompetitionView(CompetitionController compCon) {		
 		competitionController = compCon;
 	}
 	
 	public CompetitionView(int compType) throws IOException {
-		SetupUtils.createCompetitionDirIfNotExists();
-		// Noch den entsprechenden Wettkampf laden, wenn es einen gibt
-		// Schauen, ob ein Wettkampf bereits vorhanden ist.
 		competitionController = new CompetitionController(); // Kann eine Exception werfen
 		competitionController.getCompetition().setType(compType);	
 	}
