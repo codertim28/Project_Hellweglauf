@@ -1,5 +1,6 @@
 package prohell.prohell.classes.controller;
 
+import java.io.File;
 import java.io.IOException;
 
 import prohell.prohell.classes.Constants;
@@ -14,9 +15,16 @@ public class CompetitionController extends Controller {
 	private ChipsController chipsController;
 	
 	public CompetitionController() throws IOException {
-		setCompetitionRepository(new CompetitionRepository(Constants.competitionFilePath()));
-		setCompetition(competitionRepository.read());
-		
+
+		setCompetitionRepository(new CompetitionRepository(Constants.COMPETITION_FILE_PATH));
+
+		if(!new File(Constants.COMPETITION_FILE_PATH).exists()) {
+			reset();
+		}
+		else {
+			setCompetition(competitionRepository.read());
+		}
+
 		initChipsController();
 		chipsController.load();
 	}
@@ -46,6 +54,14 @@ public class CompetitionController extends Controller {
 		} catch (IOException e) {
 			log.error(e);
 		}
+	}
+
+	public void reset() {
+		Competition newCompetition = Competition.fromProperties();
+		if(competition != null) {
+			newCompetition.setType(competition.getType());
+		}
+		setCompetition(newCompetition);
 	}
 	
 	// GETTER & SETTER
@@ -79,7 +95,6 @@ public class CompetitionController extends Controller {
 	}
 	
 	private void initChipsController() {
-		String path = competitionRepository.getPath();
 		chipsController = new ChipsController(Constants.CHIPS_FILE_PATH);
 	}
 }

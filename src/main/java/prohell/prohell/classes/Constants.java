@@ -27,6 +27,7 @@ public final class Constants {
 			DIR + SEPERATOR + BASIC_DIR + SEPERATOR + CHIPS_FILE;
 
 	public static final String CHIPS_FILE_PATH = DIR + SEPERATOR + CHIPS_FILE;
+	public static final String COMPETITION_FILE_PATH = DIR + SEPERATOR + COMPETITION_FILE;
 
 	// Properties
 	public static final String PROPERTIES_FILE_PATH = DIR + SEPERATOR +  PROPERTIES_FILE;
@@ -39,6 +40,7 @@ public final class Constants {
 		return props;
 	}
 	
+	@Deprecated
 	public static String competitionFilePath() {
 		return DIR + SEPERATOR + COMPETITION_DIR + SEPERATOR + COMPETITION_FILE;
 	}

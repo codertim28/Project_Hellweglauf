@@ -1,6 +1,7 @@
 package prohell.prohell.classes.model;
 
 import java.util.LinkedList;
+import java.util.Properties;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import prohell.prohell.classes.CompetitionViewRowData;
 import prohell.prohell.classes.HellwegTimer;
+import prohell.prohell.classes.io.IOFacade;
 
 @Getter
 @Setter
@@ -44,5 +46,14 @@ public class Competition {
 		if(type >= 0 && type < 2) {
 			this.type = type;
 		}
+	}
+
+	public static Competition fromProperties() {
+		Properties props = IOFacade.loadProperties();
+		Competition comp = new Competition();
+		comp.setLapLength(Integer.parseInt(props.getProperty("competition.lapLength")));
+		comp.setLapCount(Double.parseDouble(props.getProperty("competition.lapCount")));
+		comp.setTime(Integer.parseInt(props.getProperty("competition.time")));
+		return comp;
 	}
 }
