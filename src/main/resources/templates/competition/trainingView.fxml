@@ -33,8 +33,8 @@
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="310.0" />
    </columnConstraints>
    <rowConstraints>
-      <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints fillHeight="false" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="NEVER" />
       <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="330.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="190.0" vgrow="SOMETIMES" />
+      <RowConstraints fillHeight="false" maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="190.0" vgrow="NEVER" />
    </rowConstraints>
 </GridPane>

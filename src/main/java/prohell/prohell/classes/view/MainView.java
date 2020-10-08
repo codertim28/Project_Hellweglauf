@@ -31,7 +31,6 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
@@ -57,7 +56,7 @@ public class MainView implements Initializable {
 	private Stage stage;
 
 	@FXML
-	private GridPane root;
+	private BorderPane root;
 	@FXML
 	private TabPane tabPane;
 	@FXML

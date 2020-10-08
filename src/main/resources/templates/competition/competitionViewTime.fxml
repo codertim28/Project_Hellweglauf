@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-<GridPane prefHeight="550.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane maxHeight="1.7976931348623157E308" prefHeight="550.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TableView id="data-table" fx:id="dataTable" prefHeight="354.0" prefWidth="800.0" GridPane.columnSpan="2" GridPane.rowIndex="1">
          <columns>
@@ -27,9 +27,9 @@
             <Label layoutX="16.0" layoutY="14.0" text="Status" />
          </children>
       </Pane>
-      <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+      <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="1">
          <children>
-            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="284.0" layoutY="4.0" onMouseClicked="#prepareBtnClick" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="25.0" fitWidth="25.0" onMouseClicked="#prepareBtnClick" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../img/icons8-pass-fail-64.png" />
                </image>
@@ -38,7 +38,7 @@
                </cursor>
             </ImageView>
          </children>
-      </Pane>
+      </HBox>
       <Pane prefHeight="190.0" prefWidth="310.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <children>
             <Button fx:id="startBtn" layoutX="13.0" layoutY="31.0" mnemonicParsing="false" onAction="#startBtnClick" prefHeight="39.0" prefWidth="285.0" text="Start" />
@@ -57,8 +57,8 @@
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="310.0" />
    </columnConstraints>
    <rowConstraints>
-      <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="330.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="190.0" vgrow="SOMETIMES" />
+      <RowConstraints fillHeight="false" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="NEVER" />
+      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="330.0" vgrow="ALWAYS" />
+      <RowConstraints fillHeight="false" maxHeight="-Infinity" minHeight="10.0" prefHeight="190.0" vgrow="NEVER" />
    </rowConstraints>
 </GridPane>

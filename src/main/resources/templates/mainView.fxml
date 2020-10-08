@@ -12,16 +12,30 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-<GridPane fx:id="root" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <columnConstraints>
-      <ColumnConstraints percentWidth="100.0" />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0" />
-      <RowConstraints minHeight="300.0" prefHeight="580.0" />
-   </rowConstraints>
-   <children>
-      <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+
+<BorderPane fx:id="root" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+            <Menu fx:id="fileMenu" disable="false" mnemonicParsing="false" text="Datei">
+               <items>
+                  <MenuItem fx:id="saveMenu" mnemonicParsing="false" onAction="#saveMenuClick" text="Speichern unter..." />
+                  <MenuItem fx:id="openMenu" disable="false" mnemonicParsing="false" onAction="#openMenuClick" text="Öffnen..." />
+                  <MenuItem fx:id="printMenu" mnemonicParsing="false" onAction="#printMenuClick" text="Drucken" />
+               </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="Info">
+            <items>
+                  <MenuItem mnemonicParsing="false" onAction="#helpMenuClick" text="Hilfeseite" />
+              <MenuItem mnemonicParsing="false" onAction="#aboutMenuClick" text="Über" />
+                  <MenuItem mnemonicParsing="false" text="Version 0.5" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <center>
+      <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <tabs>
           <Tab closable="false" text="Start">
                <content>
@@ -111,22 +125,5 @@
           </Tab>
         </tabs>
       </TabPane>
-      <MenuBar>
-        <menus>
-            <Menu fx:id="fileMenu" disable="false" mnemonicParsing="false" text="Datei">
-               <items>
-                  <MenuItem fx:id="saveMenu" mnemonicParsing="false" onAction="#saveMenuClick" text="Speichern unter..." />
-                  <MenuItem fx:id="openMenu" disable="false" mnemonicParsing="false" onAction="#openMenuClick" text="Öffnen..." />
-                  <MenuItem fx:id="printMenu" mnemonicParsing="false" onAction="#printMenuClick" text="Drucken" />
-               </items></Menu>
-          <Menu mnemonicParsing="false" text="Info">
-            <items>
-                  <MenuItem mnemonicParsing="false" onAction="#helpMenuClick" text="Hilfeseite" />
-              <MenuItem mnemonicParsing="false" onAction="#aboutMenuClick" text="Über" />
-                  <MenuItem mnemonicParsing="false" text="Version 0.5" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-   </children>
-</GridPane>
+   </center>
+</BorderPane>
