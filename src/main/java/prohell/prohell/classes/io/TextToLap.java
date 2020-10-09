@@ -19,13 +19,7 @@ public class TextToLap extends AbstractCsvConverter {
             return null;
         }
 
-        LocalTime lt;
-		try {
-			lt = LocalTime.parse(split[1], DateTimeFormatter.ofPattern("HH:mm:ss.SSSSSS"));
-		}
-		catch(Exception e) {
-			lt = LocalTime.parse(split[1], DateTimeFormatter.ofPattern("HH:mm:ss"));
-        }
+        LocalTime lt = LocalTime.parse(split[1]);
         int number = 0;
         try {
             number = Integer.parseInt(split[0]);
